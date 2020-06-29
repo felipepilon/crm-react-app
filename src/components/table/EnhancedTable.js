@@ -9,7 +9,6 @@ const EnhancedTable = (props) => {
     const { data, columns } = props;
 
     const [dense, setDense] = useState(false);
-    const [columnSizes, setColumnSizes] = useState({});
     const [tableData, setTableData] = useState([]);
     const [tableColumns, setTableColumns] = useState([]);
     // eslint-disable-next-line no-unused-vars
@@ -23,21 +22,9 @@ const EnhancedTable = (props) => {
 
     useEffect(() =>
     {
-        const cs = { ...columnSizes };
-
         const tc = columns.map(col => {
             const title = col.title ? intl.formatMessage({id: col.title}) : '';
             
-            const width = title.length / 2;
-
-            const colSize = cs[col.name] || {};
-
-            if (!colSize.width || colSize.width < width)
-            {
-                colSize.width = width;
-                cs[col.name] = colSize;
-            }
-
             return {
                 ...{ title },
                 ...col,
@@ -45,26 +32,12 @@ const EnhancedTable = (props) => {
         });
 
         const td = data.map((row, i) => {
-            columns.forEach(col => {
-                const value = getObjectValue(row, col.name) || '';
-                const width = value.length / 2;
-
-                const colSize = cs[col.name] || {};
-
-                if (!colSize.width || colSize.width < width)
-                {
-                    colSize.width = width;
-                    cs[col.name] = colSize;
-                }
-            })
-
             return { 
                 ...{_rowId: i},
                 ...row,
             }
         });
 
-        setColumnSizes(cs);
         setTableColumns(tc)
         setTableData(td);
         setLoading(false);
@@ -84,13 +57,10 @@ const EnhancedTable = (props) => {
                 >
                     <EnhancedTableHead
                         columns={tableColumns}
-                        columnSizes={columnSizes}
                     />
                     <EnhancedTableBody
                         columns={tableColumns}
                         data={tableData}
-                        columnSizes={columnSizes}
-                        setColumnSizes={setColumnSizes}
                         handleCellClick={props.handleCellClick}
                     />
                 </Table>

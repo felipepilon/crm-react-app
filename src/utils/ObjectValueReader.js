@@ -1,4 +1,4 @@
-const dot = require('dot-object');
+import dot from 'dot-object';
 
 export const getObjectValue = (obj, property) => {
     const value = obj && property ?

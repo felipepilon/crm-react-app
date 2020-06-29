@@ -35,6 +35,7 @@ const EnhancedFieldGroup = (props) => {
                                     type={field.type}
                                     mask={field.mask}
                                     value={getObjectValue(props.data, field.name)}
+                                    error={getObjectValue(props.errors, field.name)}
                                     handleFieldChange={props.handleFieldChange}
                                 />
                             )
@@ -43,33 +44,6 @@ const EnhancedFieldGroup = (props) => {
                 </Grid>
             </Box>
         </Grid>
-        /*<Fragment>
-        <Grid item xs={12}></Grid>
-            <Box
-                display='flex'
-                flexDirection='column'
-                border={1}
-                borderRadius='borderRadius'
-                borderColor='primary.main'
-                width='100%'
-            >
-                {
-                    props.fields &&
-                    props.fields.map(field => {
-                        return (
-                            <EnhancedTextField
-                                key={field.name}
-                                name={field.name}
-                                title={field.title}
-                                handleChange={field.handleChange}
-                                value={getObjectValue(props.data, field.name)}
-                                error={getObjectValue(props.errors, field.name)}
-                            />
-                        )
-                    })
-                }
-            </Box>
-        </Fragment>*/
     );
 }
  

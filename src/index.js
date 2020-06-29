@@ -28,7 +28,12 @@ ReactDOM.render(
       <AuthContextProvider>
         <AuthContext.Consumer>{() => (
           <ThemeProvider theme={theme}>
-            <IntlProvider locale='pt-br' key='pt-br' messages={locales['pt-br']}>
+            <IntlProvider 
+              locale='pt-br' 
+              key='pt-br' 
+              messages={locales['pt-br']}
+              onError={(message) => message}
+            >
               <App/>
             </IntlProvider>
           </ThemeProvider>

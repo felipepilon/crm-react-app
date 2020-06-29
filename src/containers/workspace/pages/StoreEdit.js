@@ -1,11 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@material-ui/core';
 import EnhancedEditForm from '../../../components/edit/EnhancedEditForm';
-import { store as storeAPI } from '../../../services/Store';
+import { 
+    store as storeAPI,
+    update as updateAPI,
+} from '../../../services/Store';
 import { setObjectValue } from '../../../utils/ObjectValueReader';
+import { useHistory, useLocation } from 'react-router-dom';
+import { useIntl } from 'react-intl';
+import { AppStateContext } from '../../../contexts/AppState';
 
 const StoreEdit = (props) => {
+    const { setSucessSnack } = useContext(AppStateContext);
+
     const [ data, setData ] = useState();
+    const [ errors, setErrors ] = useState({});
+
+    const intl = useIntl();
+    const hist = useHistory();
+    const loc = useLocation();
+
+    const handleCancel = () => {
+        hist.goBack();
+    };
+
+    const handleReset = () => {
+        findRecord();
+    };
+
+    const handleConfirm = () => {
+        updateAPI(data)
+        .then((dat) => {
+            setSucessSnack('Store updated successfully')
+            
+            if (loc.state.from || loc.state.from.pathname)
+                hist.push(loc.state.from.pathname);
+        })
+        .catch((err) => {
+            console.log('err =>', err)
+            setErrors(err);
+        })
+    }
+
+    const findRecord = () => {
+        storeAPI(props.storeId)
+        .then((result) => {
+            setData(result);
+        })
+    };
 
     const [ fields ] = useState({
         groups: [
@@ -25,11 +67,9 @@ const StoreEdit = (props) => {
                     { name: 'company.phone1', title: 'Phone 1', mask:'phone' },
                     { name: 'company.phone2', title: 'Phone 2', mask:'phone' },
                 ],
-            },
+            }, 
         ]
     });
-
-    const [ errors ] = useState({});
 
     const handleFieldChange = (name, value) => {
         const updData = { ...data }
@@ -44,15 +84,12 @@ const StoreEdit = (props) => {
         }
 
         setObjectValue(updData, name, value);
-        console.log( 'updData =>', updData);
         setData(updData);
     };
     
     useEffect(() => {
-        storeAPI(props.storeId)
-        .then((result) => {
-            setData(result);
-        })
+        document.title = intl.formatMessage({ id: 'Edit Store' });
+        findRecord();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -71,6 +108,9 @@ const StoreEdit = (props) => {
                     data={data}
                     errors={errors}
                     handleFieldChange={handleFieldChange}
+                    handleCancel={hist.length > 1 ? handleCancel : null}
+                    handleReset={handleReset}
+                    handleConfirm={handleConfirm}
                 />
             </Box>
         </Box>

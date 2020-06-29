@@ -4,6 +4,7 @@ import { AppStateContext } from '../../contexts/AppState';
 import WorkBar from './WorkBar';
 import MenuDrawer from './menu/MenuDrawer'
 import PageWrapper from './PageWrapper';
+import SuccessSnack from '../../components/SuccessSnack';
 
 const Workspace = () => {
     const { setStatus } = useContext(AppStateContext)
@@ -12,7 +13,7 @@ const Workspace = () => {
         setTimeout(() => {
             setStatus('loaded')
         }, 2000)
-    })
+    });
 
     return (
         <Box
@@ -24,6 +25,7 @@ const Workspace = () => {
             <MenuDrawer/>
             <PageWrapper/>
             <Box height='30px' bgcolor='red' >Footer</Box>
+            <SuccessSnack/>
         </Box>
     );
 }

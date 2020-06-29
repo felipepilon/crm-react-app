@@ -12,7 +12,7 @@ const EnhancedTableHead = (props) => {
                             <EnhancedTableHeadCell
                                 key={column.name}
                                 title={column.title}
-                                columnSize={props.columnSizes[column.name]}
+                                width={column.width}
                             />
                         )
                     })

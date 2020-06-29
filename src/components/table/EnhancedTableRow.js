@@ -15,6 +15,7 @@ const EnhancedTableRow = (props) => {
                             key={column.name}
                             icon={column.icon}
                             name={column.name}
+                            mask={column.mask}
                             colIndex={i}
                             _rowId={props.row._rowId}
                             value={value}

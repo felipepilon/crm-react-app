@@ -1,43 +1,30 @@
 import React from 'react';
-import { InputLabel, TextField, Grid, Box } from '@material-ui/core';
+import { InputLabel, Grid, Box } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import TextMaskPhone from '../fields/TextMaskPhone';
-import EnhancedFieldLabel from './EnhancedFieldLabel'
+import EnhancedFieldLabel from './EnhancedFieldLabel';
+import EnhancedFieldInput from './EnhancedFieldInput';
 
 const EnhancedField = props => {
-    const handleChange = (e) => {
-        if (props.handleFieldChange)
-            props.handleFieldChange(props.name, e.target.value)
-    }
-
     let fieldComponent;
 
-    switch(props.type)
-    {
-        case 'label':
-            fieldComponent = (
-                <EnhancedFieldLabel
-                    value={props.value}
-                    mask={props.mask}
-                />
-            );
-            break;
-        
-        default:
-            fieldComponent = (
-                <TextField
-                    fullWidth
-                    value={props.value}
-                    onChange={handleChange}
-                    variant='outlined'
-                    error={props.error}
-                    helperText={props.error && props.error.errorMsg}
-                    InputProps={{
-                        inputComponent: props.mask === 'phone' ? TextMaskPhone :
-                            undefined,
-                    }}
-                />
-            )
+    if (props.type === 'label') {
+        fieldComponent = (
+            <EnhancedFieldLabel
+                value={props.value}
+                mask={props.mask}
+            />
+        );
+    }
+    else {
+        fieldComponent = (
+            <EnhancedFieldInput
+                name={props.name}
+                value={props.value}
+                error={props.error}
+                handleFieldChange={props.handleFieldChange}
+                mask={props.mask}
+            />
+        )
     }
 
     return (
@@ -58,31 +45,6 @@ const EnhancedField = props => {
                 </Grid>
             </Grid>
         </Grid>
-
-        /*<Box
-                width='30%'
-                padding={1}
-            >
-                <InputLabel>
-                    { props.title }
-                    { props.required && !props.readOnly && '*' }
-                </InputLabel>
-            </Box>
-            <Box
-                width='70%'
-            >
-                <TextField
-                    fullWidth
-                    value={props.value}
-                    onChange={handleChange}
-                    variant='outlined'
-                    InputProps={{
-                        readOnly: props.readOnly,
-                    }}
-                    error={props.error}
-                    helperText={props.error && props.error.errorMsg}
-                />
-            </Box>*/
     );
 }
  
