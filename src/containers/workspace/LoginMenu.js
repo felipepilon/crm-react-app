@@ -53,7 +53,7 @@ const LoginMenu = () => {
                 color="inherit" 
                 onClick={handleMenuOpen}
             >
-                {`${user.firstName} ${user.lastName}`}
+                {`${user.first_name} ${user.last_name}`}
             </Button>
             <Popover
                 id={id}

@@ -2,14 +2,14 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@material-ui/core';
 import EnhancedEditForm from '../../../components/edit/EnhancedEditForm';
 import { 
-    store as storeAPI,
+    franchise as franchiseAPI,
     update as updateAPI,
-} from '../../../services/Store';
+} from '../../../services/Franchise';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
 import { AppStateContext } from '../../../contexts/AppState';
 
-const StoreEdit = (props) => {
+const FranchiseEdit = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);
 
     const [ data, setData ] = useState();
@@ -30,7 +30,7 @@ const StoreEdit = (props) => {
     const handleConfirm = () => {
         updateAPI(data)
         .then((dat) => {
-            setSucessSnack('Store updated successfully')
+            setSucessSnack('Franchise updated successfully')
             
             if (loc.state.from || loc.state.from.pathname)
                 hist.push(loc.state.from.pathname);
@@ -42,7 +42,7 @@ const StoreEdit = (props) => {
     }
 
     const findRecord = () => {
-        storeAPI(props.storeId)
+        franchiseAPI(props.franchiseId)
         .then((result) => {
             setData(result);
         })
@@ -52,19 +52,19 @@ const StoreEdit = (props) => {
         groups: [
             {
                 fields: [
-                    { name: 'cnpj', title: 'CNPJ', type: 'label', mask:'cnpj' },
-                    { name: 'name', title: 'Name' },
+                    { name: 'company.cnpj', title: 'CNPJ', type: 'label', mask:'cnpj' },
+                    { name: 'company.name', title: 'Name' },
                 ],
             },
             {
                 title: 'Address',
                 fields: [
-                    { name: 'zip', title: 'ZIP' },
-                    { name: 'city', title: 'City' },
-                    { name: 'addr1', title: 'Address 1' },
-                    { name: 'addr2', title: 'Address 2' },
-                    { name: 'phone1', title: 'Phone 1', mask:'phone' },
-                    { name: 'phone2', title: 'Phone 2', mask:'phone' },
+                    { name: 'company.zip', title: 'ZIP' },
+                    { name: 'company.city', title: 'City' },
+                    { name: 'company.addr1', title: 'Address 1' },
+                    { name: 'company.addr2', title: 'Address 2' },
+                    { name: 'company.phone1', title: 'Phone 1', mask:'phone' },
+                    { name: 'company.phone2', title: 'Phone 2', mask:'phone' },
                 ],
             }, 
         ]
@@ -87,7 +87,7 @@ const StoreEdit = (props) => {
     };
     
     useEffect(() => {
-        document.title = intl.formatMessage({ id: 'Edit Store' });
+        document.title = intl.formatMessage({ id: 'Edit Franchise' });
         findRecord();
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -102,7 +102,7 @@ const StoreEdit = (props) => {
                 maxWidth='450px'
             >
                 <EnhancedEditForm
-                    title='Edit Store'
+                    title='Edit Franchise'
                     fields={fields}
                     data={data}
                     errors={errors}
@@ -116,4 +116,4 @@ const StoreEdit = (props) => {
     )
 };
 
-export default StoreEdit;
+export default FranchiseEdit;

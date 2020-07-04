@@ -2,7 +2,6 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Box, FormControlLabel, Switch, Table } from '@material-ui/core';
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableBody from './EnhancedTableBody';
-import { getObjectValue } from '../../utils/ObjectValueReader';
 import { useIntl } from 'react-intl';
 
 const EnhancedTable = (props) => {
@@ -30,16 +29,9 @@ const EnhancedTable = (props) => {
                 ...col,
             }
         });
-
-        const td = data.map((row, i) => {
-            return { 
-                ...{_rowId: i},
-                ...row,
-            }
-        });
-
+        
         setTableColumns(tc)
-        setTableData(td);
+        setTableData(data);
         setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data, columns]);

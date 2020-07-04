@@ -14,9 +14,9 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Password = props => {
+const Password = (props) => {
     const { user, setUser, authenticate } = useContext(AuthContext);
-    const rememberMe = user.rememberMe || false;
+    const remember_me = user.remember_me || false;
 
     const [ password, setPassword ] = useState('')
     const [ canProceed, setCanProceed ] = useState(false);
@@ -36,7 +36,10 @@ const Password = props => {
 
     const handleProceed = () =>
     {
-        signIn(user, password)
+        signIn({
+            ...{password, remember_me},
+            ...user,
+        })
         .then(res => {
             authenticate(res)
             hist.push('/workspace');
@@ -46,7 +49,7 @@ const Password = props => {
         });
     }
 
-    const handleRememberMe = () => { setUser({ ...user, ...{ rememberMe: !rememberMe }}); };
+    const handleRememberMe = () => { setUser({ ...user, ...{ remember_me: !remember_me }}); };
 
     const handleBack = () => { hist.goBack() };
 
@@ -55,7 +58,7 @@ const Password = props => {
     return (
         <React.Fragment>
             <Typography variant="h5" className={classes.header}>
-                <FormattedMessage id='Hi {firstName}' values={user}/>
+                <FormattedMessage id='Hi {first_name}' values={user}/>
             </Typography>
             <Typography variant="body1">
                 {user.email}
@@ -76,7 +79,7 @@ const Password = props => {
             <br/>
             <FormControlLabel
                 control={<Checkbox
-                    checked={rememberMe} 
+                    checked={remember_me} 
                     onChange={handleRememberMe}
                     color="primary"
                 />}

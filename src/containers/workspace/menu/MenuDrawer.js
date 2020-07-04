@@ -41,7 +41,7 @@ const MenuButton = () => {
                         <ListItemIcon><StoreIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Stores'})}/>
                     </ListItem>
-                    <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/franchises')}>
+                    <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/franchises/list')}>
                         <ListItemIcon><StoreIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Franchises'})}/>
                     </ListItem>

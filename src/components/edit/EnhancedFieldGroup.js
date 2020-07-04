@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import EnhancedTextField from './EnhancedField';
-import { getObjectValue } from '../../utils/ObjectValueReader';
 import { FormattedMessage } from 'react-intl';
 
 const EnhancedFieldGroup = (props) => {
@@ -34,8 +33,8 @@ const EnhancedFieldGroup = (props) => {
                                     title={field.title}
                                     type={field.type}
                                     mask={field.mask}
-                                    value={getObjectValue(props.data, field.name)}
-                                    error={getObjectValue(props.errors, field.name)}
+                                    value={(props.data && props.data[field.name]) || ''}
+                                    error={(props.errors && props.errors[field.name]) || ''}
                                     handleFieldChange={props.handleFieldChange}
                                 />
                             )

@@ -1,55 +1,44 @@
 
-const apiUrl = `${process.env.REACT_APP_API_URL}/auth`; 
+const apiUrl = `${process.env.REACT_APP_API_URL}/franchise`; 
 
-export const user = (user) => {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-    }
-
-    return fetch(`${apiUrl}/user?email=${user.email}`, requestOptions)
-        .then(handleResponse)
-}
-
-export const authUser = () => {
-    const requestOptions = {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-    }
-
-    return fetch(`${apiUrl}/authUser`, requestOptions)
-        .then(handleResponse)
-}
-
-export const signIn = (user) => {
+export const franchises = (filters) => {
     const requestOptions = {
         method: 'POST',
         credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(user),
+        body: JSON.stringify(filters),
     };
 
-    return fetch(`${apiUrl}/signIn`, requestOptions)
+    return fetch(`${apiUrl}/franchises`, requestOptions)
         .then(handleResponse)
 }
 
-export const signOut = (user, password) => {
+export const franchise = (franchiseId) => {
     const requestOptions = {
-        method: 'POST',
+        method: 'GET',
         credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
         },
     };
 
-    return fetch(`${apiUrl}/signOut`, requestOptions)
+    return fetch(`${apiUrl}/franchise?franchiseId=${franchiseId}`, requestOptions)
+        .then(handleResponse)
+}
+
+export const update = (franchise) => {
+    const requestOptions = {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(franchise),
+    };
+
+    return fetch(`${apiUrl}/update`, requestOptions)
         .then(handleResponse)
 }
 
@@ -57,7 +46,7 @@ const handleResponse = ( response ) => {
     return response.text()
     .then(text => {
         const data = text && JSON.parse(text);
-
+        
         if (!response.ok) {
             return Promise.reject(data)
         }

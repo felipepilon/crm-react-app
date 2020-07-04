@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import EnhancedTable from '../../../components/table/EnhancedTable';
-import { stores as storesAPI } from '../../../services/Store';
+import { franchises as franchisesAPI } from '../../../services/Franchise';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 
-const StoreList = () => {
+const FranchiseList = () => {
     let [ data, setData ] = useState([]);
     
     const hist = useHistory();
@@ -13,26 +13,19 @@ const StoreList = () => {
     const intl = useIntl();
 
     useEffect(() => {
-        document.title = intl.formatMessage({ id: 'Stores' });
+        document.title = intl.formatMessage({ id: 'Franchises' });
 
-        storesAPI({})
-        .then((result) => {
-            const td = result.map((row, i) => {
-                return { 
-                    ...{_rowId: i},
-                    ...row,
-                }
-            });
-
-            setData(td);
+        franchisesAPI({})
+        .then(result => {
+            setData(result);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleEdit = (_rowId) => {
-        const { store_id } = data[_rowId]
+        const { franchiseId } = data[_rowId]
 
-        hist.push(`/workspace/stores/edit/${store_id}`, { from: location });
+        hist.push(`/workspace/franchises/edit/${franchiseId}`, { from: location });
     };
 
     const handleCellClick = (colName, _rowId) => {
@@ -45,16 +38,16 @@ const StoreList = () => {
 
     const [ columns ] = useState([
         { name: '_edit', title: 'Edit', icon: 'edit', },
-        { name: 'cnpj', title: 'CNPJ', mask: 'cnpj', },
-        { name: 'name', title: 'Name', },
-        { name: 'city', title: 'City', },
-        { name: 'addr1', title: 'Address 1', },
-        { name: 'addr2', title: 'Address 2', },
-        { name: 'addr3', title: 'Address 3', },
-        { name: 'zip', title: 'ZIP', },
-        { name: 'state', title: 'State', },
-        { name: 'phone1', title: 'Phone 1', mask: 'phone', },
-        { name: 'phone2', title: 'Phone 2', mask: 'phone', },
+        { name: 'company.cnpj', title: 'CNPJ', mask: 'cnpj', },
+        { name: 'company.name', title: 'Name', },
+        { name: 'company.city', title: 'City', },
+        { name: 'company.addr1', title: 'Address 1', },
+        { name: 'company.addr2', title: 'Address 2', },
+        { name: 'company.addr3', title: 'Address 3', },
+        { name: 'company.zip', title: 'ZIP', },
+        { name: 'company.state', title: 'State', },
+        { name: 'company.phone1', title: 'Phone 1', mask: 'phone', },
+        { name: 'company.phone2', title: 'Phone 2', mask: 'phone', },
     ]);
     
     return (
@@ -66,7 +59,7 @@ const StoreList = () => {
         >
             <Box padding={2}>
                 <Typography variant='h6'>
-                    <FormattedMessage id='Stores'/>
+                    <FormattedMessage id='Franchises'/>
                 </Typography>
             </Box>
             <EnhancedTable
@@ -78,4 +71,4 @@ const StoreList = () => {
     )
 };
 
-export default StoreList;
+export default FranchiseList;

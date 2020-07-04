@@ -5,7 +5,7 @@
     "Next": "Próximo",
     "Continue": "Continuar",
     "Back": "Voltar",
-    "Hi {firstName}": "Olá {firstName}",
+    "Hi {first_name}": "Olá {first_name}",
     "Keep me in": "Mantenha-me conectado",
     "Enter your password": "Informe sua senha",
     "Exit": "Sair",
@@ -31,5 +31,8 @@
     "Confirm": "Confirmar",
     "Cancel": "Cancelar",
     "Refresh": "Atualizar",
-    "Reset": "Restaurar"
+    "Reset": "Restaurar",
+    "Store updated successfully": "Loja atualizada com sucesso",
+    "Franchise updated successfully": "Franquia atualizada com sucesso",
+    "Edit Franchise": "Editar Franquia"
 }

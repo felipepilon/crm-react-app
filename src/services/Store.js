@@ -15,7 +15,7 @@ export const stores = (filters) => {
         .then(handleResponse)
 }
 
-export const store = (storeId) => {
+export const store = (store_id) => {
     const requestOptions = {
         method: 'GET',
         credentials: 'include',
@@ -24,7 +24,7 @@ export const store = (storeId) => {
         },
     };
 
-    return fetch(`${apiUrl}/store?storeId=${storeId}`, requestOptions)
+    return fetch(`${apiUrl}/store?store_id=${store_id}`, requestOptions)
         .then(handleResponse)
 }
 
