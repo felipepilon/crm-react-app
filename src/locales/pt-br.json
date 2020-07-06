@@ -17,6 +17,7 @@
     "Edit Store": "Editar Loja",
     "Franchises": "Franquias",
     "CNPJ": "CNPJ",
+    "CPF": "CPF",
     "Name": "Nome",
     "City": "Cidade",
     "Address": "Endereço",
@@ -34,5 +35,18 @@
     "Reset": "Restaurar",
     "Store updated successfully": "Loja atualizada com sucesso",
     "Franchise updated successfully": "Franquia atualizada com sucesso",
-    "Edit Franchise": "Editar Franquia"
+    "Edit Franchise": "Editar Franquia",
+    "Customers": "Clientes",
+    "Edit Customer": "Editar Client",
+    "Birth Day": "Nascimento",
+    "Workspace": "Área de Trabalho",
+    "New Reserve": "Nova Reserva",
+    "Customer Search": "Buscar Cliente",
+    "Customer": "Cliente",
+    "Products": "Produtos",
+    "Checkout": "Confirmar",
+    "Use above filter to search for a customer": "Use os filtros acima para buscar um cliente",
+    "Please inform a customer": "Por favor informe um cliente",
+    "Clean": "Limpar",
+    "Please inform a product": "Por favor informe um produto"
 }

@@ -52,19 +52,19 @@ const FranchiseEdit = (props) => {
         groups: [
             {
                 fields: [
-                    { name: 'company.cnpj', title: 'CNPJ', type: 'label', mask:'cnpj' },
-                    { name: 'company.name', title: 'Name' },
+                    { name: 'cnpj', title: 'CNPJ', type: 'label', mask:'cnpj' },
+                    { name: 'name', title: 'Name' },
                 ],
             },
             {
                 title: 'Address',
                 fields: [
-                    { name: 'company.zip', title: 'ZIP' },
-                    { name: 'company.city', title: 'City' },
-                    { name: 'company.addr1', title: 'Address 1' },
-                    { name: 'company.addr2', title: 'Address 2' },
-                    { name: 'company.phone1', title: 'Phone 1', mask:'phone' },
-                    { name: 'company.phone2', title: 'Phone 2', mask:'phone' },
+                    { name: 'zip', title: 'ZIP' },
+                    { name: 'city', title: 'City' },
+                    { name: 'addr1', title: 'Address 1' },
+                    { name: 'addr2', title: 'Address 2' },
+                    { name: 'phone1', title: 'Phone 1', mask:'phone' },
+                    { name: 'phone2', title: 'Phone 2', mask:'phone' },
                 ],
             }, 
         ]

@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
 import { AppStateContext } from '../../../contexts/AppState';
-import { Drawer, makeStyles, List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
+import { Drawer, makeStyles, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import StoreIcon from '@material-ui/icons/Store';
+import BusinessIcon from '@material-ui/icons/Business';
+import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
 import { useHistory } from 'react-router-dom';
+import HomeIcon from '@material-ui/icons/Home';
 
 const useStyles = makeStyles({
     root: {
@@ -37,13 +40,24 @@ const MenuButton = () => {
                 onKeyDown={closeDrawer}
             >
                 <List>
+                    <ListItem button onClick={(e) => handleMenuClick(e, '/workspace')}>
+                        <ListItemIcon><HomeIcon/></ListItemIcon>
+                        <ListItemText primary={intl.formatMessage({id: 'Workspace'})}/>
+                    </ListItem>
+                </List>
+                <Divider/>
+                <List>
                     <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/stores/list')}>
                         <ListItemIcon><StoreIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Stores'})}/>
                     </ListItem>
                     <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/franchises/list')}>
-                        <ListItemIcon><StoreIcon/></ListItemIcon>
+                        <ListItemIcon><BusinessIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Franchises'})}/>
+                    </ListItem>
+                    <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/customers/list')}>
+                        <ListItemIcon><EmojiPeopleIcon/></ListItemIcon>
+                        <ListItemText primary={intl.formatMessage({id: 'Customers'})}/>
                     </ListItem>
                 </List>
             </div>

@@ -5,6 +5,8 @@ import WorkBar from './WorkBar';
 import MenuDrawer from './menu/MenuDrawer'
 import PageWrapper from './PageWrapper';
 import SuccessSnack from '../../components/SuccessSnack';
+import WorkspaceStateContextProvider from '../../contexts/WorkspaceState';
+import WorkspacePageLoader from '../../components/WorkspacePageLoader';
 
 const Workspace = () => {
     const { setStatus } = useContext(AppStateContext)
@@ -16,17 +18,20 @@ const Workspace = () => {
     });
 
     return (
-        <Box
-            display='flex'
-            flexDirection='column'
-            height='100%'
-        >
-            <WorkBar/>
-            <MenuDrawer/>
-            <PageWrapper/>
-            <Box height='30px' bgcolor='red' >Footer</Box>
-            <SuccessSnack/>
-        </Box>
+        <WorkspaceStateContextProvider>
+            <Box
+                display='flex'
+                flexDirection='column'
+                height='100%'
+            >
+                <WorkBar/>
+                <MenuDrawer/>
+                <PageWrapper/>
+                <Box height='30px' bgcolor='red' >Footer</Box>
+                <SuccessSnack/>
+                <WorkspacePageLoader/>
+            </Box>
+        </WorkspaceStateContextProvider>
     );
 }
  

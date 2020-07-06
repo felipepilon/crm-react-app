@@ -39,13 +39,13 @@ const EnhancedTable = (props) => {
     return (
         <Fragment>
             <Box
-                minHeight='0'
                 overflow='auto'
                 flex='1'
             >
                 <Table
                     size={dense ? 'small' : 'medium'}
                     stickyHeader
+                    
                 >
                     <EnhancedTableHead
                         columns={tableColumns}

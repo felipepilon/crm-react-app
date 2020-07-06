@@ -4,6 +4,9 @@ import StoreList from './pages/StoreList';
 import StoreEdit from './pages/StoreEdit';
 import FranchiseList from './pages/FranchiseList';
 import FranchiseEdit from './pages/FranchiseEdit';
+import CustomerList from './pages/CustomerList';
+import WorkspaceHome from './pages/WorkspaceHome';
+import ReserveAdd from './pages/ReserveAdd';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -11,7 +14,11 @@ const WorkspaceRouter = () => {
     return (
         <Switch>
             <Route exact path={`${path}`}>
-                <div>Workspace Home</div>
+                <WorkspaceHome/>
+            </Route>
+
+            <Route exact path={`${path}/reserve/add`}>
+                <ReserveAdd/>
             </Route>
 
             <Route exact path={`${path}/stores/list`}>
@@ -39,6 +46,10 @@ const WorkspaceRouter = () => {
                     )
                 }}
             />
+
+            <Route exact path={`${path}/customers/list`}>
+                <CustomerList/>
+            </Route>
             
             <Route path={`${path}/*`}
                 render={({location}) => {

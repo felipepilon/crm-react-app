@@ -15,6 +15,7 @@ const PageWrapper = () => {
     return (
         <Box
             flex='1'
+            minHeight='0'
             height='100%'
         >
             <WorkspaceRouter/>

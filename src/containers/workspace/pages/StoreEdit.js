@@ -97,6 +97,7 @@ const StoreEdit = (props) => {
             display='flex'
             maxWidth='100%'
             justifyContent='center'
+            padding={3}
         >
             <Box
                 maxWidth='450px'

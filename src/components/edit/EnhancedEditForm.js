@@ -13,9 +13,6 @@ const EnhancedEditForm = (props) => {
                     display='flex'
                     justifyContent='center'
                     width='100%'
-                    paddingTop={2}
-                    paddingLeft={2}
-                    paddingRight={2}
                 >
                     <Typography variant='h5'>
                         <FormattedMessage id={props.title}/>

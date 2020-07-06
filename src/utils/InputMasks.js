@@ -1,5 +1,5 @@
 
-var maskCnpj = [
+const maskCnpj = [
     /\d/, /\d/, '.',
     /\d/, /\d/, /\d/, /\d/, '.',
     /\d/, /\d/, /\d/, /\d/, '/',
@@ -7,13 +7,20 @@ var maskCnpj = [
     /\d/, /\d/,
 ];
 
-var maskPhoneHome = [
+const maskCpf = [
+    /\d/, /\d/, /\d/, '.',
+    /\d/, /\d/, /\d/, '.',
+    /\d/, /\d/, /\d/, '-',
+    /\d/, /\d/,
+];
+
+const maskPhoneHome = [
     '(', /\d/, /\d/, ')', ' ',
     /\d/, /\d/, /\d/, /\d/, ' ',
     /\d/, /\d/, /\d/, /\d/,
 ];
 
-var maskPhoneMobile = [
+const maskPhoneMobile = [
     '(', /[1-9]/, /[1-9]/, ')', ' ',
     /[1-9]/, ' ',
     /\d/, /\d/, /\d/, /\d/, ' ',
@@ -22,9 +29,12 @@ var maskPhoneMobile = [
 
 const cnpj = (value) => maskCnpj;
 
+const cpf = (value) => maskCpf;
+
 const phone = (value) => value.length !== 10 ? maskPhoneMobile : maskPhoneHome;
 
 export default {
     cnpj,
     phone,
+    cpf,
 }
