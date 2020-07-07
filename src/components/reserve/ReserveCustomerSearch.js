@@ -36,7 +36,7 @@ const ReserveCustomerSearch = (props) => {
                         display='flex'
                         justifyContent='center'
                     >
-                        <Typography variant='h6'>
+                        <Typography variant='subtitle1'>
                             <FormattedMessage id='Customer Search' />
                         </Typography>
                     </Box>
@@ -64,7 +64,7 @@ const ReserveCustomerSearch = (props) => {
                     >
                         <Button
                             variant='contained'
-                            disabled={props.products.customer_id ? false : true}
+                            disabled={props.customer.customer_id ? false : true}
                             onClick={handleCleanClick}
                         >
                             <FormattedMessage id='Clean' />

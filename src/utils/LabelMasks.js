@@ -12,7 +12,7 @@ const cpf = (value) => maskCpf.apply(value);
 
 const zip = (value) => zipMask.apply(value);
 
-const phone = (value) => value.length > 10 ? maskPhoneMobile.apply(value) : maskPhoneHome.apply(value);
+const phone = (value) => value ? (value.length > 10 ? maskPhoneMobile.apply(value) : maskPhoneHome.apply(value)) : '';
 
 export default {
     cnpj,

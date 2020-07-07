@@ -9,21 +9,25 @@ const ReserveCustomerData = (props) => {
 
     return (
         <Fragment>
-            <Typography variant='body1'>
+            <Typography variant='body2'>
                 <FormattedMessage id="Name"/>
                 : {props.customer.name}
             </Typography>
-            <Typography variant='body1'>
+            <Typography variant='body2'>
                 <FormattedMessage id="CPF"/>
                 : {LabelMasks.cpf(props.customer.cpf)}
             </Typography>
-            <Typography variant='body1'>
+            <Typography variant='body2'>
                 <FormattedMessage id="Email"/>
                 : {props.customer.email}
             </Typography>
-            <Typography variant='body1'>
+            <Typography variant='body2'>
                 <FormattedMessage id="Phone 1"/>
                 : {LabelMasks.phone(props.customer.phone1)}
+            </Typography>
+            <Typography variant='body2'>
+                <FormattedMessage id="Phone 2"/>
+                : {LabelMasks.phone(props.customer.phone2)}
             </Typography>
             <Typography variant='body2'>
                 <FormattedMessage id="ZIP"/>
@@ -48,10 +52,6 @@ const ReserveCustomerData = (props) => {
             <Typography variant='body2'>
                 <FormattedMessage id="State"/>
                 : {props.customer.state}
-            </Typography>
-            <Typography variant='body2'>
-                <FormattedMessage id="Phone 2"/>
-                : {LabelMasks.phone(props.customer.phone2)}
             </Typography>
         </Fragment>
     );

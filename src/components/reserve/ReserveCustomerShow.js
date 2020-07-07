@@ -18,14 +18,14 @@ const ReserveCustomerShow = (props) => {
                 display='flex'
                 justifyContent='center'
             >
-                <Typography variant='h6'>
+                <Typography variant='subtitle1'>
                     <FormattedMessage id='Customer' />
                 </Typography>
             </Box>
             {
                 props.customer.customer_id ?
                 <ReserveCustomerData customer={props.customer}/> :
-                <Typography variant='h6'>
+                <Typography variant='subtitle1'>
                     <FormattedMessage id='Please inform a customer'/>
                 </Typography>
             }

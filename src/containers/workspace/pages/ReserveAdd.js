@@ -46,6 +46,18 @@ const ReserveAdd = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [products]);
 
+    const handleAddProduct = (newProduct) => {
+        setProducts([
+            ...products,
+            newProduct,
+        ])
+    };
+
+    const handleRemoveProduct = (prodIndex) => {
+        const newProds = [ ...products ];
+        newProds.splice(prodIndex);
+    }
+
     return (
         <Box
             display='flex'
@@ -82,6 +94,8 @@ const ReserveAdd = (props) => {
                     step={1}
                     activeStep={activeStep}
                     products={products}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
                 />
                 <ReserveCheckout
                     step={2}

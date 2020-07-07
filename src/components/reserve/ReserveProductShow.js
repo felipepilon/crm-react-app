@@ -18,14 +18,14 @@ const ReserveProductShow = (props) => {
                 display='flex'
                 justifyContent='center'
             >
-                <Typography variant='h6'>
+                <Typography variant='subtitle1'>
                     <FormattedMessage id='Products' />
                 </Typography>
             </Box>
             {
                 props.products.length ?
                 <ReserveProductData products={props.products}/> :
-                <Typography variant='h6'>
+                <Typography variant='subtitle1'>
                     <FormattedMessage id='Please inform a product'/>
                 </Typography>
             }
