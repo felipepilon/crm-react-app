@@ -16,6 +16,7 @@ const ReserverProduct = (props) => {
                     products={props.products}
                     handleAddProduct={props.handleAddProduct}
                     handleRemoveProduct={props.handleRemoveProduct}
+                    handleNextStep={props.handleNextStep}
                 /> : 
                 <ReserveProductShow
                     products={props.products}

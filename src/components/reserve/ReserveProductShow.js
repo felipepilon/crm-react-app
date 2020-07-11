@@ -25,8 +25,8 @@ const ReserveProductShow = (props) => {
             {
                 props.products.length ?
                 <ReserveProductData products={props.products}/> :
-                <Typography variant='subtitle1'>
-                    <FormattedMessage id='Please inform a product'/>
+                <Typography variant='body2'>
+                    <FormattedMessage id='Inform products to reserve'/>
                 </Typography>
             }
         </Paper>

@@ -48,7 +48,16 @@
     "Use above filter to search for a customer": "Use os filtros acima para buscar um cliente",
     "Please inform a customer": "Por favor informe um cliente",
     "Clean": "Limpar",
-    "Please inform a product": "Por favor informe um produto",
+    "Inform products to reserve": "Informe produtos para a reserva",
     "Select Products": "Selecione os produtos",
-    "Size": "Tamanho"
+    "Size": "Tamanho",
+    "Already added": "Já adicionado",
+    "Select": "Selecione",
+    "Salesman": "Vendedor",
+    "Store": "Loja",
+    "Product Code": "Código do Produto",
+    "Color": "Cor",
+    "Quantity": "Quantidade",
+    "Confirm reserve": "Confirmar reserva",
+    "Remember me at": "Lembrar-me em"
 }

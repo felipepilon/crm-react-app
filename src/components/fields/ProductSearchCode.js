@@ -6,26 +6,25 @@ import { products as getProductsApi } from '../../services/Product';
 const minLength = 2;
 
 const ProductSearchCode = (props) => {
-    const [ inputValue, setInputValue ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ options, setOptions ] = useState([]);
-
-    const loading = open && !options.length && inputValue.length >= minLength;
+    
+    const loading = open && !options.length && props.productCode.length >= minLength;
 
     const handleChange = (e, selOpt) => {
         if (selOpt && selOpt.product_id)
             props.handleProductSelect(selOpt);
     }
-
+    
     const handleInputChange = (e, newValue) => {
-        setInputValue(newValue);
+        props.setProductCode(newValue);
     }
 
     useEffect(() => {
         if (!loading)
             return undefined;
 
-        getProductsApi({ product_code: `${inputValue}%` })
+        getProductsApi({ product_code: `${props.productCode}%` })
         .then(result => {
             setOptions(result);
         })
@@ -33,9 +32,9 @@ const ProductSearchCode = (props) => {
     }, [loading]);
 
     useEffect(() => {
-        if (!open || inputValue < minLength)
+        if (!open || props.productCode < minLength)
             setOptions([]);
-    }, [open, inputValue])
+    }, [open, props.productCode])
 
     return (
         <Autocomplete
@@ -56,7 +55,7 @@ const ProductSearchCode = (props) => {
             }}
             noOptionsText={false}
             onChange={handleChange}
-            inputValue={inputValue}
+            inputValue={props.productCode}
             onInputChange={handleInputChange}
             selectOnFocus
             clearOnBlur={false}
@@ -64,6 +63,7 @@ const ProductSearchCode = (props) => {
             renderInput={(params) => 
                 <TextField 
                     { ...params } 
+                    size='small'
                     label='Product Code'
                     variant='outlined'
                     InputProps={{

@@ -73,6 +73,7 @@ const CustomerSearchCPF = (props) => {
                     { ...params } 
                     label='CPF'
                     variant='outlined'
+                    size='small'
                     InputProps={{
                         ...params.InputProps,
                         inputComponent: (mask ? FieldInputMask[mask] : undefined),

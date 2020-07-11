@@ -41,6 +41,19 @@ export const sizeGrid = (size_grid_id) => {
         .then(handleResponse)
 }
 
+export const colors = (product_id) => {
+    const requestOptions = {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return fetch(`${apiUrl}/colors?product_id=${product_id}`, requestOptions)
+        .then(handleResponse)
+}
+
 const handleResponse = ( response ) => {
     return response.text()
     .then(text => {

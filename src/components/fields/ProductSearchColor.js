@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Typography, Button, Box, makeStyles } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import { sizeGrid as getSizeGridApi } from '../../services/Product';
+import { colors as getColorsApi } from '../../services/Product';
 
 const useStyles = makeStyles((theme) => ({
     sizeButton: {
@@ -10,31 +10,23 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const ProductSearchSize = (props) => {
-    const [ sizes, setSizes ] = useState([]);
+const ProductSearchColor = (props) => {
+    const [ colors, setColors ] = useState([]);
 
     const classes = useStyles();
     
     useEffect(() => {
-        getSizeGridApi(props.size_grid_id)
+        getColorsApi(props.product.product_id)
         .then(res => {
-            let i = 1;
-            const newSizes = [];
-            for(; i <= 50; i++)
-            {
-                if (res[`s${i}`])
-                    newSizes.push(res[`s${i}`]);
-            }
-
-            setSizes(newSizes);
+            setColors(res);
         });
-    }, [props.size_grid_id])
+    }, [props.product])
 
-    const handleSizeSelect = (e, size) => {
+    const handleColorSelect = (e, product_color_id) => {
         e.preventDefault();
-        props.handleSizeSelect(size);
+        props.handleColorSelect(colors.find((col) => col.product_color_id === product_color_id));
     }
-
+    
     return (
         <Box
             display='flex'
@@ -43,7 +35,7 @@ const ProductSearchSize = (props) => {
             padding={1}
         >
             <Typography variant='body2'>
-                <FormattedMessage id='Size'/>
+                <FormattedMessage id='Color'/>
             </Typography>
             <Box
                 display='flex'
@@ -51,19 +43,19 @@ const ProductSearchSize = (props) => {
                 flexWrap='wrap'
             >
                 {
-                    sizes && sizes.length ?
-                    sizes.map((size, i) => {
+                    colors.length ?
+                    colors.map((col, i) => {
                         return (
                             <Button 
                                 key={i}
                                 className={classes.sizeButton}
-                                onClick={(e) => handleSizeSelect(e, size)}
+                                onClick={(e) => handleColorSelect(e, col.product_color_id)}
                                 variant='contained'
                                 disableElevation
-                                color={size === props.size ? 'primary' : 'default'}
+                                color={col.product_color_id === props.color.product_color_id ? 'primary' : 'default'}
                                 size='small'
                             >
-                                {size}
+                                {col.product_color_desc}
                             </Button>
                         )
                     }) : null
@@ -73,4 +65,4 @@ const ProductSearchSize = (props) => {
     );
 }
  
-export default ProductSearchSize;
+export default ProductSearchColor;

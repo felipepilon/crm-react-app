@@ -3,17 +3,24 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
+import pickerPtBrLocale from "date-fns/locale/pt-BR";
 
 import { createMuiTheme, ThemeProvider } from '@material-ui/core';
 import AuthContextProvider, { AuthContext } from './contexts/Auth';
 import { IntlProvider } from 'react-intl';
 
-import localePtBR from './locales/pt-br';
+import intlPtBrLocale from './locales/pt-br';
 import AppStateContextProvider from './contexts/AppState';
 
-const locales = {
-  "pt-br": localePtBR, 
+const intlLocales = {
+  "pt-br": intlPtBrLocale, 
 };
+
+const pickerLocales = {
+  "pt-br": pickerPtBrLocale, 
+}
 
 const theme = createMuiTheme({
   spacing: 8,
@@ -31,10 +38,12 @@ ReactDOM.render(
             <IntlProvider 
               locale='pt-br' 
               key='pt-br' 
-              messages={locales['pt-br']}
+              messages={intlLocales['pt-br']}
               onError={(message) => message}
             >
-              <App/>
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pickerLocales['pt-br']}>
+                <App/>
+              </MuiPickersUtilsProvider>
             </IntlProvider>
           </ThemeProvider>
 

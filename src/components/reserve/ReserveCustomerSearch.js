@@ -52,7 +52,7 @@ const ReserveCustomerSearch = (props) => {
                         <ReserveCustomerData
                             customer={props.customer}
                         /> :
-                        <Typography variant='body1'>
+                        <Typography variant='body2'>
                             <FormattedMessage id="Use above filter to search for a customer"/>
                         </Typography>
                     }

@@ -3,6 +3,8 @@ import { Grid, Box, makeStyles, Button, Typography } from '@material-ui/core';
 import ProductSearchCode from './ProductSearchCode';
 import ProductSearchSize from './ProductSearchSize';
 import { FormattedMessage } from 'react-intl';
+import ProductSearchColor from './ProductSearchColor';
+import QuantityInput from './QuantityInput';
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -12,35 +14,63 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductSearch = (props) => {
     const [ product, setProduct ] = useState({});
+    const [ productCode, setProductCode ] = useState('');
     const [ size, setSize ] = useState('');
+    const [ color, setColor ] = useState({});
+    const [ quantity, setQuantity ] = useState(1);
+    const [ errorMsg, setErrorMsg ] = useState('');
 
     const classes = useStyles();
 
-    const handleProductSelect = (newProd) => {
-        setProduct(newProd);
-    }
-
-    const handleSizeSelect = (newSize) => {
-        setSize(newSize);
-    }
-
     const handleAddClick = (e) => {
         e.preventDefault();
-        props.handleAddProduct({product, size})
-        setProduct({})
+
+        if (props.products.find((p) => 
+            p.product.product_id === product.product_id && 
+            (!p.product.size_grid_id || p.size === size)
+        )) {
+            setErrorMsg('Already added');
+            return;
+        }
+
+        props.handleAddProduct({product, size, color, quantity})
+        setProduct({});
+        setProductCode('');
+    }
+
+    const handleClearClick = (e) => {
+        e.preventDefault();
+        setProduct({});
+        setProductCode('');
     }
 
     useEffect(() => {
         setSize('');
+        setColor({});
+        setErrorMsg('');
+        setQuantity(1);
     }, [product])
-
+    
     const addEnabled = product && product.product_id &&
-        (!product.size_grid_id || size)
+        (!product.size_grid_id || size) &&
+        (!product.has_colors || color.product_color_id) &&
+        (quantity > 0)
 
     return (
         <Grid container spacing={2}>
+            {
+                errorMsg ?
+                <Typography variant='body2' color='error'>
+                    <FormattedMessage id={errorMsg}/>
+                </Typography> :
+                null
+            }
             <Grid item xs={12}>
-                <ProductSearchCode handleProductSelect={handleProductSelect}/>
+                <ProductSearchCode 
+                    handleProductSelect={setProduct}
+                    productCode={productCode}
+                    setProductCode={setProductCode}
+                />
             </Grid>
             {
                 product.product_desc ?
@@ -51,16 +81,36 @@ const ProductSearch = (props) => {
                 </Grid> : null
             }
             {
+                product.has_colors ?
+                <ProductSearchColor
+                    product={product}
+                    color={color}
+                    handleColorSelect={setColor}
+                /> : null
+            }
+            {
                 product.size_grid_id ?
                 <ProductSearchSize
                     size_grid_id={product.size_grid_id}
                     size={size}
-                    handleSizeSelect={handleSizeSelect}
+                    handleSizeSelect={setSize}
                 /> : null
+            }
+            {
+                product.product_id ?
+                <Grid item xs={12}>
+                    <QuantityInput
+                        value={quantity}
+                        handleChange={setQuantity}
+                    />
+                </Grid> : null
             }
             <Grid item xs={12}>
                 <Box display='flex' justifyContent='flex-end'>
-                    <Button className={classes.button} variant='contained'>
+                    <Button className={classes.button} 
+                        variant='contained' 
+                        onClick={handleClearClick}
+                    >
                         <FormattedMessage id='Clear'/>
                     </Button>
                     <Button className={classes.button} 
