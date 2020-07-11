@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment } from 'react';
 import { Grid, Paper, makeStyles, Box, Typography, Button } from '@material-ui/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import StoreSelect from '../fields/StoreSelect';
 import SalesmanSelect from '../fields/SalesmanSelect';
 import { KeyboardDatePicker } from "@material-ui/pickers";
-import addDays from 'date-fns/addDays'
 
 const useStyles = makeStyles((theme) => ({
     paper: {
@@ -13,8 +12,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ReserveCheckout = (props) => {
-    const [ rememberDate, setRememberDate ] = useState(addDays(new Date(), 7));
-
     const classes = useStyles();
 
     const intl = useIntl();
@@ -22,6 +19,11 @@ const ReserveCheckout = (props) => {
     const isActive = props.step === props.activeStep;
 
     const xs = isActive ? 6 : 3;
+
+    const handleConfirmReserve = (e) => {
+        e.preventDefault();
+        props.handleConfirmReserve();
+    }
 
     return (
         <Grid item xs={xs}>
@@ -53,8 +55,8 @@ const ReserveCheckout = (props) => {
                             <Grid item xs={12}>
                                 <KeyboardDatePicker
                                     label={intl.formatMessage({ id: 'Remember me at' })}
-                                    value={rememberDate}
-                                    onChange={setRememberDate}
+                                    value={props.reminderDate}
+                                    onChange={props.setReminderDate}
                                     format="dd/MM/yyyy"
                                     size='small'
                                     clearable
@@ -70,6 +72,7 @@ const ReserveCheckout = (props) => {
                             variant='contained'
                             color='primary'
                             disabled={props.disableSubmit}
+                            onClick={handleConfirmReserve}
                         >
                             <FormattedMessage id='Confirm reserve'/>
                         </Button>
