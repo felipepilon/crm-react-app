@@ -7,6 +7,7 @@ import FranchiseEdit from './pages/FranchiseEdit';
 import CustomerList from './pages/CustomerList';
 import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
+import CustomerView from './pages/CustomerView';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -50,6 +51,15 @@ const WorkspaceRouter = () => {
             <Route exact path={`${path}/customers/list`}>
                 <CustomerList/>
             </Route>
+            <Route exact path={`${path}/customers/view/:customerId`}
+                render={({match}) => {
+                    return (
+                        <CustomerView
+                            customerId={match.params.customerId}
+                        />
+                    )
+                }}
+            />
             
             <Route path={`${path}/*`}
                 render={({location}) => {

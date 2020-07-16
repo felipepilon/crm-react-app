@@ -15,6 +15,20 @@ export const customers = (filters) => {
         .then(handleResponse)
 }
 
+export const customersIndex = (filters) => {
+    const requestOptions = {
+        method: 'POST',
+        credentials: 'include',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(filters),
+    };
+
+    return fetch(`${apiUrl}/customersIndex`, requestOptions)
+        .then(handleResponse)
+}
+
 export const customer = (customer_id) => {
     const requestOptions = {
         method: 'GET',
