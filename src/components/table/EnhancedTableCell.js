@@ -6,12 +6,22 @@ import EnhancedFieldLabel from './EnhancedFieldLabel';
 
 const EnhancedTablCell = (props) => {
     let cellContents;
+
+    const handleCellClick = (name, rowId) => {
+        console.log('EnhancedTablCell.handleCellClick. => name: ', name, ', rowId: ', rowId);
+
+        if (props.handleCellClick)
+            props.handleCellClick(name, rowId)
+        else
+            console.log('EnhancedTablCell.handleCellClick no handler defined. => name: ', name, ', rowId: ', rowId);
+    }
     
     if (props.icon)
     {
         cellContents = (
             <IconButton
-                onClick={() => props.handleCellClick(props.name, props._rowId)}
+
+                onClick={() => handleCellClick(props.name, props.rowIdx)}
             >
                 {
                     props.icon === 'edit' ?

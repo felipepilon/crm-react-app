@@ -42,6 +42,8 @@ const AuthContextProvider = props => {
             {
                 console.error('Unable to continue session');
                 console.error(err);
+            } else {
+                console.log('Auth - useEffect - err => ', err)
             }
             deauthenticate();
         });

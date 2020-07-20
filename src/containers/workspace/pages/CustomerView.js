@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
 import { customer as getCustomerApi } from '../../../services/Customer'
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, Container } from '@material-ui/core';
 import CustomerDataPaper from '../../../components/customer-view/CustomerDataPaper';
 import ReservesTable from '../../../components/customer-view/ReservesTable';
+import ContactCenter from '../../../components/contact-center/ContactCenter';
 
 const CustomerView = (props) => {
     const { setStatus } = useContext(WorkspaceStateContext);
@@ -19,46 +20,40 @@ const CustomerView = (props) => {
     }, []);
 
     return (
-        <Box
-            display='flex'
-            justifyContent='center'
-        >
+        <Container>
             <Box
                 display='flex'
-                flexDirection='column'
-                width='90vh'
+                justifyContent='center'
+                padding={1}
             >
-                <Box
-                    display='flex'
-                    justifyContent='center'
-                    padding={2}
-                >
-                    <Typography variant='h5'>
-                        { customer.name }
-                    </Typography>
-                </Box>
-                <Box display='flex'>
-                    <Box width='40%'>
-                        <CustomerDataPaper
-                            customer={customer}
-                        />
-                    </Box>
-                    <Box
-                        flex='1'
-                        bgcolor='blue'
-                    >
-                        Realizar atendimento
-                    </Box>
+                <Typography variant='h5'>
+                    { customer.name }
+                </Typography>
+            </Box>
+            <Box display='flex'>
+                <Box width='30%' padding={1}>
+                    <CustomerDataPaper
+                        customer={customer}
+                    />
                 </Box>
                 <Box
-                    display='flex'
+                    flex='1'
+                    padding={1}
                 >
-                    <ReservesTable
-                        customerId={customer.customer_id}
+                    <ContactCenter
+                        customer={customer}
                     />
                 </Box>
             </Box>
-        </Box>
+            <Box
+                display='flex'
+                padding={1}
+            >
+                <ReservesTable
+                    customer_id={customer.customer_id}
+                />
+            </Box>
+        </Container>
     );
 }
  

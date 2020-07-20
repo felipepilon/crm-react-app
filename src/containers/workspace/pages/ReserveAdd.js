@@ -83,6 +83,7 @@ const ReserveAdd = (props) => {
             store_id: store.store_id,
             customer_id: customer.customer_id,
             salesman_id: salesman.salesman_id,
+            reserve_date: new Date(),
             products: products.map((prod) => { 
                 return {
                     product_id: prod.product.product_id,

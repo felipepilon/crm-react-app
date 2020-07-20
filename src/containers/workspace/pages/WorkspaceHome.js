@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Box, Button } from '@material-ui/core';
+import { Box, Button, Container } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
@@ -28,18 +28,10 @@ const WorkspaceHome = () => {
     }, [])
 
     return (
-        <Box
-            display='flex'
-            justifyContent='center'
-            padding={3}
-        >
-            <Box
-                display='flex'
-                minWidth='800px'
+        <Container>
+            <Box display='flex' flexDirection='row' paddingTop={2}
             >
-                <Box
-                    width='20%'
-                    padding={2}
+                <Box width='20%' padding={1}
                 >
                     <CustomerSearchIndex
                         handleCustomerSelect={handleCustomerSelect}
@@ -49,13 +41,13 @@ const WorkspaceHome = () => {
                     flex='1'
                     bgcolor='yellow'
                     height='500px'
-                    padding={2}
+                    padding={1}
                 >
                     Parte 2
                 </Box>
                 <Box
                     width='20%'
-                    padding={2}
+                    padding={1}
                 >
                     <Button
                         fullWidth
@@ -67,8 +59,7 @@ const WorkspaceHome = () => {
                     </Button>
                 </Box>
             </Box>
-            
-        </Box>
+        </Container>
     );
 }
  

@@ -17,30 +17,23 @@ const StoreList = () => {
 
         storesAPI({})
         .then((result) => {
-            const td = result.map((row, i) => {
-                return { 
-                    ...{_rowId: i},
-                    ...row,
-                }
-            });
-
-            setData(td);
+            setData(result);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const handleEdit = (_rowId) => {
-        const { store_id } = data[_rowId]
+    const handleEdit = (rowIdx) => {
+        const { store_id } = data[rowIdx]
 
         hist.push(`/workspace/stores/edit/${store_id}`, { from: location });
     };
 
-    const handleCellClick = (colName, _rowId) => {
+    const handleCellClick = (colName, rowIdx) => {
         const fnc = colName === '_edit' ? handleEdit :
             null;
         
         if (fnc)
-            fnc(_rowId);
+            fnc(rowIdx);
     };
 
     const [ columns ] = useState([
@@ -72,6 +65,7 @@ const StoreList = () => {
             <EnhancedTable
                 columns={columns}
                 data={data}
+                fullHeight
                 handleCellClick={handleCellClick}
             />
         </Box>

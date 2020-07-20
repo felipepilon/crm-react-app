@@ -15,6 +15,19 @@ export const add = (reserveData) => {
         .then(handleResponse)
 }
 
+export const detailedByCustomer = (customer) => {
+    const requestOptions = {
+        method: 'GET',
+        credentials: 'include',
+        headers: { 
+            'Content-Type': 'application/json',
+        },
+    };
+
+    return fetch(`${apiUrl}/detailedByCustomer?customer_id=${customer.customer_id}`, requestOptions)
+        .then(handleResponse)
+}
+
 const handleResponse = ( response ) => {
     return response.text()
     .then(text => {

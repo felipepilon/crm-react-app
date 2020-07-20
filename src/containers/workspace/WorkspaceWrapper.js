@@ -27,7 +27,7 @@ const Workspace = () => {
                 <WorkBar/>
                 <MenuDrawer/>
                 <PageWrapper/>
-                <Box height='30px' bgcolor='red' >Footer</Box>
+                <Box height='30px'>Footer</Box>
                 <SuccessSnack/>
                 <WorkspacePageLoader/>
             </Box>

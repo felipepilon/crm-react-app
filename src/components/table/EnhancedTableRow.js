@@ -16,7 +16,7 @@ const EnhancedTableRow = (props) => {
                             name={column.name}
                             mask={column.mask}
                             colIndex={i}
-                            _rowId={props.row._rowId}
+                            rowIdx={props.row._i}
                             value={value}
                             handleCellClick={props.handleCellClick}
                         />
