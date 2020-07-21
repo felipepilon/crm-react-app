@@ -25,7 +25,12 @@ const pickerLocales = {
 const theme = createMuiTheme({
   spacing: 8,
   palette: {
-      
+      primary: {
+          main: "#26292d",
+      }
+      , secondary: {
+          main: "#fcfffc",
+      }
   }
 })
 
