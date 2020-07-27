@@ -20,8 +20,8 @@ const ReserveAdd = (props) => {
     const [ products, setProducts ] = useState([]);
     const [ activeStep, setActiveStep ] = useState(0);
     const [ completed, setCompleted ] = useState({});
-    const [ store, setStore ] = useState({});
-    const [ salesman, setSalesman ] = useState({});
+    const [ store_id, handleStoreIdChange ] = useState(null);
+    const [ salesman_id, handleSalesmanIdChange ] = useState(null);
     const [ reminderDate, setReminderDate ] = useState(addDays(new Date(), 7));
     const [ errors, setErrors ] = useState({});
 
@@ -61,10 +61,10 @@ const ReserveAdd = (props) => {
     useEffect(() => {
         setCompleted({
             ...completed,
-            ...{2: salesman.salesman_id && store.store_id ? true : false},
+            ...{2: salesman_id && store_id ? true : false},
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [salesman, store]);
+    }, [salesman_id, store_id]);
 
     const handleAddProduct = (newProduct) => {
         setProducts([
@@ -79,10 +79,10 @@ const ReserveAdd = (props) => {
 
     const handleConfirmReserve = () => {
         const reserveData = {
-            store_group_id: store.store_group_id,
-            store_id: store.store_id,
+            store_group_id: customer.store_group_id,
+            store_id,
             customer_id: customer.customer_id,
-            salesman_id: salesman.salesman_id,
+            salesman_id,
             reserve_date: new Date(),
             products: products.map((prod) => { 
                 return {
@@ -159,10 +159,10 @@ const ReserveAdd = (props) => {
                     <ReserveCheckout
                         step={2}
                         activeStep={activeStep}
-                        store={store}
-                        setStore={setStore}
-                        salesman={salesman}
-                        setSalesman={setSalesman}
+                        store_id={store_id}
+                        salesman_id={salesman_id}
+                        handleStoreIdChange={handleStoreIdChange}
+                        handleSalesmanIdChange={handleSalesmanIdChange}
                         reminderDate={reminderDate}
                         setReminderDate={setReminderDate}
                         disableSubmit={disableSubmit}

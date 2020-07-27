@@ -51,11 +51,11 @@ const WorkspaceRouter = () => {
             <Route exact path={`${path}/customers/list`}>
                 <CustomerList/>
             </Route>
-            <Route exact path={`${path}/customers/view/:customerId`}
+            <Route exact path={`${path}/customers/view/:customer_id`}
                 render={({match}) => {
                     return (
                         <CustomerView
-                            customerId={match.params.customerId}
+                            customer_id={match.params.customer_id}
                         />
                     )
                 }}

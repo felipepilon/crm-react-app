@@ -41,15 +41,15 @@ const ReserveCheckout = (props) => {
                         <Fragment>
                             <Grid item xs={12}>
                                 <StoreSelect
-                                    store={props.store}
-                                    setStore={props.setStore}
+                                    store_id={props.store_id}
+                                    handleStoreIdChange={props.handleStoreIdChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <SalesmanSelect
-                                    salesman={props.salesman}
-                                    setSalesman={props.setSalesman}
-                                    store={props.store}
+                                    salesman_id={props.salesman_id}
+                                    handleSalesmanIdChange={props.handleSalesmanIdChange}
+                                    store_id={props.store_id}
                                 />
                             </Grid> 
                             <Grid item xs={12}>

@@ -1,24 +1,22 @@
 import React from 'react';
-import { Button, useTheme } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import WhatsAppIcon from '@material-ui/icons/WhatsApp';
 
 const WhatsAppButton = (props) => {
-    const theme = useTheme();
-
     const handleClick = (e) => {
         e.preventDefault();
         props.handleClick();
     }
 
-    const disabled = props.contactType === 'whatsApp';
+    const disabled = props.contact_via === 'WhatsApp' || props.disabled;
 
     return (
-        <Button variant='contained' color='primary' 
-            style={{ margin: theme.spacing(1), width: '50%' }}
+        <Button variant='contained'
+            style={{ width: '50%' }}
             endIcon={<WhatsAppIcon/>}
             onClick={handleClick}
-            size='small'
+            color='primary'
             disabled={disabled}
         >
             <FormattedMessage id='WhatsApp'/>

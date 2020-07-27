@@ -15,6 +15,8 @@ const EnhancedTableRow = (props) => {
                             icon={column.icon}
                             name={column.name}
                             mask={column.mask}
+                            intl={column.intl}
+                            intlSplit={column.intlSplit}
                             colIndex={i}
                             rowIdx={props.row._i}
                             value={value}

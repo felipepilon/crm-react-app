@@ -36,6 +36,8 @@ const EnhancedTablCell = (props) => {
         cellContents = <EnhancedFieldLabel
             value={props.value}
             mask={props.mask}
+            intl={props.intl}
+            intlSplit={props.intlSplit}
         />
     }
 

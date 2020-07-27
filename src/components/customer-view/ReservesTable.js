@@ -4,7 +4,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EnhancedTable from '../../components/table/EnhancedTable'
+import EnhancedTable from '../table/EnhancedTable'
 import { FormattedMessage } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { detailedByCustomer as getReserveDetailsApi } from '../../services/Reserve';

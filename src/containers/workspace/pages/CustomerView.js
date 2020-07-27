@@ -4,20 +4,25 @@ import { customer as getCustomerApi } from '../../../services/Customer'
 import { Box, Typography, Container } from '@material-ui/core';
 import CustomerDataPaper from '../../../components/customer-view/CustomerDataPaper';
 import ReservesTable from '../../../components/customer-view/ReservesTable';
+import ContactsTable from '../../../components/customer-view/ContactsTable';
 import ContactCenter from '../../../components/contact-center/ContactCenter';
 
 const CustomerView = (props) => {
     const { setStatus } = useContext(WorkspaceStateContext);
-    const [ customer, setCustomer ] = useState({});
+    const [ customer, setCustomer ] = useState(undefined);
+    const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
     
     useEffect(() => {
-        getCustomerApi(props.customerId)
+        getCustomerApi(props.customer_id)
         .then((res) => {
             setStatus('loaded');
             setCustomer(res);
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    if (!customer)
+        return null;
 
     return (
         <Container>
@@ -42,6 +47,7 @@ const CustomerView = (props) => {
                 >
                     <ContactCenter
                         customer={customer}
+                        setContactsLastUpdate={setContactsLastUpdate}
                     />
                 </Box>
             </Box>
@@ -51,6 +57,15 @@ const CustomerView = (props) => {
             >
                 <ReservesTable
                     customer_id={customer.customer_id}
+                />
+            </Box>
+            <Box
+                display='flex'
+                padding={1}
+            >
+                <ContactsTable
+                    customer_id={customer.customer_id}
+                    lastUpdate={contactsLastUpdate}
                 />
             </Box>
         </Container>

@@ -1,57 +1,61 @@
-import React, { useEffect, useState, Fragment } from 'react';
-import { Select, MenuItem, InputLabel } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Select, MenuItem, InputLabel, FormControl, useTheme } from '@material-ui/core';
 import { stores as getStoresApi } from '../../services/Store';
 import { FormattedMessage } from 'react-intl';
 
 const StoreSelect = (props) => {
-    const [ stores, setStores ] = useState([]);
+    const [ options, setOptions ] = useState([]);
+    const value = props.store_id;
+
+    const theme = useTheme();
 
     useEffect(() => {
         getStoresApi()
-        .then(result => setStores(result));
+        .then(result => {
+            setOptions(result.map((opt) => {
+                return {
+                    id: opt.store_id,
+                    label: opt.name,
+                }
+            }).sort((a, b) => a.label < b.label))
+        });
     }, []);
 
     useEffect(() => {
-        props.setStore(stores.length === 1 ? stores[0] : {});
+        props.handleStoreIdChange(options.length === 1 ? options[0].id : null);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [stores]);
-
-    const handleChange = (e) => {
-        props.setSalesman(e.target.value ? stores.find((sto => sto.store_id === e.target.value)) : {})
-    }
-
-    const value = props.store.store_id || '';
+    }, [options]);
 
     return (
-        <Fragment>
-            <InputLabel shrink id='store-select-label'><FormattedMessage id='Store'/></InputLabel>
+        <FormControl style={{marginTop: theme.spacing(2)}}>
+            <InputLabel  id='store-select-label'><FormattedMessage id='Store'/></InputLabel>
             <Select
                 labelId='store-select-label'
-                displayEmpty
-                fullWidth
-                value={value}
-                onChange={handleChange}
+                id="demo-simple-select-outlined"
+                value={value || ''}
+                onChange={(e) => props.handleStoreIdChange(e.target ? e.target.value : '')}
+                disabled={props.disabled}
             >
                 {
-                    stores.length !== 1 ?
+                    options.length !== 1 ?
                     <MenuItem value=''>
                         <em><FormattedMessage id='Select'/></em>
                     </MenuItem> :
                     null
                 }
                 {
-                    stores.map((sto, i) => {
+                    options.map((opt) => {
                         return (
-                            <MenuItem key={i}
-                                value={sto.store_id}
+                            <MenuItem key={opt.id}
+                                value={opt.id}
                             >
-                                {sto.name}
+                                {opt.label}
                             </MenuItem>
                         )
                     })
                 }
             </Select>
-        </Fragment>
+        </FormControl>
     );
 }
  

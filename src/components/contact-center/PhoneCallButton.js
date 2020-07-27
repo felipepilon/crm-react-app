@@ -11,14 +11,15 @@ const PhoneCallButton = (props) => {
         props.handleClick();
     }
 
-    const disabled = props.contactType === 'phoneCall';
+    const disabled = props.contact_via === 'Phone Call' || props.disabled;
 
     return (
-        <Button variant='contained' color='primary' 
-            style={{ margin: theme.spacing(1), width: '50%' }}
+        <Button 
+            variant='contained' 
+            style={{ marginLeft: theme.spacing(1), width: '50%' }}
             endIcon={<PhoneIcon/>}
             onClick={handleClick}
-            size='small'
+            color='primary'
             disabled={disabled}
         >
             <FormattedMessage id='Phone'/>
