@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EnhancedTable from '../table/EnhancedTable'
 import { FormattedMessage } from 'react-intl';
-import { Box, CircularProgress } from '@material-ui/core';
+import { Box } from '@material-ui/core';
 import { list as listContactsApi } from '../../services/Contact';
 
 const ContactsTable = (props) => {
@@ -14,7 +14,6 @@ const ContactsTable = (props) => {
     const [ data, setData ] = useState([]);
     const [ columns ] = useState([
         { name: 'contact_start_date', title: 'Contact Date', mask: 'datetime' },
-        { name: 'store_name', title: 'Store' },
         { name: 'salesman_name', title: 'Salesman', },
         { name: 'reasons', title: 'Reason(s)', intlSplit: true },
         { name: 'another_reason', title: 'Another Reason' },
@@ -23,6 +22,8 @@ const ContactsTable = (props) => {
         { name: 'another_feedback', title: 'Another Feedback' },
         { name: 'notes', title: 'Notes' },
         { name: 'call_duration', title: 'Duration', mask: 'timer' },
+        { name: 'reminder_date', title: 'Call Again At', mask: 'date' },
+        { name: 'store_name', title: 'Store' },
     ]);
     const [ lastUpdate, setLastUpdate ] = useState(null);
 
@@ -31,19 +32,21 @@ const ContactsTable = (props) => {
     }
 
     const loadData = () => {
-        listContactsApi({
-            contact_id: props.contact_id,
-            status: 'completed',
-            limit: 10,
-            order_by: [
-                [ 'contact_start_date', 'desc' ],
-            ]
-        })
-        .then((result) => {
-            console.log('result', result)
-            setData(result);
-            setLastUpdate(new Date());
-        });
+        setTimeout(() => {
+            listContactsApi({
+                contact_id: props.contact_id,
+                status: 'Completed',
+                limit: 10,
+                order_by: [
+                    [ 'contact_start_date', 'desc' ],
+                ]
+            })
+            .then((result) => {
+                console.log(data);
+                setData(result);
+                setLastUpdate(new Date());
+            });
+        }, 500)
     }
 
     useEffect(() => {
@@ -69,16 +72,12 @@ const ContactsTable = (props) => {
                     <Typography variant='subtitle1'><FormattedMessage id='Contacts'/></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {
-                        lastUpdate ?
-                        <EnhancedTable
-                            columns={columns}
-                            data={data}
-                            dense='denseDisabled'
-                            dataStatus={lastUpdate ? 'loaded' : 'loading'}
-                        /> : 
-                        null
-                    }
+                    <EnhancedTable
+                        columns={columns}
+                        data={data}
+                        dense='denseDisabled'
+                        dataStatus={lastUpdate ? 'loaded' : 'loading'}
+                    />
                     
                 </AccordionDetails>
             </Accordion>

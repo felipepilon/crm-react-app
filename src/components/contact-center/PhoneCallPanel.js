@@ -37,7 +37,7 @@ const PhoneCallPanel = (props) => {
                 {LabelMasks.phone(props.customer.phone1)}
             </Typography>
             {
-                props.call_status === 'none' ?
+                props.call_status === 'None' ?
                 <Button
                     style={{margin: theme.spacing(1)}}
                     endIcon={<CallIcon/>}
@@ -50,7 +50,7 @@ const PhoneCallPanel = (props) => {
                 null
             }
             {
-                !['starting', 'none', 'endingContact'].includes(props.call_status) ?
+                !['Starting', 'None', 'Ending Contact'].includes(props.call_status) ?
                 <OnGoingCallTimer
                     call_start_date={props.state.call_start_date}
                     call_end_date={props.state.call_end_date}
@@ -58,7 +58,7 @@ const PhoneCallPanel = (props) => {
                 null
             }
             {
-                props.state.call_status === 'onGoing' ?
+                props.state.call_status === 'On Going' ?
                 <Button
                     variant='contained'
                     color='primary'
@@ -71,7 +71,7 @@ const PhoneCallPanel = (props) => {
                 null
             }
             {
-                ['onGoing', 'waitingFeedback', 'endingCall'].includes(props.call_status) ?
+                ['On Going', 'Waiting Feedback', 'Ending Call'].includes(props.call_status) ?
                 <Fragment>
                     <PhoneCallFeedback
                         feedback={props.state.feedback}
@@ -83,7 +83,7 @@ const PhoneCallPanel = (props) => {
                     />
                     <KeyboardDatePicker
                         style={{marginTop: theme.spacing(1)}}
-                        label={intl.formatMessage({ id: 'Call again at' })}
+                        label={intl.formatMessage({ id: 'Call Again At' })}
                         value={reminder_date}
                         onChange={(value) => props.handleReminderDateChange(value)}
                         format="dd/MM/yyyy"
@@ -108,7 +108,7 @@ const PhoneCallPanel = (props) => {
                 null
             }
             {
-                props.call_status === 'waitingFeedback' ?
+                props.call_status === 'Waiting Feedback' ?
                 <Button
                     style={{marginTop: theme.spacing(3)}}
                     variant='contained'
@@ -122,7 +122,7 @@ const PhoneCallPanel = (props) => {
                 null
             }
             {
-                ['starting', 'endingCall', 'endingContact'].includes(props.call_status) ?
+                ['Starting', 'Ending Call', 'Ending Contact'].includes(props.call_status) ?
                 <CircularProgress/> : null
             }
         </Paper>

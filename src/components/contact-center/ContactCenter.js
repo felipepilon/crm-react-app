@@ -18,7 +18,7 @@ const ContactCenter = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);
 
     const [ state, setState ] = useState({
-        status: 'new',
+        status: 'New',
         store_group_id: props.customer.store_group_id,
         customer_id: props.customer.customer_id,
         store_id: null,
@@ -29,7 +29,7 @@ const ContactCenter = (props) => {
         contact_start_date: null,
         call_start_date: null,
         call_end_date: null,
-        call_status: 'none',
+        call_status: 'None',
         feedback: null,
         another_feedback: null,
         notes: null,
@@ -55,7 +55,7 @@ const ContactCenter = (props) => {
         if (!state.reasons.length)
             newErrors.reasons = { h: 'At least one reason is required' };
 
-        if (state.reasons.find((rsn) => rsn.reason === 'Another')) {
+        if (state.reasons.find((rsn) => rsn.reason === 'another')) {
             if (!state.another_reason || !state.another_reason.trim().length)
                 newErrors.another_reason = 'Inform details for the contact';
             else if (state.another_reason.trim().length < 5)
@@ -94,8 +94,8 @@ const ContactCenter = (props) => {
         let newState = { 
             ...state,
             ...{ 
-                status: 'started',
-                call_status: 'starting',
+                status: 'Started',
+                call_status: 'Starting',
                 contact_start_date: new Date(),
                 call_start_date: state.contact_via === 'Phone Call' ? new Date() : null,
             }
@@ -110,7 +110,7 @@ const ContactCenter = (props) => {
                     ...newState,
                     ...{ 
                         contact_id: result.contact_id,
-                        call_status: 'onGoing',
+                        call_status: 'On Going',
                     }
                 };
 
@@ -123,7 +123,7 @@ const ContactCenter = (props) => {
         let newState = {
             ...state,
             ...{
-                call_status: 'endingCall',
+                call_status: 'Ending Call',
             },
         };
 
@@ -133,7 +133,7 @@ const ContactCenter = (props) => {
             newState = {
                 ...newState,
                 ...{
-                    call_status: 'waitingFeedback',
+                    call_status: 'Waiting Feedback',
                     call_end_date: new Date(),
                 }
             }
@@ -152,7 +152,7 @@ const ContactCenter = (props) => {
         let newState = {
             ...state,
             ...{
-                call_status: 'endingContact',
+                call_status: 'Ending Contact',
             },
         };
 
@@ -162,8 +162,8 @@ const ContactCenter = (props) => {
             newState = {
                 ...newState,
                 ...{
-                    status: 'completed',
-                    call_status: 'none',
+                    status: 'Completed',
+                    call_status: 'None',
                     contact_end_date: new Date(),
                 }
             }
@@ -182,14 +182,14 @@ const ContactCenter = (props) => {
                     ...newState,
                     ...{
                         contact_id: null,
-                        status: 'new',
+                        status: 'New',
                         contact_via: null,
                         reasons: [],
                         another_reason: null,
                         contact_start_date: null,
                         call_start_date: null,
                         call_end_date: null,
-                        call_status: 'none',
+                        call_status: 'None',
                         feedback: null,
                         another_feedback: null,
                         notes: null,
@@ -225,7 +225,7 @@ const ContactCenter = (props) => {
     // eslint-disable-next-line
     }, [state.another_reason])
 
-    const disabled = state.status !== 'new';
+    const disabled = state.status !== 'New';
 
     return (
         <Paper style={{ height: '100%', padding: theme.spacing(1), boxSizing: 'border-box' }}>

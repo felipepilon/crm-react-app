@@ -1,12 +1,14 @@
 import React from 'react';
-import { TableCell, TableSortLabel } from '@material-ui/core';
+import { TableCell, TableSortLabel, Typography } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 
 const EnhancedTableHeadCell = (props) => {
     return (
         <TableCell>
             <TableSortLabel>
-                <FormattedMessage id={props.title}/>
+                <Typography variant='inherit' noWrap>
+                    <FormattedMessage id={props.title}/>
+                </Typography>
             </TableSortLabel>
         </TableCell>
     );

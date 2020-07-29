@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useEffect } from 'react';
-import { Box, FormControlLabel, Switch, Table, Typography } from '@material-ui/core';
+import { Box, FormControlLabel, Switch, Table, Typography, CircularProgress } from '@material-ui/core';
 import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableBody from './EnhancedTableBody';
 import { useIntl, FormattedMessage } from 'react-intl';
@@ -17,7 +17,6 @@ const EnhancedTable = (props) => {
     const [tableData, setTableData] = useState([]);
     const [tableColumns, setTableColumns] = useState([]);
     // eslint-disable-next-line no-unused-vars
-    const [loading, setLoading] = useState(true);
 
     const intl = useIntl();
     
@@ -36,18 +35,22 @@ const EnhancedTable = (props) => {
             }
         });
 
+        setTableColumns(tc);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [columns]);
+
+    useEffect(() =>
+    {
         const td = data.map((row, _i) => {
             return {
                 ...{ _i },
                 ...row,
             }
         })
-        
-        setTableColumns(tc)
+
         setTableData(td);
-        setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [data, columns]);
+    }, [data]);
 
     const denseSwitchEnabled = !props.dense || !props.dense.includes('Disabled') ? true : false;
 
@@ -78,12 +81,23 @@ const EnhancedTable = (props) => {
                         <EnhancedTableHead
                             columns={tableColumns}
                         />
-                        <EnhancedTableBody
-                            columns={tableColumns}
-                            data={tableData}
-                            handleCellClick={props.handleCellClick}
-                        />
+                        {
+                            dataStatus === 'loaded' ?
+                            <EnhancedTableBody
+                                columns={tableColumns}
+                                data={tableData}
+                                handleCellClick={props.handleCellClick}
+                            /> : 
+                            null
+                        }
                     </Table>
+                    {
+                        dataStatus !== 'loaded' ?
+                        <Box padding={2}>
+                            <CircularProgress size={20}/>
+                        </Box> : 
+                        null
+                    }
                 </Box>
                 {
                     denseSwitchEnabled ?

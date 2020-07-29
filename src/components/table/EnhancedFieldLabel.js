@@ -1,6 +1,7 @@
 import React from 'react';
 import LabelMasks from '../../utils/LabelMasks'
 import { useIntl } from 'react-intl';
+import { Typography } from '@material-ui/core';
 
 const EnhancedFieldLabel = (props) => {
     let { value } = props;
@@ -11,7 +12,7 @@ const EnhancedFieldLabel = (props) => {
         if (props.mask === 'date') {
             value = intl.formatDate(value);
         }
-        if (props.mask === 'time') {
+        else if (props.mask === 'time') {
             console.log('value', value)
             value = intl.formatTime(value);
         }
@@ -54,7 +55,9 @@ const EnhancedFieldLabel = (props) => {
     }
 
     return (
-        <label>{value}</label>
+        <Typography variant='inherit' noWrap >
+            { value }
+        </Typography>
     );
 }
  
