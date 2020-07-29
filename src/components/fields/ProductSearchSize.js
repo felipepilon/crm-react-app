@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Box, makeStyles } from '@material-ui/core';
+import { Typography, Button, Box, useTheme } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import { sizeGrid as getSizeGridApi } from '../../services/Product';
-
-const useStyles = makeStyles((theme) => ({
-    sizeButton: {
-        marginRight: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
-}));
 
 const ProductSearchSize = (props) => {
     const [ sizes, setSizes ] = useState([]);
 
-    const classes = useStyles();
+    const theme = useTheme();
     
     useEffect(() => {
         getSizeGridApi(props.size_grid_id)
@@ -40,9 +33,9 @@ const ProductSearchSize = (props) => {
             display='flex'
             flexDirection='column'
             width='100%'
-            padding={1}
+            marginTop={1}
         >
-            <Typography variant='body2'>
+            <Typography variant='subtitle1'>
                 <FormattedMessage id='Size'/>
             </Typography>
             <Box
@@ -51,12 +44,12 @@ const ProductSearchSize = (props) => {
                 flexWrap='wrap'
             >
                 {
-                    sizes && sizes.length ?
+                    sizes.length ?
                     sizes.map((size, i) => {
                         return (
                             <Button 
                                 key={i}
-                                className={classes.sizeButton}
+                                style={{marginRight: theme.spacing(1), marginTop: theme.spacing(1)}}
                                 onClick={(e) => handleSizeSelect(e, size)}
                                 variant='contained'
                                 disableElevation

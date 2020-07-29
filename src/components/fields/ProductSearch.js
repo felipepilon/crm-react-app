@@ -1,16 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Box, makeStyles, Button, Typography } from '@material-ui/core';
+import { Box, Button, Typography, useTheme } from '@material-ui/core';
 import ProductSearchCode from './ProductSearchCode';
 import ProductSearchSize from './ProductSearchSize';
 import { FormattedMessage } from 'react-intl';
 import ProductSearchColor from './ProductSearchColor';
 import QuantityInput from './QuantityInput';
-
-const useStyles = makeStyles((theme) => ({
-    button: {
-        marginLeft: theme.spacing(2)
-    },
-}));
 
 const ProductSearch = (props) => {
     const [ product, setProduct ] = useState({});
@@ -20,7 +14,7 @@ const ProductSearch = (props) => {
     const [ quantity, setQuantity ] = useState(1);
     const [ errorMsg, setErrorMsg ] = useState('');
 
-    const classes = useStyles();
+    const theme = useTheme();
 
     const handleAddClick = (e) => {
         e.preventDefault();
@@ -57,28 +51,28 @@ const ProductSearch = (props) => {
         (quantity > 0)
 
     return (
-        <Grid container spacing={2}>
+        <Box
+            display='flex'
+            flexDirection='column'
+        >
             {
                 errorMsg ?
-                <Typography variant='body2' color='error'>
+                <Typography variant='body1' color='error' style={{padding: theme.spacing(1)}}>
                     <FormattedMessage id={errorMsg}/>
                 </Typography> :
                 null
             }
-            <Grid item xs={12}>
-                <ProductSearchCode 
-                    handleProductSelect={setProduct}
-                    productCode={productCode}
-                    setProductCode={setProductCode}
-                />
-            </Grid>
+            <ProductSearchCode 
+                handleProductSelect={setProduct}
+                productCode={productCode}
+                setProductCode={setProductCode}
+            />
             {
                 product.product_desc ?
-                <Grid item xs={12}>
-                    <Typography variant='body2'>
-                        {product.product_desc}
-                    </Typography>
-                </Grid> : null
+                <Typography variant='subtitle1' style={{marginTop: theme.spacing(1)}}>
+                    {product.product_desc}
+                </Typography> :
+                null
             }
             {
                 product.has_colors ?
@@ -86,7 +80,8 @@ const ProductSearch = (props) => {
                     product={product}
                     color={color}
                     handleColorSelect={setColor}
-                /> : null
+                /> : 
+                null
             }
             {
                 product.size_grid_id ?
@@ -94,36 +89,36 @@ const ProductSearch = (props) => {
                     size_grid_id={product.size_grid_id}
                     size={size}
                     handleSizeSelect={setSize}
-                /> : null
+                /> : 
+                null
             }
             {
                 product.product_id ?
-                <Grid item xs={12}>
-                    <QuantityInput
-                        value={quantity}
-                        handleChange={setQuantity}
-                    />
-                </Grid> : null
+                <QuantityInput
+                    value={quantity}
+                    handleChange={setQuantity}
+                /> :
+                null
             }
-            <Grid item xs={12}>
-                <Box display='flex' justifyContent='flex-end'>
-                    <Button className={classes.button} 
-                        variant='contained' 
-                        onClick={handleClearClick}
-                    >
-                        <FormattedMessage id='Clear'/>
-                    </Button>
-                    <Button className={classes.button} 
-                        variant='contained' 
-                        color='primary' 
-                        disabled={!addEnabled}
-                        onClick={handleAddClick}
-                    >
-                        <FormattedMessage id='Add'/>
-                    </Button>
-                </Box>
-            </Grid>
-        </Grid>
+
+            <Box display='flex' justifyContent='flex-end' marginTop={1}>
+                <Button 
+                    variant='contained' 
+                    onClick={handleClearClick}
+                >
+                    <FormattedMessage id='Clear'/>
+                </Button>
+                <Button
+                    variant='contained' 
+                    color='primary' 
+                    disabled={!addEnabled}
+                    onClick={handleAddClick}
+                    style={{marginLeft: theme.spacing(1)}}
+                >
+                    <FormattedMessage id='Add'/>
+                </Button>
+            </Box>
+        </Box>
     )
 }
  

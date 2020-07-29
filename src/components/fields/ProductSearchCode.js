@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { TextField, CircularProgress, Typography } from '@material-ui/core';
+import { TextField, CircularProgress, Typography, useTheme } from '@material-ui/core';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { products as getProductsApi } from '../../services/Product';
 
@@ -9,6 +9,8 @@ const ProductSearchCode = (props) => {
     const [ open, setOpen ] = useState(false);
     const [ options, setOptions ] = useState([]);
     
+    const theme = useTheme();
+
     const loading = open && !options.length && props.productCode.length >= minLength;
 
     const handleChange = (e, selOpt) => {
@@ -38,7 +40,7 @@ const ProductSearchCode = (props) => {
 
     return (
         <Autocomplete
-            style={{ width: '100%' }}
+            style={{ width: '100%', marginTop: theme.spacing(1) }}
             options={options}
             open={open}
             onOpen={() => {setOpen(true)}}
@@ -63,7 +65,6 @@ const ProductSearchCode = (props) => {
             renderInput={(params) => 
                 <TextField 
                     { ...params } 
-                    size='small'
                     label='Product Code'
                     variant='outlined'
                     InputProps={{

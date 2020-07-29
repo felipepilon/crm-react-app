@@ -1,15 +1,16 @@
 import React from 'react';
 import ReserveProductSearch from './ReserveProductSearch';
 import ReserveProductShow from './ReserveProductShow';
-import { Grid } from '@material-ui/core';
+import { Paper, useTheme } from '@material-ui/core';
 
 const ReserverProduct = (props) => {
-    const isActive = props.step === props.activeStep;
+    const theme = useTheme();
 
-    const xs = isActive ? 6 : 3;
+    const isActive = props.step === props.activeStep;
+    const width = isActive ? '50%' : '25%';
 
     return (
-        <Grid item xs={xs}>
+        <Paper style={{ margin: theme.spacing(1), padding: theme.spacing(1), width }}>
             {
                 isActive ? 
                 <ReserveProductSearch
@@ -22,7 +23,7 @@ const ReserverProduct = (props) => {
                     products={props.products}
                 />
             }
-        </Grid>
+        </Paper>
     );
 };
  

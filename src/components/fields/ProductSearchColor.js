@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Typography, Button, Box, makeStyles } from '@material-ui/core';
+import { Typography, Button, Box, useTheme } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import { colors as getColorsApi } from '../../services/Product';
-
-const useStyles = makeStyles((theme) => ({
-    sizeButton: {
-        marginRight: theme.spacing(1),
-        marginBottom: theme.spacing(1),
-    },
-}));
 
 const ProductSearchColor = (props) => {
     const [ colors, setColors ] = useState([]);
 
-    const classes = useStyles();
+    const theme = useTheme();
     
     useEffect(() => {
         getColorsApi(props.product.product_id)
@@ -32,9 +25,9 @@ const ProductSearchColor = (props) => {
             display='flex'
             flexDirection='column'
             width='100%'
-            padding={1}
+            marginTop={1}
         >
-            <Typography variant='body2'>
+            <Typography variant='subtitle1'>
                 <FormattedMessage id='Color'/>
             </Typography>
             <Box
@@ -48,7 +41,7 @@ const ProductSearchColor = (props) => {
                         return (
                             <Button 
                                 key={i}
-                                className={classes.sizeButton}
+                                style={{marginRight: theme.spacing(1), marginTop: theme.spacing(1)}}
                                 onClick={(e) => handleColorSelect(e, col.product_color_id)}
                                 variant='contained'
                                 disableElevation

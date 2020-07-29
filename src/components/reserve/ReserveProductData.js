@@ -1,17 +1,8 @@
 import React, { Fragment } from 'react';
-import { Typography, makeStyles, Paper } from '@material-ui/core';
-
-const useStyles = makeStyles((theme) => ({
-    papperItem: {
-        display: 'flex',
-        padding: theme.spacing(1),
-        marginBottom: theme.spacing(2),
-    },
-}));
+import { Typography, Paper, useTheme } from '@material-ui/core';
 
 const ReserveProductData = (props) => {
-
-    const classes = useStyles();
+    const theme = useTheme();
 
     if (!props.products || !props.products.length)
         return null;
@@ -23,9 +14,14 @@ const ReserveProductData = (props) => {
                     return (
                         <Paper
                             key={i}
-                            className={classes.papperItem}
+                            style={{
+                                marginTop: theme.spacing(1),
+                                display: 'flex', 
+                                alignItems: 'center',
+                                padding: theme.spacing(1),
+                            }}
                         >
-                            <Typography variant='body2'>
+                            <Typography variant='body1'>
                                 {`${prod.product.product_code} - ${prod.product.product_desc}`}
                                 {prod.product.has_colors ? ` - ${prod.color.product_color_desc}` : ''}
                                 {prod.product.size_grid_id ? ` - ${prod.size}` : ''}

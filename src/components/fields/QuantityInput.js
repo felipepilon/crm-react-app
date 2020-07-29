@@ -1,9 +1,10 @@
 import React from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, useTheme } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 
 const QuantityInput = (props) => {
     const intl = useIntl();
+    const theme = useTheme();
 
     const handleChange = (e) => {
         const inputValue = e.target.value;
@@ -15,7 +16,7 @@ const QuantityInput = (props) => {
         
     return (
         <TextField
-            size='small'
+            style={{marginTop: theme.spacing(2)}}
             value={props.value}
             onChange={handleChange}
             variant='outlined'

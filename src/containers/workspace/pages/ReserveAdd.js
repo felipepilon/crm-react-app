@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
-import { Box, Grid, Stepper, Step, StepButton } from '@material-ui/core';
+import { Box, Stepper, Step, StepButton, Container } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import ReserveCustomer from '../../../components/reserve/ReserveCustomer';
 import ReserveProduct from '../../../components/reserve/ReserveProduct';
@@ -114,7 +114,58 @@ const ReserveAdd = (props) => {
     const disableSubmit = !completed[0] || !completed[1] || !completed[2] ? true : false
     
     return (
-        <Box
+        <Container>
+            <Stepper nonLinear activeStep={activeStep}>
+                <Step>
+                    <StepButton onClick={handleStep(0)} completed={completed[0]}>
+                        <FormattedMessage id='Customer'/>
+                    </StepButton>
+                </Step>
+                <Step>
+                    <StepButton onClick={handleStep(1)} completed={completed[1]}>
+                        <FormattedMessage id='Products'/>
+                    </StepButton>
+                </Step>
+                <Step disabled={disableCheckout}>
+                    <StepButton onClick={handleStep(1)} completed={completed[2]}>
+                        <FormattedMessage id='Checkout'/>
+                    </StepButton>
+                </Step>
+            </Stepper>
+            <Box
+                display='flex'
+            >
+                <ReserveCustomer
+                    step={0}
+                    activeStep={activeStep}
+                    customer={customer}
+                    setCustomer={setCustomer}
+                    handleNextStep={handleNextStep}
+                />
+                <ReserveProduct
+                    step={1}
+                    activeStep={activeStep}
+                    products={products}
+                    handleAddProduct={handleAddProduct}
+                    handleRemoveProduct={handleRemoveProduct}
+                    handleNextStep={handleNextStep}
+                />
+                <ReserveCheckout
+                    step={2}
+                    activeStep={activeStep}
+                    store_id={store_id}
+                    salesman_id={salesman_id}
+                    handleStoreIdChange={handleStoreIdChange}
+                    handleSalesmanIdChange={handleSalesmanIdChange}
+                    reminderDate={reminderDate}
+                    setReminderDate={setReminderDate}
+                    disableSubmit={disableSubmit}
+                    handleConfirmReserve={handleConfirmReserve}
+                />
+            </Box>
+        </Container>
+
+        /*<Box
             display='flex'
             justifyContent='center'
         >
@@ -170,7 +221,7 @@ const ReserveAdd = (props) => {
                     />
                 </Grid>
             </Box>
-        </Box>
+        </Box>*/
     );
 }
  

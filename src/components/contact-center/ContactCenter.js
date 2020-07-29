@@ -238,10 +238,9 @@ const ContactCenter = (props) => {
                     display='flex'
                     flexDirection='column'
                     width='50%'
-                    position='relative'
                     margin={1}
                 >
-                    <Typography variant='subtitle1'><FormattedMessage id='Contact Customer'/></Typography>
+                    <Typography variant='h6'><FormattedMessage id='Contact Customer'/></Typography>
                     <StoreSelect
                         store_id={state.store_id}
                         error={errors.store_id}

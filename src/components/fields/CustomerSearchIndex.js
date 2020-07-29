@@ -43,7 +43,7 @@ const CustomerSearchIndex = (props) => {
 
     return (
         <Autocomplete
-            style={{ width: '100%' }}
+            style={{ width: '100%', marginTop: props.marginTop }}
             options={options}
             open={open}
             onOpen={() => {setOpen(true)}}
@@ -71,7 +71,6 @@ const CustomerSearchIndex = (props) => {
                     label={intl.formatMessage({ id: 'Customer' })}
                     variant='outlined'
                     fullWidth
-                    size='small'
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

@@ -1,35 +1,29 @@
-import React from 'react';
-import { Typography, makeStyles, Paper, Box } from '@material-ui/core';
+import React, { Fragment } from 'react';
+import { Typography, Box, useTheme } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import ReserveProductData from './ReserveProductData';
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        padding: theme.spacing(2)
-    },
-}));
-
 const ReserveProductShow = (props) => {
-    const classes = useStyles();
+    const theme = useTheme();
 
     return (
-        <Paper className={classes.root}>
+        <Fragment>
             <Box
                 display='flex'
                 justifyContent='center'
             >
-                <Typography variant='subtitle1'>
+                <Typography variant='h6'>
                     <FormattedMessage id='Products' />
                 </Typography>
             </Box>
             {
                 props.products.length ?
                 <ReserveProductData products={props.products}/> :
-                <Typography variant='body2'>
+                <Typography variant='body1' style={{marginTop: theme.spacing(1)}}>
                     <FormattedMessage id='Inform products to reserve'/>
                 </Typography>
             }
-        </Paper>
+        </Fragment>
     );
 };
  
