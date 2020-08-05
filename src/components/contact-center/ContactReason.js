@@ -5,17 +5,21 @@ import { TextField, Box } from '@material-ui/core';
 
 const ContactReason = (props) => {
     const [ options ] = useState([
-        { reason: 'Birthday' },
-        { reason: 'Reserve' },
-        { reason: 'Another' },
+        'Birthday',
+        'Reserve',
+        'Another',
     ]);
     const [ open, setOpen ] = useState(false);
     const [ openAnotherReason, setOpenAnotherReason ] = useState(false);
 
+    const handleChange = (e, sel) => {
+        props.handleReasonsChange(sel && sel.length ? sel.join(', ') : null);
+    }
+
     const intl = useIntl();
 
     useEffect(() => {
-        if (props.reasons.length && props.reasons.find((r) => r.reason === 'Another')) {
+        if (props.reasons && props.reasons.includes('Another')) {
             setOpenAnotherReason(true);
         } else {
             setOpenAnotherReason(false);
@@ -23,6 +27,10 @@ const ContactReason = (props) => {
         }
     // eslint-disable-next-line
     }, [props.reasons]);
+
+    const value = props.reasons ?
+        props.reasons.split(', ') :
+        [];
 
     return (
         <Box
@@ -36,13 +44,13 @@ const ContactReason = (props) => {
                 filterSelectedOptions
                 options={options}
                 open={open}
-                value={props.reasons}
+                value={value}
                 onOpen={() => {setOpen(true)}}
                 onClose={() => {setOpen(false)}}
-                getOptionLabel={(opt) => intl.formatMessage({ id: opt.reason })}
-                renderOption={(opt) => intl.formatMessage({ id: opt.reason })}
+                getOptionLabel={(opt) => intl.formatMessage({ id: opt })}
+                renderOption={(opt) => intl.formatMessage({ id: opt })}
                 noOptionsText={false}
-                onChange={(e, sel) => props.handleReasonsChange(sel)}
+                onChange={handleChange}
                 disabled={props.disabled}
 
                 renderInput={(params) => 
@@ -52,7 +60,7 @@ const ContactReason = (props) => {
                         error={props.reasonError ? true : false}
                         helperText={
                             props.reasonError ? intl.formatMessage({id: props.reasonError }) :
-                            !props.reasons.length ? intl.formatMessage({id: 'Select reason(s) for contact'}) :
+                            !value.length ? intl.formatMessage({id: 'Select reason(s) for contact'}) :
                             null
                         }
                     />

@@ -14,7 +14,6 @@ const ReservesTable = (props) => {
     const [ data, setData ] = useState([]);
     const [ dataStatus, setSataStatus ] = useState('waiting');
     const [ columns ] = useState([
-        { name: '_edit', title: 'Edit', icon: 'edit', },
         { name: 'reserve_date', title: 'Reserve Date', mask: 'datetime' },
         { name: 'store_name', title: 'Store', },
         { name: 'salesman_name', title: 'Salesman', },

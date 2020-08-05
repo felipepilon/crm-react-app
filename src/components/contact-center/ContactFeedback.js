@@ -3,15 +3,26 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useIntl } from 'react-intl';
 import { TextField, Box } from '@material-ui/core';
 
-const PhoneCallFeedback = (props) => {
-    const [ options ] = useState([
-        'Picked Up',
-        'Line Busy',
-        'Call Another Time',
-        'Voicemail',
-        'Invalid Number',
-        'Another',
-    ]);
+const optionsPhone = [
+    'Picked up',
+    'Line busy',
+    'Call another time',
+    'Voicemail',
+    'Invalid number',
+    'Wrong person',
+    'Another',
+]
+
+const optionsWhatsApp = [
+    'Invalid number',
+    'Wrong person',
+    'Waiting response',
+    'Another',
+    'Replied',
+]
+
+const ContactFeedback = (props) => {
+    const [ options ] = useState(props.contactVia === 'WhatsApp' ? optionsWhatsApp : optionsPhone);
     const [ open, setOpen ] = useState(false);
     const [ openAnotherFeedback, setOpenAnotherFeedback ] = useState(false);
 
@@ -22,7 +33,7 @@ const PhoneCallFeedback = (props) => {
     }
 
     useEffect(() => {
-        if (props.feedback === 'Another') {
+        if (['Replied', 'Another'].includes(props.feedback)) {
             setOpenAnotherFeedback(true);
         } else {
             setOpenAnotherFeedback(false);
@@ -55,7 +66,7 @@ const PhoneCallFeedback = (props) => {
                         error={props.feedbackError ? true : false}
                         helperText={
                             props.feedbackError ? intl.formatMessage({ id: props.feedbackError }) : 
-                            !props.feedback ? 'Select a feedback' :
+                            !props.feedback ? intl.formatMessage({id: 'Select a feedback'}) :
                             null
                         }
                     />
@@ -64,9 +75,11 @@ const PhoneCallFeedback = (props) => {
             {
                 openAnotherFeedback ?
                 <TextField
+                    multiline
+                    rowsMax={4}
                     value={props.another_feedback || ''}
                     onChange={(e) => props.handleAnotherFeedbackChange(e.target ? e.target.value : null)}
-                    label={intl.formatMessage({ id: 'Another Feedback' })}
+                    label={intl.formatMessage({ id: props.feedback === 'Replied' ? 'Response' : 'Another Feedback' })}
                     error={props.anotherFeedbackError ? true : false}
                     helperText={props.anotherFeedbackError ? intl.formatMessage({ id: props.anotherFeedbackError }) : null}
                 /> : 
@@ -76,4 +89,4 @@ const PhoneCallFeedback = (props) => {
     );
 }
  
-export default PhoneCallFeedback;
+export default ContactFeedback;

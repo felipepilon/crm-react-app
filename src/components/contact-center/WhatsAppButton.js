@@ -9,7 +9,7 @@ const WhatsAppButton = (props) => {
         props.handleClick();
     }
 
-    const disabled = props.contact_via === 'WhatsApp' || props.disabled;
+    const disabled = props.contactVia === 'WhatsApp' || props.disabled;
 
     return (
         <Button variant='contained'

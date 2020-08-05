@@ -55,7 +55,7 @@ const EnhancedFieldLabel = (props) => {
     }
 
     return (
-        <Typography variant='inherit' noWrap >
+        <Typography variant='inherit' noWrap={props.wrap ? false : true} >
             { value }
         </Typography>
     );

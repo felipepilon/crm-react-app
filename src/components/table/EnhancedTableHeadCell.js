@@ -7,7 +7,11 @@ const EnhancedTableHeadCell = (props) => {
         <TableCell>
             <TableSortLabel>
                 <Typography variant='inherit' noWrap>
-                    <FormattedMessage id={props.title}/>
+                    {
+                        props.title ?
+                        <FormattedMessage id={props.title}/> :
+                        ''
+                    }
                 </Typography>
             </TableSortLabel>
         </TableCell>

@@ -13,8 +13,11 @@ const EnhancedTableBody = (props) => {
                             key={index}
                             columns={props.columns}
                             row={row}
+                            dense={props.dense}
                             columnSizes={props.columnSizes}
                             handleCellClick={props.handleCellClick}
+                            colapsableColumns={props.colapsableColumns}
+                            loadColapsableData={props.loadColapsableData}
                         />
                     );
                 }) : null

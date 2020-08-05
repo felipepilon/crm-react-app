@@ -1,27 +1,200 @@
-import React, { Fragment } from 'react';
-import { Typography, useTheme, Button, Paper, TextField, CircularProgress } from '@material-ui/core';
+import React, { Fragment, useState, useEffect } from 'react';
+import { Typography, useTheme, Button, Paper, TextField, CircularProgress, Box } from '@material-ui/core';
 import LabelMasks from '../../utils/LabelMasks';
 import { FormattedMessage, useIntl } from 'react-intl';
 import CallIcon from '@material-ui/icons/Call';
 import CallEndIcon from '@material-ui/icons/CallEnd';
 import DoneIcon from '@material-ui/icons/Done';
 import OnGoingCallTimer from './OnGoingCallTimer';
-import PhoneCallFeedback from './PhoneCallFeedback';
+import ContactFeedback from './ContactFeedback';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import { 
+    add as addContactApi,
+    addInteractions as addInteractionsApi,
+} from '../../services/Contact';
 
 const PhoneCallPanel = (props) => {
+    const [ panelState, setPanelState ] = useState({
+        status: 'New',
+    });
+    const [ errors, setErrors ] = useState({});
+    const [ loading, setLoading ] = useState(true);
+
     const theme = useTheme();
     const intl = useIntl();
 
-    const reminder_date = props.state.reminders.length ?
-        props.state.reminders[0].reminder_date : null;
+    const handleFeedbackChange = (feedback) => setPanelState({ ...panelState, ...{feedback}, });
 
-    const reminderDateError = 
-        props.errors.remiders && 
-        props.errors.reminders.length &&
-        props.errors.remiders['0'] &&
-        props.errors.remiders['0'].reminder_date ?
-        props.errors.remiders['0'].reminder_date : null;
+    const handleAnotherFeedbackChange = (another_feedback) => setPanelState({ ...panelState, ...{another_feedback}, });
+
+    const handleReminderDateChange = (reminder_date) => setPanelState({ ...panelState, ...{reminder_date}, });
+
+    const handleNotesChange = (notes) => setPanelState({ ...panelState, ...{notes}, });
+
+    useEffect(() => {
+        setLoading(false);
+    // eslint-disable-next-line
+    }, [])
+
+    const handleStartCall = () => {
+        setLoading(true);
+        
+        const newInter = {
+            contact_via: props.contactVia,
+            interaction_type: 'Call Started',
+            interaction_text: 'Call started at: {t1}',
+            interaction_date: new Date(),
+            t1: `${intl.formatDate(new Date())} ${intl.formatTime(new Date())}`
+        };
+
+        let newContact = { 
+            ...props.contact,
+            ...{ 
+                status: 'Started',
+                contact_start_date: new Date(),
+            }
+        };
+
+        props.setContact(newContact);
+
+        setTimeout(() => {
+            addContactApi({
+                ...newContact,
+                ...{
+                    interactions: [newInter],
+                }
+            })
+            .then((result) => {
+                newContact = { 
+                    ...newContact,
+                    ...{ 
+                        contact_id: result.contact_id,
+                        interactions: result.interactions,
+                    }
+                };
+
+                props.setContact(newContact);
+                setPanelState({
+                    ...panelState,
+                    ...{
+                        status: 'On Going',
+                        start_date: newInter.interaction_date,
+                    }
+                });
+                setLoading(false);
+            })
+        }, 1000);
+    }
+
+    const handleEndCall = () => {
+        setLoading(true);
+
+        const newInter = {
+            contact_id: props.contact.contact_id,
+            contact_via: props.contactVia,
+            interaction_type: 'Call Ended',
+            interaction_text: 'Call ended at: {t1}',
+            interaction_date: new Date(),
+            t1: `${intl.formatDate(new Date())} ${intl.formatTime(new Date())}`
+        }
+
+        let newPanelState = {
+            ...panelState,
+            ...{
+                end_date: newInter.interaction_date,
+            }
+        };
+
+        setPanelState(newPanelState);
+
+        setTimeout(() => {
+            addInteractionsApi([newInter])
+            .then((result) => {
+                props.setContact({
+                    ...props.contact,
+                    ...{
+                        interactions: [
+                            ...props.contact.interactions,
+                            ...result,
+                        ]
+                    }
+                });
+
+                newPanelState = {
+                    ...newPanelState,
+                    ...{
+                        status: 'Waiting Feedback',
+                    }
+                };
+
+                setPanelState(newPanelState);
+                setLoading(false);
+            });
+        }, 1000)
+    }
+
+    const handleEndContact = () => {
+        const newErrors = {};
+     
+        if (!panelState.feedback)
+            newErrors.feedback = 'Inform a feedback';
+
+        if (panelState.feedback === 'Another' && !panelState.another_feedback)
+            newErrors.another_feedback = 'Provide details';
+
+        setErrors(newErrors);
+
+        if (Object.keys(newErrors).length) {
+            setLoading(false);
+            return;
+        }
+
+        const newInters = [];
+
+        setLoading(true);
+
+        if (panelState.feedback) {
+            newInters.push({
+                contact_id: props.contact.contact_id,
+                contact_via: props.contactVia,
+                interaction_type: 'Feedback',
+                interaction_text: 'Feedback: {t1}',
+                interaction_date: new Date(),
+                t1: panelState.feedback === 'Another' ? 
+                    panelState.another_feedback :
+                    intl.formatMessage({id: panelState.feedback}),
+            });
+        }
+
+        if (panelState.reminder_date) {
+            newInters.push({
+                contact_id: props.contact.contact_id,
+                contact_via: props.contactVia,
+                interaction_type: 'Reminders',
+                interaction_text: 'Remind customer at: {t1}',
+                interaction_date: new Date(),
+                t1: intl.formatDate(panelState.reminder_date),
+            });
+        }
+
+        if (panelState.notes) {
+            newInters.push({
+                contact_id: props.contact.contact_id,
+                contact_via: props.contactVia,
+                interaction_type: 'Notes',
+                interaction_text: 'Contact notes: {t1}',
+                interaction_date: new Date(),
+                t1: panelState.notes,
+            });
+        }
+
+        setTimeout(() => {
+            if (newInters.length)
+                addInteractionsApi(newInters).then(() => props.handleEndContact());
+            else 
+                props.handleEndContact();
+        }, 1000);
+    }
 
     return (
         <Paper style={{ 
@@ -32,38 +205,39 @@ const PhoneCallPanel = (props) => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
+            position: 'relative',
         }}>
             <Typography variant='h5' style={{ margin: theme.spacing(2) }}>
                 {LabelMasks.phone(props.customer.phone1)}
             </Typography>
             {
-                props.call_status === 'None' ?
+                panelState.status === 'New' ?
                 <Button
                     style={{margin: theme.spacing(1)}}
                     endIcon={<CallIcon/>}
                     variant='contained'
                     color='primary'
-                    onClick={props.handleStartContact}
+                    onClick={handleStartCall}
                 >
                     <FormattedMessage id='Start Call'/>
                 </Button> :
                 null
             }
             {
-                !['Starting', 'None', 'Ending Contact'].includes(props.call_status) ?
+                ['On Going', 'Waiting Feedback'].includes(panelState.status) ?
                 <OnGoingCallTimer
-                    call_start_date={props.state.call_start_date}
-                    call_end_date={props.state.call_end_date}
+                    start_date={panelState.start_date}
+                    end_date={panelState.end_date}
                 /> :
                 null
             }
             {
-                props.state.call_status === 'On Going' ?
+                panelState.status === 'On Going' ?
                 <Button
                     variant='contained'
                     color='primary'
                     style={{margin: theme.spacing(1)}}
-                    onClick={props.handleEndCall}
+                    onClick={handleEndCall}
                     endIcon={<CallEndIcon/>}
                 >
                     <FormattedMessage id='End Call'/>
@@ -71,26 +245,27 @@ const PhoneCallPanel = (props) => {
                 null
             }
             {
-                ['On Going', 'Waiting Feedback', 'Ending Call'].includes(props.call_status) ?
+                ['On Going', 'Waiting Feedback'].includes(panelState.status) ?
                 <Fragment>
-                    <PhoneCallFeedback
-                        feedback={props.state.feedback}
-                        another_feedback={props.state.another_feedback}
-                        handleFeedbackChange={props.handleFeedbackChange}
-                        handleAnotherFeedbackChange={props.handleAnotherFeedbackChange}
-                        feedbackError={props.errors.feedback}
-                        anotherFeedbackError={props.errors.another_feedback}
+                    <ContactFeedback
+                        feedback={panelState.feedback}
+                        another_feedback={panelState.another_feedback}
+                        handleFeedbackChange={handleFeedbackChange}
+                        handleAnotherFeedbackChange={handleAnotherFeedbackChange}
+                        feedbackError={errors.feedback}
+                        anotherFeedbackError={errors.another_feedback}
+                        contactVia={props.contactVia}
                     />
                     <KeyboardDatePicker
                         style={{marginTop: theme.spacing(1)}}
                         label={intl.formatMessage({ id: 'Call Again At' })}
-                        value={reminder_date}
-                        onChange={(value) => props.handleReminderDateChange(value)}
+                        value={panelState.reminder_date || null}
+                        onChange={(value) => handleReminderDateChange(value)}
                         format="dd/MM/yyyy"
                         clearable
                         fullWidth
-                        error={reminderDateError ? true : false}
-                        helperText={reminderDateError ? intl.formatMessage({id: reminderDateError}) : null}
+                        error={errors.reminder_date ? true : false}
+                        helperText={errors.reminder_date ? intl.formatMessage({id: errors.reminder_date}) : null}
                         invalidDateMessage={intl.formatMessage({id: 'Invalid date'})}
                     />
                     <TextField
@@ -98,32 +273,45 @@ const PhoneCallPanel = (props) => {
                         fullWidth
                         multiline
                         rowsMax={4}
-                        value={props.state.notes || ''}
-                        onChange={(e) => props.handleNotesChange(e.target ? e.target.value : null)}
-                        error={props.errors.notes ? true : false}
-                        helperText={props.errors.notes ? intl.formatMessage({id: props.errors.notes}) : null}
+                        value={panelState.notes || ''}
+                        onChange={(e) => handleNotesChange(e.target ? e.target.value : null)}
+                        error={errors.notes ? true : false}
+                        helperText={errors.notes ? intl.formatMessage({id: errors.notes}) : null}
                         label={intl.formatMessage({id: 'Notes'})}
                     />
                 </Fragment> :
                 null
             }
             {
-                props.call_status === 'Waiting Feedback' ?
+                panelState.status === 'Waiting Feedback' ?
                 <Button
                     style={{marginTop: theme.spacing(3)}}
                     variant='contained'
                     color='primary'
                     fullWidth
                     endIcon={<DoneIcon/>}
-                    onClick={props.handleEndContact}
+                    onClick={handleEndContact}
                 >
                     <FormattedMessage id='End Contact'/>
                 </Button> :
                 null
             }
+            
             {
-                ['Starting', 'Ending Call', 'Ending Contact'].includes(props.call_status) ?
-                <CircularProgress/> : null
+                loading ?
+                <Box
+                    display='flex'
+                    position='absolute'
+                    height='100%'
+                    width='100%'
+                    justifyContent='center'
+                    alignItems='center'
+                    bgcolor={theme.palette.background.paper}
+                    zIndex='1'
+                >
+                    <CircularProgress/>
+                </Box> : 
+                null
             }
         </Paper>
     );

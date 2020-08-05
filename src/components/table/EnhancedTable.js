@@ -7,13 +7,7 @@ import { useIntl, FormattedMessage } from 'react-intl';
 const EnhancedTable = (props) => {
     const { data, columns, dataStatus } = props;
 
-    const [dense, setDense] = useState(!props.denseMode ? false :
-        props.denseMode === 'normal' ? false :
-        props.denseMode === 'dense' ? true :
-        props.denseMode === 'denseNormal' ? false :
-        props.denseMode === 'denseDisabled' ? true :
-        false
-    );
+    const [dense, setDense] = useState(props.dense || 'normal');
     const [tableData, setTableData] = useState([]);
     const [tableColumns, setTableColumns] = useState([]);
     // eslint-disable-next-line no-unused-vars
@@ -21,7 +15,7 @@ const EnhancedTable = (props) => {
     const intl = useIntl();
     
     const handleChangeDense = () => {
-        setDense(!dense)
+        setDense(dense === 'normal' ? 'dense' : 'normal');
     };
 
     useEffect(() =>
@@ -74,19 +68,22 @@ const EnhancedTable = (props) => {
                     flex='1'
                 >
                     <Table
-                        size={dense ? 'small' : 'medium'}
+                        size={dense.includes('dense') ? 'small' : 'medium'}
                         stickyHeader
-                        
                     >
                         <EnhancedTableHead
                             columns={tableColumns}
+                            colapsableColumn={props.colapsableColumns ? true : false}
                         />
                         {
                             dataStatus === 'loaded' ?
                             <EnhancedTableBody
                                 columns={tableColumns}
                                 data={tableData}
+                                dense={dense}
                                 handleCellClick={props.handleCellClick}
+                                colapsableColumns={props.colapsableColumns}
+                                loadColapsableData={props.loadColapsableData}
                             /> : 
                             null
                         }

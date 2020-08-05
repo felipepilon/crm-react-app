@@ -5,44 +5,58 @@ import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EnhancedTable from '../table/EnhancedTable'
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Box } from '@material-ui/core';
-import { list as listContactsApi } from '../../services/Contact';
+import { 
+    list as listContactsApi,
+    listInteractions as listInteractionsApi,
+} from '../../services/Contact';
 
 const ContactsTable = (props) => {
     const [ expanded, setExpanded ] = useState(false);
     const [ data, setData ] = useState([]);
     const [ columns ] = useState([
         { name: 'contact_start_date', title: 'Contact Date', mask: 'datetime' },
-        { name: 'salesman_name', title: 'Salesman', },
+        { name: 'store_name', title: 'Store' },
+        { name: 'salesman_name', title: 'Salesman' },
         { name: 'reasons', title: 'Reason(s)', intlSplit: true },
         { name: 'another_reason', title: 'Another Reason' },
-        { name: 'contact_via', title: 'Via', intl: true },
-        { name: 'feedback', title: 'Feedback', intl: true },
-        { name: 'another_feedback', title: 'Another Feedback' },
-        { name: 'notes', title: 'Notes' },
-        { name: 'call_duration', title: 'Duration', mask: 'timer' },
-        { name: 'reminder_date', title: 'Call Again At', mask: 'date' },
-        { name: 'store_name', title: 'Store' },
+        { name: 'status', title: 'Status', intl: true },
     ]);
     const [ lastUpdate, setLastUpdate ] = useState(null);
+    const [ colapsableColumns ] = useState([
+        { name: 'interaction_text', title: 'Detalhes', wrap: true }
+    ])
+
+    const intl = useIntl();
 
     const handleChange = () => {
         setExpanded(!expanded);
+    }
+
+    const loadColapsableData = (refRow, setColapsableData) => {
+        listInteractionsApi(refRow)
+        .then((result) => {
+            const newColapsedData = result.map((res) => {
+                return {
+                    interaction_text: intl.formatMessage({id: res.interaction_text}, res)
+                };
+            })
+
+            setColapsableData(newColapsedData);
+        });
     }
 
     const loadData = () => {
         setTimeout(() => {
             listContactsApi({
                 contact_id: props.contact_id,
-                status: 'Completed',
                 limit: 10,
                 order_by: [
                     [ 'contact_start_date', 'desc' ],
                 ]
             })
             .then((result) => {
-                console.log(data);
                 setData(result);
                 setLastUpdate(new Date());
             });
@@ -76,6 +90,8 @@ const ContactsTable = (props) => {
                         columns={columns}
                         data={data}
                         dense='denseDisabled'
+                        colapsableColumns={colapsableColumns}
+                        loadColapsableData={loadColapsableData}
                         dataStatus={lastUpdate ? 'loaded' : 'loading'}
                     />
                     

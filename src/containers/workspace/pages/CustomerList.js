@@ -6,7 +6,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 
 const StoreList = () => {
-    let [ data, setData ] = useState([]);
+    const [ data, setData ] = useState([]);
+    const [ lastUpdate, setLastUpdate ] = useState(null);
     
     const hist = useHistory();
     const location = useLocation();
@@ -25,6 +26,7 @@ const StoreList = () => {
             });
 
             setData(td);
+            setLastUpdate(new Date());
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -73,7 +75,9 @@ const StoreList = () => {
             <EnhancedTable
                 columns={columns}
                 data={data}
+                fullHeight
                 handleCellClick={handleCellClick}
+                dataStatus={lastUpdate ? 'loaded' : 'loading'}
             />
         </Box>
     )

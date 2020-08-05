@@ -38,6 +38,7 @@ const EnhancedTablCell = (props) => {
             mask={props.mask}
             intl={props.intl}
             intlSplit={props.intlSplit}
+            wrap={props.wrap}
         />
     }
 

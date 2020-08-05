@@ -1,11 +1,13 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { TextField, CircularProgress, Typography } from '@material-ui/core';
-import Autocomplete from '@material-ui/lab/Autocomplete';
+import { TextField, CircularProgress, Typography, Box } from '@material-ui/core';
+import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import { customersIndex as getCustomersIndexApi } from '../../services/Customer';
 import LabelMask from '../../utils/LabelMasks';
-import { useIntl } from 'react-intl';
+import { useIntl, FormattedMessage } from 'react-intl';
 
 const minLength = 2;
+
+const filter = createFilterOptions();
 
 const CustomerSearchIndex = (props) => {
     const [ inputValue, setInputValue ] = useState('');
@@ -44,12 +46,19 @@ const CustomerSearchIndex = (props) => {
     return (
         <Autocomplete
             style={{ width: '100%', marginTop: props.marginTop }}
+            freeSolo
             options={options}
             open={open}
             onOpen={() => {setOpen(true)}}
             onClose={() => {setOpen(false)}}
             getOptionLabel={(opt) => opt.search_index}
             renderOption={(opt) => {
+                if (opt.search_index === '_add') {
+                    return <Box fontStyle='italic' >
+                        <FormattedMessage id='New Customer'/>
+                    </Box>
+                }
+
                 return (
                     <Fragment>
                         <Typography variant='body1'>
@@ -61,6 +70,18 @@ const CustomerSearchIndex = (props) => {
                     </Fragment>
                 )
             }}
+            filterOptions={(options, params) => {
+                const filtered = filter(options, params);
+
+                // Suggest the creation of a new value
+                if (params.inputValue.length > minLength) {
+                    filtered.push({
+                        search_index: '_add',
+                    });
+                }
+
+                return filtered;
+              }}
             noOptionsText={false}
             onChange={handleChange}
             inputValue={inputValue}

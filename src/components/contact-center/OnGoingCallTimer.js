@@ -7,17 +7,17 @@ const OnGoingCallTimer = (props) => {
     const [ currentDate, setCurrentDate ] = useState(new Date());
     
     useEffect(() => {
-        if (!props.call_end_date)
+        if (!props.end_date)
         {
             setTimeout(() => {
                 setCurrentDate(new Date());
             }, 1000)
         }
     // eslint-disable-next-line
-    }, [props.call_end_date, currentDate]);
+    }, [props.end_date, currentDate]);
 
-    const timerValue = props.call_start_date ?
-        ((props.call_end_date && props.call_end_date.getTime()) || currentDate.getTime()) - props.call_start_date.getTime() :
+    const timerValue = props.start_date ?
+        ((props.end_date && props.end_date.getTime()) || currentDate.getTime()) - props.start_date.getTime() :
         0;
 
     return (
