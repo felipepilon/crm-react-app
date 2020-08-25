@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
 import EnhancedTable from '../../../components/table/EnhancedTable';
-import { stores as storesAPI } from '../../../services/Store';
+import { get_Stores } from '../../../services/Store';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -16,7 +16,7 @@ const StoreList = () => {
     useEffect(() => {
         document.title = intl.formatMessage({ id: 'Stores' });
 
-        storesAPI({})
+        get_Stores({})
         .then((result) => {
             setData(result);
             setLastUpdate(new Date());

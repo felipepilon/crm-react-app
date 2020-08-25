@@ -32,7 +32,7 @@ const theme = createMuiTheme({
           main: "#fcfffc",
       }
   }
-})
+});
 
 ReactDOM.render(
   <React.StrictMode>

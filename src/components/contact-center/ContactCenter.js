@@ -10,7 +10,7 @@ import StoreSelect from '../fields/StoreSelect';
 import SalesmanSelect from '../fields/SalesmanSelect';
 import { AppStateContext } from '../../contexts/AppState';
 import { 
-    update as updateContactApi,
+    post_ContactUpdate,
 } from '../../services/Contact';
 
 const ContactCenter = (props) => {
@@ -64,7 +64,7 @@ const ContactCenter = (props) => {
     const handleAnotherReasonChange = (another_reason) => setContact({ ...contact, ...{another_reason}, });
 
     const handleEndContact = () => {
-        updateContactApi({
+        post_ContactUpdate({
             contact_id: contact.contact_id,
             status: 'Completed',
             contact_end_date: new Date(),

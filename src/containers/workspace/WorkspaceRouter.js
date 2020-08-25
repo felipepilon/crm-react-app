@@ -8,6 +8,7 @@ import CustomerList from './pages/CustomerList';
 import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
 import CustomerView from './pages/CustomerView';
+import CustomerEdit from './pages/CustomerEdit';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -51,6 +52,15 @@ const WorkspaceRouter = () => {
             <Route exact path={`${path}/customers/list`}>
                 <CustomerList/>
             </Route>
+            <Route exact path={`${path}/customers/edit/:customer_id`}
+                render={({match}) => {
+                    return (
+                        <CustomerEdit
+                        customer_id={match.params.customer_id}
+                        />
+                    )
+                }}
+            />
             <Route exact path={`${path}/customers/view/:customer_id`}
                 render={({match}) => {
                     return (

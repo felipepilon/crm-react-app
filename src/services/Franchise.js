@@ -4,9 +4,9 @@ const apiUrl = `${process.env.REACT_APP_API_URL}/franchise`;
 export const franchises = (filters) => {
     const requestOptions = {
         method: 'POST',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
         body: JSON.stringify(filters),
     };
@@ -18,9 +18,9 @@ export const franchises = (filters) => {
 export const franchise = (franchiseId) => {
     const requestOptions = {
         method: 'GET',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
     };
 
@@ -31,9 +31,9 @@ export const franchise = (franchiseId) => {
 export const update = (franchise) => {
     const requestOptions = {
         method: 'POST',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
         body: JSON.stringify(franchise),
     };

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@material-ui/core';
 import EnhancedEditForm from '../../../components/edit/EnhancedEditForm';
 import { 
-    store as storeAPI,
-    update as updateAPI,
+    get_Store,
+    post_Store,
 } from '../../../services/Store';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
@@ -28,7 +28,7 @@ const StoreEdit = (props) => {
     };
 
     const handleConfirm = () => {
-        updateAPI(data)
+        post_Store(data)
         .then((dat) => {
             setSucessSnack('Store updated successfully')
             
@@ -42,7 +42,7 @@ const StoreEdit = (props) => {
     }
 
     const findRecord = () => {
-        storeAPI(props.storeId)
+        get_Store(props.storeId)
         .then((result) => {
             setData(result);
         })

@@ -20,7 +20,7 @@ const EnhancedTablCell = (props) => {
     {
         cellContents = (
             <IconButton
-
+                size={props.dense.includes('dense') ? 'small' : 'medium'}
                 onClick={() => handleCellClick(props.name, props.rowIdx)}
             >
                 {

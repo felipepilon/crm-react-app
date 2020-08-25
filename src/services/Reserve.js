@@ -4,9 +4,9 @@ const apiUrl = `${process.env.REACT_APP_API_URL}/reserve`;
 export const add = (reserveData) => {
     const requestOptions = {
         method: 'POST',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
         body: JSON.stringify(reserveData),
     };
@@ -18,9 +18,9 @@ export const add = (reserveData) => {
 export const detailedByCustomer = (customer) => {
     const requestOptions = {
         method: 'GET',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
     };
 

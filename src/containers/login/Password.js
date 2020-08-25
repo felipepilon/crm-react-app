@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Typography, makeStyles, TextField, Button, FormControlLabel, Checkbox, Box } from '@material-ui/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { AuthContext } from '../../contexts/Auth';
-import { signIn } from '../../services/Auth';
+import { post_SignIn } from '../../services/Auth';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -36,7 +36,7 @@ const Password = (props) => {
 
     const handleProceed = () =>
     {
-        signIn({
+        post_SignIn({
             ...{password, remember_me},
             ...user,
         })

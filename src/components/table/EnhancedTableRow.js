@@ -19,7 +19,7 @@ const EnhancedTableRow = (props) => {
                     props.colapsableColumns ?
                     <TableCell>
                     <IconButton 
-                        size="small" 
+                        size={props.dense.includes('dense') ? 'small' : 'medium'}
                         onClick={() => setOpenColapsedTable(!openColapsedTable)}
                     >
                         {openColapsedTable ? <KeyboardArrowUpIcon/> : <KeyboardArrowDownIcon />}
@@ -39,6 +39,7 @@ const EnhancedTableRow = (props) => {
                                 mask={column.mask}
                                 intl={column.intl}
                                 wrap={column.wrap}
+                                dense={props.dense}
                                 intlSplit={column.intlSplit}
                                 colIndex={i}
                                 rowIdx={props.row._i}

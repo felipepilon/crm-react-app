@@ -8,8 +8,8 @@ import EnhancedTable from '../table/EnhancedTable'
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { 
-    list as listContactsApi,
-    listInteractions as listInteractionsApi,
+    get_Contacts,
+    get_Interactions,
 } from '../../services/Contact';
 
 const ContactsTable = (props) => {
@@ -35,7 +35,7 @@ const ContactsTable = (props) => {
     }
 
     const loadColapsableData = (refRow, setColapsableData) => {
-        listInteractionsApi(refRow)
+        get_Interactions(refRow)
         .then((result) => {
             const newColapsedData = result.map((res) => {
                 return {
@@ -49,7 +49,7 @@ const ContactsTable = (props) => {
 
     const loadData = () => {
         setTimeout(() => {
-            listContactsApi({
+            get_Contacts({
                 contact_id: props.contact_id,
                 limit: 10,
                 order_by: [

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Select, MenuItem, InputLabel, FormControl, useTheme, FormHelperText } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import { salespeople as getSalespeopleApi } from '../../services/Salesman';
+import { get_Salespeople } from '../../services/Salesman';
 
 const SalesmanSelect = (props) => {
     const [ options, setOptions ] = useState([]);
@@ -10,7 +10,7 @@ const SalesmanSelect = (props) => {
     const theme = useTheme();
 
     useEffect(() => {
-        getSalespeopleApi({ store_id: props.store_id })
+        get_Salespeople({ store_id: props.store_id })
         .then((result) => {
             setOptions(result.map((opt) => {
                 return {

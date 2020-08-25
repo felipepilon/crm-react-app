@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, useTheme } from '@material-ui/core';
 import EnhancedTable from '../../../components/table/EnhancedTable';
-import { customers as customerAPI } from '../../../services/Customer';
+import { get_Customers } from '../../../services/Customer';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 
@@ -12,11 +12,12 @@ const StoreList = () => {
     const hist = useHistory();
     const location = useLocation();
     const intl = useIntl();
+    const theme = useTheme();
 
     useEffect(() => {
         document.title = intl.formatMessage({ id: 'Customers' });
 
-        customerAPI({})
+        get_Customers({})
         .then((result) => {
             const td = result.map((row, i) => {
                 return { 
@@ -34,6 +35,7 @@ const StoreList = () => {
     const handleEdit = (_rowId) => {
         const { customer_id } = data[_rowId]
 
+        console.log('list.customer_id', customer_id)
         hist.push(`/workspace/customers/edit/${customer_id}`, { from: location });
     };
 
@@ -46,6 +48,7 @@ const StoreList = () => {
     };
 
     const [ columns ] = useState([
+        { name: '_edit', title: 'Edit', icon: 'edit', },
         { name: 'cpf', title: 'CPF', mask: 'cpf', },
         { name: 'name', title: 'Name', },
         { name: 'email', title: 'Email' },
@@ -64,14 +67,12 @@ const StoreList = () => {
         <Box
             display='flex'
             flexDirection='column'
-            minHeight='0'
             height='100%'
+            boxSizing='border-box'
         >
-            <Box padding={2}>
-                <Typography variant='h6'>
-                    <FormattedMessage id='Customers'/>
-                </Typography>
-            </Box>
+            <Typography variant='h6' style={{padding: theme.spacing(2)}}>
+                <FormattedMessage id='Customers'/>
+            </Typography>
             <EnhancedTable
                 columns={columns}
                 data={data}

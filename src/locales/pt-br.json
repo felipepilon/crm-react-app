@@ -37,7 +37,8 @@
     "Franchise updated successfully": "Franquia atualizada com sucesso",
     "Edit Franchise": "Editar Franquia",
     "Customers": "Clientes",
-    "Edit Customer": "Editar Client",
+    "Edit Customer": "Editar Cliente",
+    "Contact Data": "Dados para Contato",
     "Birth Day": "Nascimento",
     "Workspace": "Área de Trabalho",
     "New Reserve": "Nova Reserva",
@@ -123,5 +124,7 @@
     "Status": "Status",
     "Started": "Iniciado",
     "Completed": "Finalizado",
-    "New Customer": "Novo Cliente"
+    "New Customer": "Novo Cliente",
+    "Dense Padding": "Modo Compacto",
+    "Users": "Usuários"
 }

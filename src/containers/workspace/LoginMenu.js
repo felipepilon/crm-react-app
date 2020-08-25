@@ -3,7 +3,7 @@ import { Button, MenuItem, Popover, Dialog, DialogTitle, DialogContentText, Dial
 import { AuthContext } from '../../contexts/Auth';
 import { FormattedMessage } from 'react-intl';
 import { AppStateContext } from '../../contexts/AppState';
-import { signOut } from '../../services/Auth';
+import { post_SignOut } from '../../services/Auth';
 
 const LoginMenu = () => {
     const { user, deauthenticate } = useContext(AuthContext);
@@ -23,7 +23,7 @@ const LoginMenu = () => {
 
     const handleLogOut = e => {
         e.preventDefault();
-        signOut()
+        post_SignOut()
         .then(() => {
             setStatus('loading');
             deauthenticate();

@@ -59,6 +59,10 @@ const MenuButton = () => {
                         <ListItemIcon><EmojiPeopleIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Customers'})}/>
                     </ListItem>
+                    <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/users/list')}>
+                        <ListItemIcon><EmojiPeopleIcon/></ListItemIcon>
+                        <ListItemText primary={intl.formatMessage({id: 'Users'})}/>
+                    </ListItem>
                 </List>
             </div>
         </Drawer>

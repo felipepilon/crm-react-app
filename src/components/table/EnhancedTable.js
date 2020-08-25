@@ -46,69 +46,68 @@ const EnhancedTable = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data]);
 
-    const denseSwitchEnabled = !props.dense || !props.dense.includes('Disabled') ? true : false;
+    const denseSwitchEnabled = !dense || !dense.includes('Disabled') ? true : false;
 
     const showDataNotFound = dataStatus === 'loaded' && !tableData.length;
 
     return (
-        <Fragment>
+        <Box
+            display='flex'
+            width='100%'
+            height={props.fullHeight ? '100%' : null}
+            flexDirection='column'
+            minHeight='0'
+        >
+            {
+                showDataNotFound ? 
+                <Typography variant='body2'><FormattedMessage id='No records found'/></Typography> :
+                null
+            }
             <Box
-                display='flex'
-                width='100%'
-                height={props.fullHeight ? '100%' : null}
-                flexDirection='column'
+                overflow='auto'
+                flex='1'
             >
-                {
-                    showDataNotFound ? 
-                    <Typography variant='body2'><FormattedMessage id='No records found'/></Typography> :
-                    null
-                }
-                <Box
-                    overflow='auto'
-                    flex='1'
+                <Table
+                    size={dense.includes('dense') ? 'small' : 'medium'}
+                    stickyHeader
                 >
-                    <Table
-                        size={dense.includes('dense') ? 'small' : 'medium'}
-                        stickyHeader
-                    >
-                        <EnhancedTableHead
-                            columns={tableColumns}
-                            colapsableColumn={props.colapsableColumns ? true : false}
-                        />
-                        {
-                            dataStatus === 'loaded' ?
-                            <EnhancedTableBody
-                                columns={tableColumns}
-                                data={tableData}
-                                dense={dense}
-                                handleCellClick={props.handleCellClick}
-                                colapsableColumns={props.colapsableColumns}
-                                loadColapsableData={props.loadColapsableData}
-                            /> : 
-                            null
-                        }
-                    </Table>
+                    <EnhancedTableHead
+                        columns={tableColumns}
+                        colapsableColumn={props.colapsableColumns ? true : false}
+                    />
                     {
-                        dataStatus !== 'loaded' ?
-                        <Box padding={2}>
-                            <CircularProgress size={20}/>
-                        </Box> : 
+                        dataStatus === 'loaded' ?
+                        <EnhancedTableBody
+                            columns={tableColumns}
+                            data={tableData}
+                            dense={dense}
+                            handleCellClick={props.handleCellClick}
+                            colapsableColumns={props.colapsableColumns}
+                            loadColapsableData={props.loadColapsableData}
+                        /> : 
                         null
                     }
-                </Box>
+                </Table>
                 {
-                    denseSwitchEnabled ?
-                    <Box
-                        padding={dense ? 0 : 2}
-                    >
-                        <FormControlLabel
-                            control={<Switch checked={dense} onChange={handleChangeDense} />}
-                            label="Dense padding"
-                        />
-                    </Box> : null
+                    dataStatus !== 'loaded' ?
+                    <Box padding={2}>
+                        <CircularProgress size={20}/>
+                    </Box> : 
+                    null
                 }
             </Box>
-        </Fragment>
+            {
+                denseSwitchEnabled ?
+                <Box
+                    padding={dense.includes('dense') ? 0 : 2}
+                >
+                    <FormControlLabel
+                        control={<Switch checked={dense.includes('dense')} onChange={handleChangeDense} />}
+                        label={intl.formatMessage({id: 'Dense Padding'})}
+                    />
+                </Box> : null
+            }
+        </Box>
     );
 }
  

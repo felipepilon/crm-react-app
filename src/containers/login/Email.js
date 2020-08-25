@@ -3,7 +3,7 @@ import { Typography, makeStyles, TextField, Button } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import isEmail from 'validator/lib/isEmail';
 import { AuthContext } from '../../contexts/Auth';
-import { user as userApi } from '../../services/Auth';
+import { get_User } from '../../services/Auth';
 import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -40,12 +40,13 @@ const Email = props => {
 
     const handleProceed = () =>
     {
-        userApi({email})
+        get_User({email})
         .then(res => {
             setUser({ ...user, ...res });
             hist.push('/login/password');
         })
         .catch(err => {
+            console.log('err.message', err.message)
             setErrorMsg(err.message || 'Unknown error');
         });
     }

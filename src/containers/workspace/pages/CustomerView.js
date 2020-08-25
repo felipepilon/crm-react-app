@@ -1,6 +1,6 @@
 import React, { useEffect, useContext, useState } from 'react';
 import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
-import { customer as getCustomerApi } from '../../../services/Customer'
+import { get_Customer } from '../../../services/Customer'
 import { Box, Typography, Container } from '@material-ui/core';
 import CustomerDataPaper from '../../../components/customer-view/CustomerDataPaper';
 import ReservesTable from '../../../components/customer-view/ReservesTable';
@@ -13,7 +13,7 @@ const CustomerView = (props) => {
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
     
     useEffect(() => {
-        getCustomerApi(props.customer_id)
+        get_Customer(props.customer_id)
         .then((res) => {
             setStatus('loaded');
             setCustomer(res);

@@ -1,56 +1,25 @@
 
-const apiUrl = `${process.env.REACT_APP_API_URL}/store`; 
+import { handleResponse, handleError } from '../utils/ResponseHandler';
+import api from './API';
 
-export const stores = (filters) => {
-    const requestOptions = {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(filters),
-    };
-
-    return fetch(`${apiUrl}/stores`, requestOptions)
-        .then(handleResponse)
+export const get_Stores = (filters) => {
+    return api.post('/store/stores', filters)
+    .then(handleResponse)
+    .catch(handleError);
 }
 
-export const store = (store_id) => {
-    const requestOptions = {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-    };
-
-    return fetch(`${apiUrl}/store?store_id=${store_id}`, requestOptions)
-        .then(handleResponse)
-}
-
-export const update = (store) => {
-    const requestOptions = {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(store),
-    };
-
-    return fetch(`${apiUrl}/update`, requestOptions)
-        .then(handleResponse)
-}
-
-const handleResponse = ( response ) => {
-    return response.text()
-    .then(text => {
-        const data = text && JSON.parse(text);
-        
-        if (!response.ok) {
-            return Promise.reject(data)
+export const get_Store = (store_id) => {
+    return api.get('/store', {
+        params: {
+            store_id
         }
+    })
+    .then(handleResponse)
+    .catch(handleError);
+}
 
-        return data;
-    });
+export const post_Store = (store) => {
+    return api.post('/store/update', store)
+    .then(handleResponse)
+    .catch(handleError);
 }

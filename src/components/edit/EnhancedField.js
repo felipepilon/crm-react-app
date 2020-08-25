@@ -28,23 +28,17 @@ const EnhancedField = props => {
     }
 
     return (
-        <Grid item xs={12}>
-            <Grid container spacing={2}>
-                <Grid item xs={3}>
-                    <Box
-                        paddingTop={props.type === 'label' ? 1 : 3}
-                    >
-                        <InputLabel>
-                            <FormattedMessage id={props.title}/>
-                            { props.required && !props.readOnly && '*' }
-                        </InputLabel>
-                    </Box>
-                </Grid>
-                <Grid item xs={9}>
-                    {fieldComponent}
-                </Grid>
-            </Grid>
-        </Grid>
+        <Box display='flex' alignItems='center' marginTop={1}>
+            <Box width='30%'>
+                <InputLabel>
+                    <FormattedMessage id={props.title}/>
+                    { props.required && !props.readOnly && '*' }
+                </InputLabel>
+            </Box>
+            <Box flex='1'>
+                {fieldComponent}
+            </Box>
+        </Box>
     );
 }
  

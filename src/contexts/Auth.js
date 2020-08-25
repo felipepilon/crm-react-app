@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { AppStateContext } from './AppState';
-import { authUser } from '../services/Auth';
+import { get_AuthUser } from '../services/Auth';
 
 export const AuthContext = createContext();
 
@@ -10,8 +10,8 @@ const AuthContextProvider = props => {
     const [ isAuthenticated, setIsAuthenticated ] = useState(false);
     const [ user, setUser ] = useState({})
     
-    const authenticate = (auth) => {
-        setUser({ ...user, ...auth })
+    const authenticate = (userData) => {
+        setUser({...user, ...userData})
         setIsAuthenticated(true);
     }
 
@@ -28,23 +28,15 @@ const AuthContextProvider = props => {
 
     useEffect(() => {
         console.log('Auth - useEffect: initiating');
-        console.log(user);
         
-        authUser()
-        .then(res => {
-            console.log('autenticou!');
-            console.log(res);
+        get_AuthUser()
+        .then((res) => {
             authenticate(res);
             setStatus('loaded');
         })
-        .catch(err => {
-            if (!err || !err.status || err.status !== 401)
-            {
-                console.error('Unable to continue session');
-                console.error(err);
-            } else {
-                console.log('Auth - useEffect - err => ', err)
-            }
+        .catch((err) => {
+            console.error('Nao autenticou!')
+            console.error(err);
             deauthenticate();
         });
         

@@ -1,12 +1,74 @@
 import React from 'react';
-import { Box, Typography, Grid, Button } from '@material-ui/core';
+import { Box, Typography, Grid, Button, Container, useTheme } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import EnhancedFieldGroup from './EnhancedFieldGroup';
 
 const EnhancedEditForm = (props) => {
     const { data } = props;
 
+    const theme = useTheme();
+
     return (
+        <Container>
+            <Box
+                display='flex'
+                flexDirection='column'
+                alignItems='center'
+                width='100%'
+            >
+                <Typography style={{marginTop: theme.spacing(1)}} variant='h5'>
+                    <FormattedMessage id={props.title}/>
+                </Typography>
+                {
+                    props.fields &&
+                    props.fields.groups &&
+                    props.fields.groups.map((fieldGroup, i) => {
+                        return (
+                            <EnhancedFieldGroup
+                                key={i}
+                                title={fieldGroup.title}
+                                fields={fieldGroup.fields}
+                                data={data}
+                                errors={props.errors}
+                                handleFieldChange={props.handleFieldChange}
+                            />
+                        )
+                    })
+                }
+                <Box display='flex' marginTop={1}>
+                    {
+                        props.handleCancel &&
+                        <Button
+                            variant='contained'
+                            onClick={props.handleCancel}
+                            style={{marginRight: theme.spacing(1)}}
+                        >
+                            <FormattedMessage id='Cancel'/>
+                        </Button>
+                    }
+                    {
+                        props.handleReset &&
+                        <Button
+                            variant='contained'
+                            onClick={props.handleReset}
+                            style={{marginRight: theme.spacing(1)}}
+                        >
+                            <FormattedMessage id='Reset'/>
+                        </Button>
+                    }
+                    <Button
+                        variant='contained'
+                        color='primary'
+                        onClick={props.handleConfirm}
+                    >
+                        <FormattedMessage id='Confirm'/>
+                    </Button>
+                </Box>
+            </Box>
+        </Container>
+    );
+
+    /*
         <Grid container spacing={2}>
             <Grid item xs={12}>
                 <Box
@@ -85,8 +147,7 @@ const EnhancedEditForm = (props) => {
                     </Grid>
                 </Box>
             </Grid>
-        </Grid>
-    );
+        </Grid>*/
 }
  
 export default EnhancedEditForm;

@@ -1,67 +1,45 @@
+import { 
+    cleanRefreshToken, 
+    setRefreshToken,
+    setAccessToken,
+    cleanAccessToken
+} from '../utils/TokenStorage';
+import { handleResponse, handleError } from '../utils/ResponseHandler';
+import api from './API';
 
-const apiUrl = `${process.env.REACT_APP_API_URL}/auth`; 
+const apiUrl = `${process.env.REACT_APP_API_URL}/auth`;
 
-export const user = (user) => {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-    }
-
-    return fetch(`${apiUrl}/user?email=${user.email}`, requestOptions)
-        .then(handleResponse)
-}
-
-export const authUser = () => {
-    const requestOptions = {
-        method: 'GET',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-    }
-
-    return fetch(`${apiUrl}/authUser`, requestOptions)
-        .then(handleResponse)
-}
-
-export const signIn = (user) => {
-    const requestOptions = {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-    };
-
-    return fetch(`${apiUrl}/signIn`, requestOptions)
-        .then(handleResponse)
-}
-
-export const signOut = (user, password) => {
-    const requestOptions = {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 
-            'Content-Type': 'application/json',
-        },
-    };
-
-    return fetch(`${apiUrl}/signOut`, requestOptions)
-        .then(handleResponse)
-}
-
-const handleResponse = ( response ) => {
-    return response.text()
-    .then(text => {
-        const data = text && JSON.parse(text);
-
-        if (!response.ok) {
-            return Promise.reject(data)
+export const get_User = (user) => {
+    return api.get('/auth/user', {
+        params: {
+            email: user.email,
         }
+    })
+    .then(handleResponse)
+    .catch(handleError);
+}
 
-        return data;
-    });
+export const get_AuthUser = () => {
+    return api.get('/auth/authUser')
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export const post_SignIn = (user) => {
+    return api.post('/auth/signIn', user)
+    .then((res) => {
+        if (res.data && res.data.refresh_token)
+            setRefreshToken(res.data.refresh_token);
+
+        if (res.data && res.data.access_token)
+            setAccessToken(res.data.access_token);
+
+        return res.data;
+    })
+    .catch(handleError);
+}
+
+export const post_SignOut = () => {
+    cleanRefreshToken();
+    cleanAccessToken();
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { TextField, CircularProgress, Typography, Box } from '@material-ui/core';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
-import { customersIndex as getCustomersIndexApi } from '../../services/Customer';
+import { get_CustomersIndex } from '../../services/Customer';
 import LabelMask from '../../utils/LabelMasks';
 import { useIntl, FormattedMessage } from 'react-intl';
 
@@ -31,7 +31,7 @@ const CustomerSearchIndex = (props) => {
         if (!loading)
             return;
 
-        getCustomersIndexApi({ search_index: inputValue })
+            get_CustomersIndex({ search_index: inputValue })
         .then(result => {
             setOptions(result);
         })
@@ -60,14 +60,16 @@ const CustomerSearchIndex = (props) => {
                 }
 
                 return (
-                    <Fragment>
-                        <Typography variant='body1'>
-                            {LabelMask.cpf(opt.cpf)} - {opt.name}
+                    <Box>
+                        <Typography variant='subtitle2'>
+                            {opt.cpf ? LabelMask.cpf(opt.cpf) : ''} {opt.name ? opt.name : ''}
                         </Typography>
                         <Typography variant='body2'>
-                            {opt.addr1} {opt.addr2} {opt.addr3} {opt.city} {opt.state}
+                            {opt.email ? opt.email + ' ' : ''}
+                            {opt.phone1 ? LabelMask.phone(opt.phone1) + ' ' : ''}
+                            {opt.phone2 ? LabelMask.phone(opt.phone2) + ' ' : ''}
                         </Typography>
-                    </Fragment>
+                    </Box>
                 )
             }}
             filterOptions={(options, params) => {

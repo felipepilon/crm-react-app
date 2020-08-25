@@ -2,12 +2,12 @@ import React, { useEffect, useState, Fragment } from 'react';
 import { Typography, useTheme, Button, Paper, CircularProgress, TextField, Box, Checkbox, FormControlLabel } from '@material-ui/core';
 import LabelMasks from '../../utils/LabelMasks';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { msgPreset as getMsgPresetApi } from '../../services/Contact';
+import { get_MsgPreset } from '../../services/Contact';
 import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import { 
-    add as addContactApi,
-    addInteractions as addInteractionsApi,
+    post_ContactNew,
+    post_Interactions,
 } from '../../services/Contact';
 import ContactFeedback from './ContactFeedback';
 import { KeyboardDatePicker } from '@material-ui/pickers';
@@ -45,10 +45,7 @@ const WhatsAppMsgPanel = (props) => {
 
         if (contact_reason) {
             setTimeout(() => {
-                getMsgPresetApi({
-                    contact_via: props.contactVia,
-                    contact_reason,
-                })
+                get_MsgPreset(props.contactVia, contact_reason)
                 .then((result) => {
                     setPanelState({ 
                         ...panelState,
@@ -140,7 +137,7 @@ const WhatsAppMsgPanel = (props) => {
             props.setContact(newContact);
 
             setTimeout(() => {
-                addContactApi({
+                post_ContactNew({
                     ...newContact,
                     ...{
                         interactions: [newInter],
@@ -176,7 +173,7 @@ const WhatsAppMsgPanel = (props) => {
             };
 
             setTimeout(() => {
-                 addInteractionsApi([newInter])
+                 post_Interactions([newInter])
                 .then((result) => {
                     props.setContact({
                         ...props.contact,
@@ -254,7 +251,7 @@ const WhatsAppMsgPanel = (props) => {
         }
 
         setTimeout(() => {
-            addInteractionsApi(newInters).then(() => props.handleEndContact());
+            post_Interactions(newInters).then(() => props.handleEndContact());
         }, 1000);
     }
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Select, MenuItem, InputLabel, FormControl, useTheme } from '@material-ui/core';
-import { stores as getStoresApi } from '../../services/Store';
+import { Select, MenuItem, InputLabel, FormControl, useTheme, FormHelperText } from '@material-ui/core';
+import { get_Stores } from '../../services/Store';
 import { FormattedMessage } from 'react-intl';
 
 const StoreSelect = (props) => {
@@ -10,7 +10,7 @@ const StoreSelect = (props) => {
     const theme = useTheme();
 
     useEffect(() => {
-        getStoresApi()
+        get_Stores()
         .then(result => {
             setOptions(result.map((opt) => {
                 return {
@@ -27,7 +27,9 @@ const StoreSelect = (props) => {
     }, [options]);
 
     return (
-        <FormControl style={{marginTop: theme.spacing(2)}}>
+        <FormControl style={{marginTop: theme.spacing(2)}}
+            error={props.error ? true : false}
+        >
             <InputLabel  id='store-select-label'><FormattedMessage id='Store'/></InputLabel>
             <Select
                 labelId='store-select-label'
@@ -55,6 +57,11 @@ const StoreSelect = (props) => {
                     })
                 }
             </Select>
+            {
+                props.error ?
+                <FormHelperText><FormattedMessage id={props.error}/></FormHelperText> :
+                null
+            }
         </FormControl>
     );
 }

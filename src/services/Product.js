@@ -4,9 +4,9 @@ const apiUrl = `${process.env.REACT_APP_API_URL}/product`;
 export const products = (filters) => {
     const requestOptions = {
         method: 'POST',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
         body: JSON.stringify(filters),
     };
@@ -18,9 +18,9 @@ export const products = (filters) => {
 export const product = (product_id) => {
     const requestOptions = {
         method: 'GET',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
     };
 
@@ -31,9 +31,9 @@ export const product = (product_id) => {
 export const sizeGrid = (size_grid_id) => {
     const requestOptions = {
         method: 'GET',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
     };
 
@@ -44,9 +44,9 @@ export const sizeGrid = (size_grid_id) => {
 export const colors = (product_id) => {
     const requestOptions = {
         method: 'GET',
-        credentials: 'include',
         headers: { 
             'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
         },
     };
 
