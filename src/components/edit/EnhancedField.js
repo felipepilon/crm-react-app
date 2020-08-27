@@ -1,5 +1,5 @@
 import React from 'react';
-import { InputLabel, Grid, Box } from '@material-ui/core';
+import { InputLabel, Box } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import EnhancedFieldLabel from './EnhancedFieldLabel';
 import EnhancedFieldInput from './EnhancedFieldInput';

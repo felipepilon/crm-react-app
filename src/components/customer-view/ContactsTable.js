@@ -24,6 +24,7 @@ const ContactsTable = (props) => {
         { name: 'status', title: 'Status', intl: true },
     ]);
     const [ lastUpdate, setLastUpdate ] = useState(null);
+    const [ loading, setLoading ] = useState(true);
     const [ colapsableColumns ] = useState([
         { name: 'interaction_text', title: 'Detalhes', wrap: true }
     ])
@@ -35,7 +36,7 @@ const ContactsTable = (props) => {
     }
 
     const loadColapsableData = (refRow, setColapsableData) => {
-        get_Interactions(refRow)
+        get_Interactions({contact_id: refRow.contact_id})
         .then((result) => {
             const newColapsedData = result.map((res) => {
                 return {
@@ -48,6 +49,8 @@ const ContactsTable = (props) => {
     }
 
     const loadData = () => {
+        setLoading(true);
+
         setTimeout(() => {
             get_Contacts({
                 contact_id: props.contact_id,
@@ -59,6 +62,7 @@ const ContactsTable = (props) => {
             .then((result) => {
                 setData(result);
                 setLastUpdate(new Date());
+                setLoading(false);
             });
         }, 500)
     }
@@ -89,10 +93,11 @@ const ContactsTable = (props) => {
                     <EnhancedTable
                         columns={columns}
                         data={data}
-                        dense='denseDisabled'
+                        dense='dense disabled'
                         colapsableColumns={colapsableColumns}
                         loadColapsableData={loadColapsableData}
-                        dataStatus={lastUpdate ? 'loaded' : 'loading'}
+                        loading={loading}
+                        paginationInvisible
                     />
                     
                 </AccordionDetails>

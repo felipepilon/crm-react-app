@@ -35,7 +35,6 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <React.StrictMode>
     <AppStateContextProvider>
       <AuthContextProvider>
         <AuthContext.Consumer>{() => (
@@ -54,8 +53,7 @@ ReactDOM.render(
 
         )}</AuthContext.Consumer>
       </AuthContextProvider>
-    </AppStateContextProvider>
-  </React.StrictMode>,
+    </AppStateContextProvider>,
   document.getElementById('root')
 );
 

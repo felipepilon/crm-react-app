@@ -1,48 +1,38 @@
 import { handleResponse, handleError } from '../utils/ResponseHandler';
 import api from './API';
-const apiUrl = `${process.env.REACT_APP_API_URL}/contact`; 
 
-export const post_ContactNew = (data) => {
-    return api.post('/contact/add', data)
+export const post_ContactNew = (params) => {
+    return api.post('/contact/contact', params)
     .then(handleResponse)
     .catch(handleError);
 }
 
-export const post_Interactions = (data) => {
-    return api.post('/contact/addInteractions', data)
+export const post_Interactions = (params) => {
+    return api.post('/contact/interactions', params)
     .then(handleResponse)
     .catch(handleError);
 }
 
-export const post_ContactUpdate = (data) => {
-    return api.post('/contact/update', data)
+export const post_ContactUpdate = (params) => {
+    return api.post('/contact/update', params)
     .then(handleResponse)
     .catch(handleError);
 }
 
-export const get_Contacts = (filters) => {
-    return api.post('/contact/list', filters)
+export const get_Contacts = (params) => {
+    return api.post('/contact/contacts', params)
     .then(handleResponse)
     .catch(handleError);
 }
 
-export const get_MsgPreset = (contact_via, contact_reason) => {
-    return api.get('/contact/list', {
-        params: {
-            contact_via,
-            contact_reason,
-        }
-    })
+export const get_MsgPreset = (params) => {
+    return api.get('/contact/msgPreset', {params})
     .then(handleResponse)
     .catch(handleError);
 }
 
-export const get_Interactions = (contact_id) => {
-    return api.get('/contact/list', {
-        params: {
-            contact_id
-        }
-    })
+export const get_Interactions = (params) => {
+    return api.get('/contact/interactions', {params})
     .then(handleResponse)
     .catch(handleError);
 }

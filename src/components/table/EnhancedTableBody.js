@@ -15,7 +15,6 @@ const EnhancedTableBody = (props) => {
                             row={row}
                             dense={props.dense}
                             columnSizes={props.columnSizes}
-                            handleCellClick={props.handleCellClick}
                             colapsableColumns={props.colapsableColumns}
                             loadColapsableData={props.loadColapsableData}
                         />

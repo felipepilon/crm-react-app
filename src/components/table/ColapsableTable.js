@@ -15,6 +15,8 @@ const ColapsableTable = (props) => {
             data={data}
             dense={props.dense}
             dataStatus={data ? 'loaded' : 'loading'}
+            paginationInvisible
+            rowsPerPage={9999}
         />
     );
 }

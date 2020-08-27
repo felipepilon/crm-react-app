@@ -7,8 +7,6 @@ import {
 import { handleResponse, handleError } from '../utils/ResponseHandler';
 import api from './API';
 
-const apiUrl = `${process.env.REACT_APP_API_URL}/auth`;
-
 export const get_User = (user) => {
     return api.get('/auth/user', {
         params: {

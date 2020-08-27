@@ -29,22 +29,14 @@ const EnhancedTableRow = (props) => {
                 }
                 {
                     props.columns.map((column, i) => {
-                        const value = props.row[column.name] || '';
-
                         return (
                             <EnhancedTablCell
                                 key={column.name}
-                                icon={column.icon}
-                                name={column.name}
-                                mask={column.mask}
-                                intl={column.intl}
-                                wrap={column.wrap}
+                                column={column}
                                 dense={props.dense}
-                                intlSplit={column.intlSplit}
                                 colIndex={i}
                                 rowIdx={props.row._i}
-                                value={value}
-                                handleCellClick={props.handleCellClick}
+                                row={props.row}
                             />
                         );
                     })

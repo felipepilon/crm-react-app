@@ -2,6 +2,7 @@ import React from 'react';
 import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
 import StoreList from './pages/StoreList';
 import StoreEdit from './pages/StoreEdit';
+import StoreGroupEdit from './pages/StoreGroupEdit';
 import FranchiseList from './pages/FranchiseList';
 import FranchiseEdit from './pages/FranchiseEdit';
 import CustomerList from './pages/CustomerList';
@@ -9,6 +10,9 @@ import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
 import CustomerView from './pages/CustomerView';
 import CustomerEdit from './pages/CustomerEdit';
+import UserList from './pages/UserList';
+import StoreGroupList from './pages/StoreGroupList';
+import UserEdit from './pages/UserEdit';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -66,6 +70,38 @@ const WorkspaceRouter = () => {
                     return (
                         <CustomerView
                             customer_id={match.params.customer_id}
+                        />
+                    )
+                }}
+            />
+
+            <Route exact path={`${path}/storeGroups/list`}>
+                <StoreGroupList/>
+            </Route>
+            <Route exact path={`${path}/storeGroups/add`}>
+                <StoreGroupEdit _new/>
+            </Route>
+            <Route exact path={`${path}/storeGroups/edit/:store_group_id`}
+                render={({match}) => {
+                    return (
+                        <StoreGroupEdit
+                            store_group_id={match.params.store_group_id}
+                        />
+                    )
+                }}
+            />
+
+            <Route exact path={`${path}/users/list`}>
+                <UserList/>
+            </Route>
+            <Route exact path={`${path}/users/add`}>
+                <UserEdit _new/>
+            </Route>
+            <Route exact path={`${path}/users/edit/:user_id`}
+                render={({match}) => {
+                    return (
+                        <UserEdit
+                            user_id={match.params.user_id}
                         />
                     )
                 }}

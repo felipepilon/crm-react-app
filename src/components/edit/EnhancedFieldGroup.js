@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Grid, Typography, Paper, useTheme } from '@material-ui/core';
+import { Typography, Paper, useTheme } from '@material-ui/core';
 import EnhancedTextField from './EnhancedField';
 import { FormattedMessage } from 'react-intl';
 
@@ -13,8 +13,7 @@ const EnhancedFieldGroup = (props) => {
                 padding: theme.spacing(1),
                 width: '100%', 
                 maxWidth: '540px',
-                flexDirection: 'column', 
-
+                flexDirection: 'column',
             }}
         >
             {

@@ -2,7 +2,7 @@ import React from 'react';
 import { TextField } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import FieldInputMask from '../fields/FieldInputMask';
-import { DatePicker, KeyboardDatePicker } from '@material-ui/pickers';
+import { KeyboardDatePicker } from '@material-ui/pickers';
 
 const EnhancedFieldInput = (props) => {
     const intl = useIntl();

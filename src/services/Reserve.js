@@ -1,42 +1,17 @@
 
-const apiUrl = `${process.env.REACT_APP_API_URL}/reserve`; 
+import { handleResponse, handleError } from '../utils/ResponseHandler';
+import api from './API';
 
-export const add = (reserveData) => {
-    const requestOptions = {
-        method: 'POST',
-        headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        },
-        body: JSON.stringify(reserveData),
-    };
-
-    return fetch(`${apiUrl}/add`, requestOptions)
-        .then(handleResponse)
+export const post_Reserve = (params) => {
+    return api.post('/reserve/reserve', params)
+    .then(handleResponse)
+    .catch(handleError);
 }
 
-export const detailedByCustomer = (customer) => {
-    const requestOptions = {
-        method: 'GET',
-        headers: { 
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('jwt')}`,
-        },
-    };
-
-    return fetch(`${apiUrl}/detailedByCustomer?customer_id=${customer.customer_id}`, requestOptions)
-        .then(handleResponse)
-}
-
-const handleResponse = ( response ) => {
-    return response.text()
-    .then(text => {
-        const data = text && JSON.parse(text);
-        
-        if (!response.ok) {
-            return Promise.reject(data)
-        }
-
-        return data;
-    });
+export const get_ReserveDetails = (params) => {
+    return api.get('/reserve/details', {
+        params
+    })
+    .then(handleResponse)
+    .catch(handleError);
 }

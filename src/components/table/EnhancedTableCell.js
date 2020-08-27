@@ -3,28 +3,21 @@ import { TableCell, IconButton } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import HelpIcon from '@material-ui/icons/Help';
 import EnhancedFieldLabel from './EnhancedFieldLabel';
+import { Link } from 'react-router-dom';
 
 const EnhancedTablCell = (props) => {
     let cellContents;
 
-    const handleCellClick = (name, rowId) => {
-        console.log('EnhancedTablCell.handleCellClick. => name: ', name, ', rowId: ', rowId);
-
-        if (props.handleCellClick)
-            props.handleCellClick(name, rowId)
-        else
-            console.log('EnhancedTablCell.handleCellClick no handler defined. => name: ', name, ', rowId: ', rowId);
-    }
-    
-    if (props.icon)
+    if (props.column.type && props.column.type.includes('icon'))
     {
         cellContents = (
             <IconButton
                 size={props.dense.includes('dense') ? 'small' : 'medium'}
-                onClick={() => handleCellClick(props.name, props.rowIdx)}
+                component={Link}
+                to={props.column.to(props.row)}
             >
                 {
-                    props.icon === 'edit' ?
+                    props.column.type.includes('edit') ?
                     <EditIcon/> :
                     <HelpIcon/>
                 }
@@ -33,12 +26,17 @@ const EnhancedTablCell = (props) => {
     }
     else
     {
+        const value = props.column.value || props.row[props.column.name] || null;
+
         cellContents = <EnhancedFieldLabel
-            value={props.value}
-            mask={props.mask}
-            intl={props.intl}
-            intlSplit={props.intlSplit}
-            wrap={props.wrap}
+            value={value}
+            mask={props.column.mask}
+            intl={props.column.intl}
+            intlSplit={props.column.intlSplit}
+            wrap={props.column.wrap}
+            type={props.column.type}
+            rowIdx={props.rowIdx}
+            name={props.name}
         />
     }
 

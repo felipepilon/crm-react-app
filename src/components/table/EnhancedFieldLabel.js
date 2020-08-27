@@ -2,6 +2,7 @@ import React from 'react';
 import LabelMasks from '../../utils/LabelMasks'
 import { useIntl } from 'react-intl';
 import { Typography } from '@material-ui/core';
+import Link from '@material-ui/core/Link';
 
 const EnhancedFieldLabel = (props) => {
     let { value } = props;
@@ -56,7 +57,13 @@ const EnhancedFieldLabel = (props) => {
 
     return (
         <Typography variant='inherit' noWrap={props.wrap ? false : true} >
-            { value }
+            {
+                props.type && props.type.includes('link') ?
+                <Link href="#" onClick={() => props.handleCellClick(props.name, props.rowIdx)} color='primary' underline='always'>
+                    {value}
+                </Link> :
+                value
+            }
         </Typography>
     );
 }

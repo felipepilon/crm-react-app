@@ -126,5 +126,21 @@
     "Completed": "Finalizado",
     "New Customer": "Novo Cliente",
     "Dense Padding": "Modo Compacto",
-    "Users": "Usuários"
+    "Users": "Usuários",
+    "Role": "Função",
+    "Sys Admin": "Administrador",
+    "Connector": "Conector",
+    "Store Groups": "Grupo de Lojas",
+    "New": "Novo",
+    "New Store Group": "Novo Grupo de Lojas",
+    "Edit Store Group": "Editar Grupo de Lojas",
+    "Record added successfully": "Registro adicionado com sucesso",
+    "Record updated successfully": "Registro atualizado com sucesso",
+    "Not unique": "Não é único",
+    "Required": "Obrigatório",
+    "First Name": "Primeiro Nome",
+    "Last Name": "Último Nome",
+    "Password": "Senha",
+    "New User": "Novo Usuário",
+    "Edit User": "Editar Usuário"
 }

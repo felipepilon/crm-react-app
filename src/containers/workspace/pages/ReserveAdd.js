@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl';
 import ReserveCustomer from '../../../components/reserve/ReserveCustomer';
 import ReserveProduct from '../../../components/reserve/ReserveProduct';
 import ReserveCheckout from '../../../components/reserve/ReserveCheckout';
-import { add as addReserveApi } from '../../../services/Reserve';
+import { post_Reserve } from '../../../services/Reserve';
 import { useLocation, useHistory } from 'react-router-dom';
 import { AppStateContext } from '../../../contexts/AppState';
 import addDays from 'date-fns/addDays';
@@ -97,7 +97,7 @@ const ReserveAdd = (props) => {
             ]
         };
 
-        addReserveApi(reserveData)
+        post_Reserve(reserveData)
         .then((res) => {
             setSucessSnack('Reserve added successfully')
             

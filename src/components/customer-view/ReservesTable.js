@@ -7,12 +7,12 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import EnhancedTable from '../table/EnhancedTable'
 import { FormattedMessage } from 'react-intl';
 import { Box } from '@material-ui/core';
-import { detailedByCustomer as getReserveDetailsApi } from '../../services/Reserve';
+import { get_ReserveDetails } from '../../services/Reserve';
 
 const ReservesTable = (props) => {
     const [ expanded, setExpanded ] = useState(false);
     const [ data, setData ] = useState([]);
-    const [ dataStatus, setSataStatus ] = useState('waiting');
+    const [ loading, setLoading ] = useState(true);
     const [ columns ] = useState([
         { name: 'reserve_date', title: 'Reserve Date', mask: 'datetime' },
         { name: 'store_name', title: 'Store', },
@@ -29,13 +29,12 @@ const ReservesTable = (props) => {
     }
 
     useEffect(() => {
-        if (expanded && dataStatus === 'waiting')
+        if (expanded && loading)
         {
-            setSataStatus('loading');
-            getReserveDetailsApi({ customer_id: props.customer_id })
+            get_ReserveDetails({ customer_id: props.customer_id })
             .then((result) => {
                 setData(result);
-                setSataStatus('loaded');
+                setLoading(false);
             });
         }
     // eslint-disable-next-line
@@ -52,17 +51,12 @@ const ReservesTable = (props) => {
                     <Typography variant='subtitle1'><FormattedMessage id='Reserves'/></Typography>
                 </AccordionSummary>
                 <AccordionDetails>
-                    {
-                        dataStatus === 'loaded' ?
-                        <EnhancedTable
-                            columns={columns}
-                            data={data}
-                            dense='denseDisabled'
-                            dataStatus={dataStatus}
-                        /> :
-                        dataStatus
-                    }
-                    
+                    <EnhancedTable
+                        columns={columns}
+                        data={data}
+                        dense='dense disabled'
+                        loading={loading}
+                    />
                 </AccordionDetails>
             </Accordion>
         </Box>

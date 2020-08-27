@@ -59,8 +59,13 @@ const MenuButton = () => {
                         <ListItemIcon><EmojiPeopleIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Customers'})}/>
                     </ListItem>
+                </List>
+                <Divider/>
+                <List>
+                    <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/storeGroups/list')}>
+                        <ListItemText primary={intl.formatMessage({id: 'Store Groups'})}/>
+                    </ListItem>
                     <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/users/list')}>
-                        <ListItemIcon><EmojiPeopleIcon/></ListItemIcon>
                         <ListItemText primary={intl.formatMessage({id: 'Users'})}/>
                     </ListItem>
                 </List>
