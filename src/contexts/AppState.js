@@ -6,6 +6,7 @@ const AppStateContextProvider = props => {
     const [ status, setStatus ] = useState('initiating');
     const [ isMenuOpen, setMenuOpen ] = useState(false);
     const [ sucessSnack, setSucessSnack ] = useState('');
+    const [ currency, setCurrency ] = useState('BRL');
 
     return (
         <AppStateContext.Provider value={{
@@ -15,6 +16,8 @@ const AppStateContextProvider = props => {
             setMenuOpen,
             sucessSnack,
             setSucessSnack,
+            currency,
+            setCurrency
         }}
         >
             { props.children }

@@ -4,51 +4,18 @@ import EnhancedTable from '../../../components/table/EnhancedTable';
 import { get_Customers } from '../../../services/Customer';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
+import EnhancedListPage from '../../../components/list/EnhancedListPage';
 
 const StoreList = () => {
-    const [ data, setData ] = useState([]);
-    const [ lastUpdate, setLastUpdate ] = useState(null);
-    
-    const hist = useHistory();
-    const location = useLocation();
-    const intl = useIntl();
-    const theme = useTheme();
-
-    useEffect(() => {
-        document.title = intl.formatMessage({ id: 'Customers' });
-
-        get_Customers({})
-        .then((result) => {
-            const td = result.map((row, i) => {
-                return { 
-                    ...{_rowId: i},
-                    ...row,
-                }
-            });
-
-            setData(td);
-            setLastUpdate(new Date());
-        });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
-
-    const handleEdit = (_rowId) => {
-        const { customer_id } = data[_rowId]
-
-        console.log('list.customer_id', customer_id)
-        hist.push(`/workspace/customers/edit/${customer_id}`, { from: location });
-    };
-
-    const handleCellClick = (colName, _rowId) => {
-        const fnc = colName === '_edit' ? handleEdit :
-            null;
-        
-        if (fnc)
-            fnc(_rowId);
-    };
+    const loc = useLocation();
 
     const [ columns ] = useState([
-        { name: '_edit', title: 'Edit', icon: 'edit', },
+        { name: '_edit', title: 'Edit', type: 'icon edit', to: (row) => {
+            return {
+                pathname: `/workspace/customers/edit/${row.customer_id}`,
+                state: { from: loc },
+            }
+        }},
         { name: 'cpf', title: 'CPF', mask: 'cpf', },
         { name: 'name', title: 'Name', },
         { name: 'email', title: 'Email' },
@@ -64,24 +31,12 @@ const StoreList = () => {
     ]);
     
     return (
-        <Box
-            display='flex'
-            flexDirection='column'
-            height='100%'
-            boxSizing='border-box'
-        >
-            <Typography variant='h6' style={{padding: theme.spacing(2)}}>
-                <FormattedMessage id='Customers'/>
-            </Typography>
-            <EnhancedTable
-                columns={columns}
-                data={data}
-                fullHeight
-                handleCellClick={handleCellClick}
-                dataStatus={lastUpdate ? 'loaded' : 'loading'}
-            />
-        </Box>
-    )
+        <EnhancedListPage
+            title="Users"
+            columns={columns}
+            findDataFnc={get_Customers}
+        />
+    );
 };
 
 export default StoreList;

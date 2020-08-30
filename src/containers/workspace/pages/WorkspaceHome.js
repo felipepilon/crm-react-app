@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
 import CustomerSearchIndex from '../../../components/fields/CustomerSearchIndex';
+import SalesPanel from '../../../components/sales-view/SalesPanel';
 
 const WorkspaceHome = () => {
     const { setStatus } = useContext(WorkspaceStateContext);
@@ -37,14 +38,7 @@ const WorkspaceHome = () => {
                         handleCustomerSelect={handleCustomerSelect}
                     />
                 </Box>
-                <Box
-                    flex='1'
-                    bgcolor='yellow'
-                    height='500px'
-                    padding={1}
-                >
-                    Parte 2
-                </Box>
+                <SalesPanel/>
                 <Box
                     width='20%'
                     padding={1}

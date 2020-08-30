@@ -16,7 +16,12 @@ const UserList = () => {
         { name: 'email', title: 'Email', },
         { name: 'name', title: 'Name', },
         { name: 'role', title: 'Role', intl: true, },
-        { name: '_store_groups', type: 'link', intl: true, value: 'Store Groups', },
+        { name: '_store_groups', type: 'link', intl: true, value: 'Store Groups', to: (row) => {
+            return {
+                pathname: `/workspace/usersStoreGroups/list/${row.user_id}`,
+                state: { from: loc },
+            }
+        }},
         { name: '_stores', type: 'link', intl: true, value: 'Stores', },
     ]);
 

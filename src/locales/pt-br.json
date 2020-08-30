@@ -142,5 +142,13 @@
     "Last Name": "Último Nome",
     "Password": "Senha",
     "New User": "Novo Usuário",
-    "Edit User": "Editar Usuário"
+    "Edit User": "Editar Usuário",
+    "Total Sales Value": "Valor Total Vendas",
+    "Day": "Dia",
+    "Month": "Mês",
+    "Year": "Ano",
+    "Sales Average Value": "Ticket Médio",
+    "Sales Counter": "Atendimentos",
+    "Total Sales Unit": "Quantidade Total Vendas",
+    "Units Per Sale": "Peças Por Atendimento"
 }
