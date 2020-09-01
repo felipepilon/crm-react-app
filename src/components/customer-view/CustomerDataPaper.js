@@ -20,7 +20,7 @@ const CustomerDataPaper = (props) => {
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Birth Date"/>
-                : <FormattedDate value={props.customer.birth_date} />
+                : <FormattedDate value={props.customer.birth_date} timeZone='utc' />
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Email"/>
