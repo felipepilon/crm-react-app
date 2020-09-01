@@ -1,11 +1,11 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
-import { get_Customer } from '../../../services/Customer'
+import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
+import { get_Customer } from '../../services/Customer'
 import { Box, Typography, Container } from '@material-ui/core';
-import CustomerDataPaper from '../../../components/customer-view/CustomerDataPaper';
-import ReservesTable from '../../../components/customer-view/ReservesTable';
-import ContactsTable from '../../../components/customer-view/ContactsTable';
-import ContactCenter from '../../../components/contact-center/ContactCenter';
+import CustomerDataPaper from '../customer-view/CustomerDataPaper';
+import ReservesTable from '../customer-view/ReservesTable';
+import ContactsTable from '../customer-view/ContactsTable';
+import ContactCenter from '../contact-center/ContactCenter';
 
 const CustomerView = (props) => {
     const { setStatus } = useContext(WorkspaceStateContext);

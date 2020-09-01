@@ -26,10 +26,12 @@ const SalesPanelIndicators = (props) => {
 
     useEffect(() => {
         loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         loadData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [props.filters]);
     
     return (

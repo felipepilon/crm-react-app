@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-const Email = props => {
+const Email = () => {
     const { user, setUser } = useContext(AuthContext);
 
     const [ canProceed, setCanProceed ] = useState(user.email && isEmail(user.email));

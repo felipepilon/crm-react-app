@@ -16,8 +16,7 @@ const EnhancedTableHead = (props) => {
                         return (
                             <EnhancedTableHeadCell
                                 key={column.name}
-                                title={column.title}
-                                width={column.width}
+                                column={column}
                             />
                         )
                     })

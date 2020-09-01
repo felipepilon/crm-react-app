@@ -1,13 +1,13 @@
 import React, { useEffect, useContext, useState } from 'react';
-import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
+import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 import { Box, Stepper, Step, StepButton, Container } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import ReserveCustomer from '../../../components/reserve/ReserveCustomer';
-import ReserveProduct from '../../../components/reserve/ReserveProduct';
-import ReserveCheckout from '../../../components/reserve/ReserveCheckout';
-import { post_Reserve } from '../../../services/Reserve';
+import ReserveCustomer from '../reserve/ReserveCustomer';
+import ReserveProduct from '../reserve/ReserveProduct';
+import ReserveCheckout from '../reserve/ReserveCheckout';
+import { post_Reserve } from '../../services/Reserve';
 import { useLocation, useHistory } from 'react-router-dom';
-import { AppStateContext } from '../../../contexts/AppState';
+import { AppStateContext } from '../../contexts/AppState';
 import addDays from 'date-fns/addDays';
 
 const steps = ['customer', 'product', 'checkout']

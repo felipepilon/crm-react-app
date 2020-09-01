@@ -1,25 +1,31 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
 import { AppStateContext } from './AppState';
 import { get_AuthUser } from '../services/Auth';
+import { AbilityContext } from './Can';
+import AbilityUpdater from '../ability/AbilityUpdater';
+
 
 export const AuthContext = createContext();
 
 const AuthContextProvider = props => {
-    const { setStatus } = useContext(AppStateContext)
+    const { setStatus } = useContext(AppStateContext);
 
-    const [ isAuthenticated, setIsAuthenticated ] = useState(false);
-    const [ user, setUser ] = useState({})
+    const ability = useContext(AbilityContext);
+
+    const [ user, setUser ] = useState({
+        authenticated: false,
+    })
     
     const authenticate = (userData) => {
-        setUser({...user, ...userData})
-        setIsAuthenticated(true);
+        userData.authenticated = true;
+        setUser({...user, ...userData});
     }
 
     const deauthenticate = () => {
         setUser({ 
             localeCode: user.localeCode,
+            authenticated: false,
         });
-        setIsAuthenticated(false);
 
         setTimeout(() => {
             setStatus('loaded');
@@ -43,13 +49,17 @@ const AuthContextProvider = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
+    useEffect(() => {
+        AbilityUpdater(ability, user);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [user.role, user.authenticated])
+
     return (
         <AuthContext.Provider value={{
-            isAuthenticated,
             user,
-            setUser,
             authenticate,
             deauthenticate,
+            setUser,
         }}
         >
             { props.children }

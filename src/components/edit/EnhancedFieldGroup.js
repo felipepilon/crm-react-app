@@ -24,16 +24,13 @@ const EnhancedFieldGroup = (props) => {
             }
             {
                 props.fields &&
-                props.fields.map(field => {
+                props.fields.map((field) => {
                     return (
                         <EnhancedTextField
                             key={field.name}
-                            name={field.name}
-                            title={field.title}
-                            type={field.type}
-                            mask={field.mask}
-                            value={(props.data && props.data[field.name]) || ''}
-                            error={(props.errors && props.errors[field.name]) || ''}
+                            field={field}
+                            data={props.data || {}}
+                            errors={props.errors || {}}
                             handleFieldChange={props.handleFieldChange}
                         />
                     )

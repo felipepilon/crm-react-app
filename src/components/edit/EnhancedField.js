@@ -1,13 +1,31 @@
 import React from 'react';
 import { InputLabel, Box } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import EnhancedFieldLabel from './EnhancedFieldLabel';
-import EnhancedFieldInput from './EnhancedFieldInput';
+import EnhancedFieldText from './EnhancedFieldText';
+import EnhancedFieldSelect from './EnhancedFieldSelect';
 
-const EnhancedField = props => {
-    let fieldComponent;
+const components = {
+    default: EnhancedFieldText,
+    select: EnhancedFieldSelect,
+}
 
-    if (props.type === 'label') {
+const EnhancedField = (props) => {
+    const Component = components[props.field.comp || 'default'] || components.default;
+
+    return (
+        <Box display='flex' alignItems='center' marginTop={1}>
+            <Box width='30%'>
+                <InputLabel>
+                    <FormattedMessage id={props.field.title}/>
+                    { props.required && !props.readOnly && '*' }
+                </InputLabel>
+            </Box>
+            <Box flex='1'>
+                <Component {...props}/>
+            </Box>
+        </Box>
+    );
+    /*if (props.type === 'label') {
         fieldComponent = (
             <EnhancedFieldLabel
                 value={props.value}
@@ -39,7 +57,7 @@ const EnhancedField = props => {
                 {fieldComponent}
             </Box>
         </Box>
-    );
+    );*/
 }
  
 export default EnhancedField;

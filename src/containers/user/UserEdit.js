@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { 
     get_User,
     post_User,
-} from '../../../services/User';
-import EnhancedEditPage from '../../../components/edit/EnhancedEditPage';
+} from '../../services/User';
+import EnhancedEditPage from '../../components/edit/EnhancedEditPage';
 
 const StoreEdit = (props) => {
     const [fields] = useState({

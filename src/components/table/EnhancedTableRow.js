@@ -11,7 +11,7 @@ const EnhancedTableRow = (props) => {
     useEffect(() => {
         setOpenColapsedTable(false);
     }, [props.row])
-
+    
     return (
         <Fragment>
             <TableRow>

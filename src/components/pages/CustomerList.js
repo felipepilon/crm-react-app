@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Typography, useTheme } from '@material-ui/core';
-import EnhancedTable from '../../../components/table/EnhancedTable';
-import { get_Customers } from '../../../services/Customer';
-import { FormattedMessage, useIntl } from 'react-intl';
-import { useHistory, useLocation } from 'react-router-dom';
-import EnhancedListPage from '../../../components/list/EnhancedListPage';
+import React, { useState } from 'react';
+import { get_Customers } from '../../services/Customer';
+import { useLocation } from 'react-router-dom';
+import EnhancedListPage from '../list/EnhancedListPage';
 
 const StoreList = () => {
     const loc = useLocation();

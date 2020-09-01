@@ -4,12 +4,12 @@ import { FormattedMessage } from 'react-intl';
 
 const EnhancedTableHeadCell = (props) => {
     return (
-        <TableCell>
+        <TableCell align={props.column.comp && props.column.comp.includes('Icon') ? 'center' : 'left'}>
             <TableSortLabel>
                 <Typography variant='inherit' noWrap>
                     {
-                        props.title ?
-                        <FormattedMessage id={props.title}/> :
+                        props.column.title ?
+                        <FormattedMessage id={props.column.title}/> :
                         ''
                     }
                 </Typography>

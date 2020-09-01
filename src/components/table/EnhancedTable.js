@@ -104,27 +104,25 @@ const EnhancedTable = (props) => {
                         colapsableColumn={props.colapsableColumns ? true : false}
                     />
                     {
-                        !props.loading ?
+                        !props.loading &&
                         <EnhancedTableBody
                             columns={tableColumns}
                             data={tableData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)}
                             dense={dense}
                             colapsableColumns={props.colapsableColumns}
                             loadColapsableData={props.loadColapsableData}
-                        /> : 
-                        null
+                        />
                     }
                 </Table>
                 {
-                    props.loading ?
+                    props.loading &&
                     <Box padding={2}>
                         <CircularProgress size={20}/>
-                    </Box> : 
-                    null
+                    </Box>
                 }
             </Box>
             {
-                paginationVisible ?
+                paginationVisible &&
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50, 100]}
                     component='div'
@@ -133,11 +131,10 @@ const EnhancedTable = (props) => {
                     page={page}
                     onChangePage={handleChangePage}
                     onChangeRowsPerPage={handleChangeRowsPerPage}
-                /> :
-                null
+                />
             }
             {
-                denseSwitchVisible ?
+                denseSwitchVisible &&
                 <Box
                     padding={dense.includes('dense') ? 0 : 2}
                 >
@@ -145,7 +142,7 @@ const EnhancedTable = (props) => {
                         control={<Switch checked={dense.includes('dense')} onChange={handleChangeDense} />}
                         label={intl.formatMessage({id: 'Dense Padding'})}
                     />
-                </Box> : null
+                </Box>
             }
         </Box>
     );

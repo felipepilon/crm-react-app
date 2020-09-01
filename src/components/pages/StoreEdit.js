@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Box } from '@material-ui/core';
-import EnhancedEditForm from '../../../components/edit/EnhancedEditForm';
+import EnhancedEditForm from '../edit/EnhancedEditForm';
 import { 
     get_Store,
     post_Store,
-} from '../../../services/Store';
+} from '../../services/Store';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { AppStateContext } from '../../../contexts/AppState';
+import { AppStateContext } from '../../contexts/AppState';
 
 const StoreEdit = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);

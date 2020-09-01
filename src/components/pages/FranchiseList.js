@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography } from '@material-ui/core';
-import EnhancedTable from '../../../components/table/EnhancedTable';
-import { franchises as franchisesAPI } from '../../../services/Franchise';
+import EnhancedTable from '../table/EnhancedTable';
+import { franchises as franchisesAPI } from '../../services/Franchise';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 

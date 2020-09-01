@@ -14,7 +14,7 @@ const IndicatorGroup = (props) => {
                 {
                     props.indicators.map((ind) => {
                         return (
-                            <IndicatorLabel label={ind.label} value={ind.value} style={ind.style}/>
+                            <IndicatorLabel key={ind.label} label={ind.label} value={ind.value} style={ind.style}/>
                         )
                     })
                 }

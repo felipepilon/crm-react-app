@@ -1,28 +1,34 @@
 import React, { useState } from 'react';
-import { get_Users } from '../../../services/User';
-import { useLocation } from 'react-router-dom';
-import EnhancedListPage from '../../../components/list/EnhancedListPage';
+import { get_Users } from '../../services/User';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import EnhancedListPage from '../../components/list/EnhancedListPage';
 
 const UserList = () => {
     const loc = useLocation();
+    const { path } = useRouteMatch();
 
     const [ columns ] = useState([
-        { name: '_edit', title: 'Edit', type: 'icon edit', to: (row) => {
+        { name: '_edit', title: 'Edit', comp: 'editIcon', to: (row) => {
             return {
-                pathname: `/workspace/users/edit/${row.user_id}`,
+                pathname: `${path}/${row.user_id}`,
                 state: { from: loc },
             }
         }},
         { name: 'email', title: 'Email', },
         { name: 'name', title: 'Name', },
-        { name: 'role', title: 'Role', intl: true, },
-        { name: '_store_groups', type: 'link', intl: true, value: 'Store Groups', to: (row) => {
+        { name: 'role', title: 'Role', comp: 'intl', },
+        { name: '_store_groups', comp: 'intlLink', value: 'Store Groups', to: (row) => {
             return {
                 pathname: `/workspace/usersStoreGroups/list/${row.user_id}`,
                 state: { from: loc },
             }
         }},
-        { name: '_stores', type: 'link', intl: true, value: 'Stores', },
+        { name: '_stores', comp: 'intlLink', value: 'Stores', to: (row) => {
+            return {
+                pathname: `${path}/${row.user_id}/stores`,
+                state: { from: loc },
+            }
+        }},
     ]);
 
     const [ buttons ] = useState([
@@ -30,7 +36,7 @@ const UserList = () => {
             title: "New",
             to: () => {
                 return {
-                    pathname: '/workspace/users/add',
+                    pathname: `${path}/add`,
                     state: { from: loc },
                 };
             }

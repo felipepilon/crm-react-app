@@ -3,7 +3,7 @@ import { Box } from '@material-ui/core';
 import { AppStateContext } from '../../contexts/AppState';
 import WorkBar from './WorkBar';
 import MenuDrawer from './menu/MenuDrawer'
-import PageWrapper from './PageWrapper';
+import PageWrapper from '../../components/PageWrapper';
 import SuccessSnack from '../../components/SuccessSnack';
 import WorkspaceStateContextProvider from '../../contexts/WorkspaceState';
 import WorkspacePageLoader from '../../components/WorkspacePageLoader';
@@ -22,6 +22,7 @@ const Workspace = () => {
             <Box
                 display='flex'
                 flexDirection='column'
+                minHeight='0'
                 height='100%'
             >
                 <WorkBar/>

@@ -2,7 +2,8 @@ import {
     cleanRefreshToken, 
     setRefreshToken,
     setAccessToken,
-    cleanAccessToken
+    cleanAccessToken,
+    getRefreshToken
 } from '../utils/TokenStorage';
 import { handleResponse, handleError } from '../utils/ResponseHandler';
 import api from './API';
@@ -38,6 +39,13 @@ export const post_SignIn = (user) => {
 }
 
 export const post_SignOut = () => {
+    const refresh_token = getRefreshToken();
     cleanRefreshToken();
     cleanAccessToken();
+
+    return api.delete('/auth/signOut', {
+        data: {refresh_token}
+    })
+    .then(handleResponse)
+    .catch(handleError);
 }

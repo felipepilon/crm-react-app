@@ -14,6 +14,8 @@ import { IntlProvider } from 'react-intl';
 import intlPtBrLocale from './locales/pt-br';
 import AppStateContextProvider from './contexts/AppState';
 
+import AbilityContextProvider from './contexts/Can';
+
 const intlLocales = {
   "pt-br": intlPtBrLocale, 
 };
@@ -36,23 +38,25 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
     <AppStateContextProvider>
-      <AuthContextProvider>
-        <AuthContext.Consumer>{() => (
-          <ThemeProvider theme={theme}>
-            <IntlProvider 
-              locale='pt-br' 
-              key='pt-br' 
-              messages={intlLocales['pt-br']}
-              onError={(message) => message}
-            >
-              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pickerLocales['pt-br']}>
-                <App/>
-              </MuiPickersUtilsProvider>
-            </IntlProvider>
-          </ThemeProvider>
+      <AbilityContextProvider>
+        <AuthContextProvider>
+          <AuthContext.Consumer>{() => (
+            <ThemeProvider theme={theme}>
+              <IntlProvider 
+                locale='pt-br' 
+                key='pt-br' 
+                messages={intlLocales['pt-br']}
+                onError={(message) => message}
+              >
+                <MuiPickersUtilsProvider utils={DateFnsUtils} locale={pickerLocales['pt-br']}>
+                  <App/>
+                </MuiPickersUtilsProvider>
+              </IntlProvider>
+            </ThemeProvider>
 
-        )}</AuthContext.Consumer>
-      </AuthContextProvider>
+          )}</AuthContext.Consumer>
+        </AuthContextProvider>
+      </AbilityContextProvider>
     </AppStateContextProvider>,
   document.getElementById('root')
 );

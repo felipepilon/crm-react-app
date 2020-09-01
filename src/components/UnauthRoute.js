@@ -3,13 +3,13 @@ import { AuthContext } from '../contexts/Auth';
 import { Route, Redirect } from 'react-router-dom';
 
 const UnauthRoute = ({ children, ...rest }) => {
-    const { isAuthenticated } = useContext(AuthContext)
+    const { user } = useContext(AuthContext);
 
     return (
         <Route
             {...rest}
             render={({ location }) =>
-            !isAuthenticated ? (
+            !user.authenticated ? (
                 children
             ) : (
                 <Redirect

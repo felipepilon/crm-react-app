@@ -10,9 +10,8 @@ import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
 import CustomerView from './pages/CustomerView';
 import CustomerEdit from './pages/CustomerEdit';
-import UserList from './pages/UserList';
 import StoreGroupList from './pages/StoreGroupList';
-import UserEdit from './pages/UserEdit';
+import UserRouter from '../containers/user/UserRouter';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -91,22 +90,10 @@ const WorkspaceRouter = () => {
                 }}
             />
 
-            <Route exact path={`${path}/users/list`}>
-                <UserList/>
+            <Route path={`${path}/users`}>
+                <UserRouter/>
             </Route>
-            <Route exact path={`${path}/users/add`}>
-                <UserEdit _new/>
-            </Route>
-            <Route exact path={`${path}/users/edit/:user_id`}
-                render={({match}) => {
-                    return (
-                        <UserEdit
-                            user_id={match.params.user_id}
-                        />
-                    )
-                }}
-            />
-            
+
             <Route path={`${path}/*`}
                 render={({location}) => {
                     return (

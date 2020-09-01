@@ -10,7 +10,7 @@ import { AuthContext } from './contexts/Auth';
 import { LastLocationProvider } from 'react-router-last-location';
 
 const AppRouter = () => {
-    const { isAuthenticated } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
     
     return (
         <Router>
@@ -26,7 +26,7 @@ const AppRouter = () => {
                         path={`/*`}
                         render={({location}) => {
                             return (
-                                isAuthenticated ?
+                                user.authenticated ?
                                 <Redirect to={{
                                     pathname: '/workspace',
                                     state: { from: location },

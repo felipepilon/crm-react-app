@@ -2,9 +2,9 @@ import React, { useContext, useEffect } from 'react';
 import { Box, Button, Container } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
-import { WorkspaceStateContext } from '../../../contexts/WorkspaceState';
-import CustomerSearchIndex from '../../../components/fields/CustomerSearchIndex';
-import SalesPanel from '../../../components/sales-view/SalesPanel';
+import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
+import CustomerSearchIndex from '../fields/CustomerSearchIndex';
+import SalesPanel from '../sales-view/SalesPanel';
 
 const WorkspaceHome = () => {
     const { setStatus } = useContext(WorkspaceStateContext);

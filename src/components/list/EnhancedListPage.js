@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, useTheme } from '@material-ui/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import EnhancedTable from '../table/EnhancedTable';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import { useLastLocation } from 'react-router-last-location';
+import EnhancedButtonLink from './EnhancedButtonLink';
 
 const EnhancedListPage = (props) => {
     const intl = useIntl();
@@ -20,9 +21,9 @@ const EnhancedListPage = (props) => {
 
     const findData = () => {
         props.findDataFnc(props.findDataParams)
-        .then((result) => {
+        .then((res) => {
             setTimeout(() => {
-                setData(result);
+                setData(res);
                 setLoading(false);
             }, 500);
         });
@@ -61,12 +62,7 @@ const EnhancedListPage = (props) => {
                     props.buttons &&
                     props.buttons.map((btn, i) => {
                         return (
-                            <Button key={i} variant='contained' color='primary' 
-                                component={Link}
-                                to={btn.to}
-                            >
-                                <FormattedMessage id={btn.title}/>
-                            </Button>
+                            <EnhancedButtonLink key={i} to={btn.to} title={btn.title}/>
                         )
                     })
                 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { get_StoreGroups } from '../../../services/StoreGroup';
+import { get_StoreGroups } from '../../services/StoreGroup';
 import { useLocation } from 'react-router-dom';
-import EnhancedListPage from '../../../components/list/EnhancedListPage'
+import EnhancedListPage from '../list/EnhancedListPage'
 
 const StoreGroupList = () => {    
     const loc = useLocation();

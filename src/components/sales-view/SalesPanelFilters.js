@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import StoreSelect from '../fields/StoreSelect';
 import { Accordion, AccordionSummary, AccordionDetails } from '@material-ui/core';
 import FilterListIcon from '@material-ui/icons/FilterList';

@@ -1,13 +1,24 @@
 import React from 'react';
-import { TableCell, IconButton } from '@material-ui/core';
-import EditIcon from '@material-ui/icons/Edit';
-import HelpIcon from '@material-ui/icons/Help';
-import EnhancedFieldLabel from './EnhancedFieldLabel';
-import { Link } from 'react-router-dom';
+import EnhancedTableCellEdit from './EnhancedTableCellEdit';
+import EnhancedTableCellDefault from './EnhancedTableCellDefault';
+import EnhancedTableCellIntl from './EnhancedTableCellIntl';
+import EnhancedTableCellIntlLink from './EnhancedTableCellIntlLink';
+
+const components = {
+    editIcon: EnhancedTableCellEdit,
+    intl: EnhancedTableCellIntl,
+    intlLink: EnhancedTableCellIntlLink,
+    default: EnhancedTableCellDefault,
+}
 
 const EnhancedTablCell = (props) => {
-    let cellContents;
+    const Component = components[props.column.comp || 'default'] || EnhancedTableCellDefault;
 
+    return (
+        <Component {...props}/>
+    )
+
+    /*
     if (props.column.type && props.column.type.includes('icon'))
     {
         cellContents = (
@@ -48,7 +59,7 @@ const EnhancedTablCell = (props) => {
         >
             { cellContents }
         </TableCell>
-    );
+    );*/
 }
  
 export default EnhancedTablCell;

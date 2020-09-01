@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import EnhancedEditForm from '../../../components/edit/EnhancedEditForm';
+import EnhancedEditForm from '../edit/EnhancedEditForm';
 import { 
     get_Customer,
     post_Customer,
-} from '../../../services/Customer';
+} from '../../services/Customer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useIntl } from 'react-intl';
-import { AppStateContext } from '../../../contexts/AppState';
+import { AppStateContext } from '../../contexts/AppState';
 
 const CustomerEdit = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);
