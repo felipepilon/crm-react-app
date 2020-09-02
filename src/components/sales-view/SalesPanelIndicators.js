@@ -3,19 +3,52 @@ import {  Box, CircularProgress, useTheme } from '@material-ui/core';
 import IndicatorGroup from './IndicatorGroup';
 import { get_SalesSummary } from '../../services/Sale';
 
+const dateFormatter = (year, month, day, hour, min, sec) => 
+    year.toString().padStart(4, '0') + '-' +
+    month.toString().padStart(2, '0') + '-' +
+    day.toString().padStart(2, '0') + 'T' +
+    hour.toString().padStart(2, '0') + ':' +
+    min.toString().padStart(2, '0') + ':' +
+    sec.toString().padStart(2, '0') + 'Z';
+
+const lastDayOfMonth = (now) => new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+
 const SalesPanelIndicators = (props) => {
     const theme = useTheme();
 
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState({});
+    const [data, setData] = useState([]);
 
     const loadData = () => {
         setLoading(true);
 
-        get_SalesSummary({
-            periods: ['day', 'month', 'year'],
-            filters: props.filters
-        })
+        const now = new Date();
+
+        const filters = [
+            {
+                ...props.filters,
+                ...{
+                    sale_date_start: dateFormatter(now.getFullYear(), now.getMonth() + 1, now.getDate(), 0, 0, 0, 0),
+                    sale_date_end: dateFormatter(now.getFullYear(), now.getMonth() + 1, now.getDate(), 23, 59, 59, 999),
+                }
+            },
+            {
+                ...props.filters,
+                ...{
+                    sale_date_start: dateFormatter(now.getFullYear(), now.getMonth() + 1, 1, 0, 0, 0, 0),
+                    sale_date_end: dateFormatter(now.getFullYear(), now.getMonth() + 1, lastDayOfMonth(now), 23, 59, 59, 999),
+                }
+            },
+            {
+                ...props.filters,
+                ...{
+                    sale_date_start: dateFormatter(now.getFullYear(), 1, 1, 0, 0, 0, 0),
+                    sale_date_end: dateFormatter(now.getFullYear(), 12, 31, 23, 59, 59, 999),
+                }
+            },
+        ]
+
+        get_SalesSummary(filters)
         .then((res) => {
             setTimeout(() => {
                 setData(res);
@@ -39,41 +72,41 @@ const SalesPanelIndicators = (props) => {
             <IndicatorGroup
                 label='Total Sales Value'
                 indicators={[
-                    {label: 'Day', style: 'currency', value: (data.day && data.day.sum_paid_value) || 0},
-                    {label: 'Month', style: 'currency', value: (data.month && data.month.sum_paid_value) || 0},
-                    {label: 'Year', style: 'currency', value: (data.year && data.year.sum_paid_value) || 0},
+                    {label: 'Day', style: 'currency', value: (data.length && data[0].sum_paid_value) || 0},
+                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].sum_paid_value) || 0},
+                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].sum_paid_value) || 0},
                 ]}
             />
             <IndicatorGroup
                 label='Sales Average Value'
                 indicators={[
-                    {label: 'Day', style: 'currency', value: (data.day && data.day.avg_paid_value) || 0},
-                    {label: 'Month', style: 'currency', value: (data.month && data.month.avg_paid_value) || 0},
-                    {label: 'Year', style: 'currency', value: (data.year && data.year.avg_paid_value) || 0},
+                    {label: 'Day', style: 'currency', value: (data.length && data[0].avg_paid_value) || 0},
+                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].avg_paid_value) || 0},
+                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].avg_paid_value) || 0},
                 ]}
             />
             <IndicatorGroup
                 label='Sales Counter'
                 indicators={[
-                    {label: 'Day', value: (data.day && data.day.sale_count) || 0},
-                    {label: 'Month', value: (data.month && data.month.sale_count) || 0},
-                    {label: 'Year', value: (data.year && data.year.sale_count) || 0},
+                    {label: 'Day', style: 'currency', value: (data.length && data[0].sale_count) || 0},
+                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].sale_count) || 0},
+                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].sale_count) || 0},
                 ]}
             />
             <IndicatorGroup
                 label='Total Sales Unit'
                 indicators={[
-                    {label: 'Day', value: (data.day && data.day.sum_total_qty) || 0},
-                    {label: 'Month', value: (data.month && data.month.sum_total_qty) || 0},
-                    {label: 'Year', value: (data.year && data.year.sum_total_qty) || 0},
+                    {label: 'Day', style: 'currency', value: (data.length && data[0].sum_total_qty) || 0},
+                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].sum_total_qty) || 0},
+                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].sum_total_qty) || 0},
                 ]}
             />
             <IndicatorGroup
                 label='Units Per Sale'
                 indicators={[
-                    {label: 'Day', value: (data.day && data.day.avg_total_qty) || 0},
-                    {label: 'Month', value: (data.month && data.month.avg_total_qty) || 0},
-                    {label: 'Year', value: (data.year && data.year.avg_total_qty) || 0},
+                    {label: 'Day', style: 'currency', value: (data.length && data[0].avg_total_qty) || 0},
+                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].avg_total_qty) || 0},
+                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].avg_total_qty) || 0},
                 ]}
             />
             {
