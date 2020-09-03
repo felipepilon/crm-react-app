@@ -15,7 +15,7 @@ const WorkBar = () => {
         <AppBar position='static'>
             <Toolbar>
                 <MenuButton/>
-                <img src={require('./home-bar.png')} height='45px' style={{paddingRight: theme.spacing(2)}}/>
+                <img src={require('./home-bar.png')} height='45px' style={{marginLeft: theme.spacing(1), marginRight: theme.spacing(3)}}/>
                 <CustomerSearch/>
                 <LoginMenu/>
             </Toolbar>
