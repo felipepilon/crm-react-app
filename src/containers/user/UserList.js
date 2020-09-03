@@ -5,12 +5,11 @@ import EnhancedListPage from '../../components/list/EnhancedListPage';
 
 const UserList = () => {
     const loc = useLocation();
-    const { path } = useRouteMatch();
 
     const [ columns ] = useState([
         { name: '_edit', title: 'Edit', comp: 'editIcon', to: (row) => {
             return {
-                pathname: `${path}/${row.user_id}`,
+                pathname: `${loc.pathname}/${row.user_id}`,
                 state: { from: loc },
             }
         }},
@@ -25,7 +24,7 @@ const UserList = () => {
         }},
         { name: '_stores', comp: 'intlLink', value: 'Stores', to: (row) => {
             return {
-                pathname: `${path}/${row.user_id}/stores`,
+                pathname: `${loc.pathname}/${row.user_id}/stores`,
                 state: { from: loc },
             }
         }},
@@ -36,7 +35,7 @@ const UserList = () => {
             title: "New",
             to: () => {
                 return {
-                    pathname: `${path}/add`,
+                    pathname: `${loc.pathname}/_new`,
                     state: { from: loc },
                 };
             }

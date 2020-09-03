@@ -1,22 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Box, Typography, Button, useTheme } from '@material-ui/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import EnhancedTable from '../table/EnhancedTable';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import RefreshIcon from '@material-ui/icons/Refresh';
-import { useLastLocation } from 'react-router-last-location';
 import EnhancedButtonLink from './EnhancedButtonLink';
+import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 
 const EnhancedListPage = (props) => {
     const intl = useIntl();
     const theme = useTheme();
-    const hist = useHistory();
-    const loc = useLocation();
-    const lastLoc = useLastLocation();
-
-    const restoreState = loc.state && lastLoc && lastLoc.pathname !== loc.pathname ? true : false;
-
-    const [ data, setData ] = useState((restoreState && loc.state.data) || null);
+    
+    const [ data, setData ] = useState(null);
     const [ loading, setLoading ] = useState(true);
 
     const findData = () => {
@@ -33,9 +28,6 @@ const EnhancedListPage = (props) => {
         setLoading(true);
         findData();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    useEffect(() => hist.replace(loc.pathname, { ...loc.state, ...{data} }), [data]);
 
     useEffect(() => {
         document.title = intl.formatMessage({ id: props.title });

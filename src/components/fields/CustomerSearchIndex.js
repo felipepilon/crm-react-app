@@ -1,12 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { TextField, CircularProgress, Typography, Box } from '@material-ui/core';
+import { TextField, CircularProgress, Typography, Box, useTheme, fade } from '@material-ui/core';
 import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
 import { get_CustomersIndex } from '../../services/Customer';
 import LabelMask from '../../utils/LabelMasks';
 import { useIntl, FormattedMessage } from 'react-intl';
 
-const minLength = 2;
-
+const minLength = 5;
 const filter = createFilterOptions();
 
 const CustomerSearchIndex = (props) => {
@@ -19,8 +18,10 @@ const CustomerSearchIndex = (props) => {
     const loading = open && !options.length && inputValue.length >= minLength;
 
     const handleChange = (e, selOpt) => {
+        console.log('handleChange', selOpt)
         if (selOpt && selOpt.customer_id)
             props.handleCustomerSelect(selOpt);
+        setInputValue('');
     }
 
     const handleInputChange = (e, newValue) => {
@@ -45,10 +46,9 @@ const CustomerSearchIndex = (props) => {
 
     return (
         <Autocomplete
-            style={{ width: '100%', marginTop: props.marginTop }}
-            freeSolo
             options={options}
             open={open}
+            clearOnEscape
             onOpen={() => {setOpen(true)}}
             onClose={() => {setOpen(false)}}
             getOptionLabel={(opt) => opt.search_index}
@@ -92,8 +92,7 @@ const CustomerSearchIndex = (props) => {
                 <TextField 
                     { ...params } 
                     label={intl.formatMessage({ id: 'Customer' })}
-                    variant='outlined'
-                    fullWidth
+                    size='small'
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

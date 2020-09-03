@@ -32,12 +32,6 @@ const WorkspaceHome = () => {
         <Container>
             <Box display='flex' flexDirection='row' paddingTop={2}
             >
-                <Box width='20%' padding={1}
-                >
-                    <CustomerSearchIndex
-                        handleCustomerSelect={handleCustomerSelect}
-                    />
-                </Box>
                 <SalesPanel/>
                 <Box
                     width='20%'

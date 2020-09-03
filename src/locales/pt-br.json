@@ -152,8 +152,11 @@
     "Total Sales Unit": "Quantidade Total Vendas",
     "Units Per Sale": "Peças Por Atendimento",
     "Inform a feedback": "Informe um feedback",
-    "User Stores": "Usuários Lojas",
+    "User Stores": "Associação Usuários Lojas",
     "User": "Usuário",
-    "New User Store": "Novo Usuário Loja",
-    "Update User Store": "Editar Usuário Loja"
+    "New User Store": "Nova Associação Usuário Loja",
+    "Delete": "Excluir",
+    "Edit User Store": "Editar Associação Usuário Loja",
+    "Manager": "Gerente",
+    "Invalid": "Inválido"
 }

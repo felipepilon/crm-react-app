@@ -45,7 +45,7 @@ const WhatsAppMsgPanel = (props) => {
 
         if (contact_reason) {
             setTimeout(() => {
-                get_MsgPreset(props.contactVia, contact_reason)
+                get_MsgPreset({contact_via: props.contactVia, contact_reason})
                 .then((result) => {
                     setPanelState({ 
                         ...panelState,

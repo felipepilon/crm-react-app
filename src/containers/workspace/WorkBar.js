@@ -1,28 +1,22 @@
-import React from 'react';
-import { AppBar, Toolbar, Typography, makeStyles, } from '@material-ui/core';
+import React, { useContext } from 'react';
+import { AppBar, Toolbar, Typography, useTheme } from '@material-ui/core';
 import LoginMenu from './LoginMenu';
 import { FormattedMessage } from 'react-intl';
 import MenuButton from './menu/MenuButton';
-
-const useStyles = makeStyles(theme => ({
-    title: {
-        flexGrow: 1,
-    },
-    toolbar: {
-        '& > *': { margin: theme.spacing(1), },
-    },
-}));
+import { useHistory, useLocation } from 'react-router-dom';
+import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
+import CustomerSearchIndex from '../../components/fields/CustomerSearchIndex';
+import CustomerSearch from './CustomerSearch';
 
 const WorkBar = () => {
-    const classes = useStyles()
+    const theme = useTheme();
 
     return ( 
         <AppBar position='static'>
-            <Toolbar className={classes.toolbar}>
+            <Toolbar>
                 <MenuButton/>
-                <Typography variant='h6' className={classes.title}>
-                    <FormattedMessage id='CRM' />
-                </Typography>
+                <img src={require('./home-bar.png')} height='45px' style={{paddingRight: theme.spacing(2)}}/>
+                <CustomerSearch/>
                 <LoginMenu/>
             </Toolbar>
         </AppBar>

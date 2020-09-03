@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { get_UserStores } from '../../services/UserStore';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useRouteMatch } from 'react-router-dom';
 import EnhancedListPage from '../../components/list/EnhancedListPage';
 
 const UserStoreList = (props) => {
     const loc = useLocation();
 
+    const { path } = useRouteMatch();
+
+    console.log('loc.pathname', loc.pathname)
+    console.log('path', path)
+
     const [ columns ] = useState([
         { name: '_edit', title: 'Edit', comp: 'editIcon', to: (row) => {
             return {
-                pathname: `/workspace/users/edit/${row.user_store_id}`,
+                pathname: `${loc.pathname}/${row.user_store_id}`,
                 state: { from: loc },
             }
         }},
@@ -24,7 +29,7 @@ const UserStoreList = (props) => {
             title: "New",
             to: () => {
                 return {
-                    pathname: '/workspace/userStores/add',
+                    pathname: `${loc.pathname}/_new`,
                     state: { from: loc },
                 };
             }

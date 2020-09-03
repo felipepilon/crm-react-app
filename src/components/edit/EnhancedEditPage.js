@@ -4,6 +4,7 @@ import EnhancedEditForm from './EnhancedEditForm';
 import { useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppStateContext } from '../../contexts/AppState';
+import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 
 const EnhancedEditPage = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);
@@ -41,19 +42,36 @@ const EnhancedEditPage = (props) => {
 
         props.postFnc(data)
         .then(() => {
-            setTimeout(() => {
-                setSucessSnack(props._new ? 'Record added successfully' : 'Record updated successfully')
-                if (loc.state && loc.state.from && loc.state.from.pathname)
-                    hist.push(loc.state.from.pathname);
-                else
-                    handleReset();
-            }, 500);
+            setSucessSnack(props._new ? 'Record added successfully' : 'Record updated successfully')
+            if (loc.state && loc.state.from && loc.state.from.pathname)
+                hist.push(loc.state.from.pathname);
+            else
+                handleReset();
         })
         .catch((err) => {
             setErrors(err);
-            setTimeout(() => {
-                setLoading(false);
-            }, 500);
+            setLoading(false);
+        })
+    }
+
+    const handleDelete = () => {
+        setLoading(true);
+
+        props.deleteFnc(props.deleteParams)
+        .then(() => {
+            setSucessSnack('Record deleted successfully')
+            if (loc.state && loc.state.from && loc.state.from.pathname)
+            {
+                hist.push(loc.state.from.pathname);
+            }
+            else {
+                window.open("", "_self");
+                window.close();
+            }
+        })
+        .catch((err) => {
+            setErrors(err);
+            setLoading(false);
         })
     }
 
@@ -61,24 +79,18 @@ const EnhancedEditPage = (props) => {
         if (props.beforeFieldChanges && props.beforeFieldChanges[name])
             value = props.beforeFieldChanges[name](value);
 
-        setData({...data, ...{[name]: value || null}});
+        if (errors[name])
+            delete errors[name];
+        setData({...data, [name]: value || null});
     };
     
     const handleReset = () => {
         setLoading(true);
-
-        if (!props._new)
-            findRecord();
-        else {
-            setData({});
-            setTimeout(() => {
-                setLoading(false);
-            }, 500);
-        }
+        hist.go(0);
     };
 
     const findRecord = () => {
-        props.findRecordFnc(props.findParams)
+        props.findFnc(props.findParams)
         .then((result) => {
             setData(result);
             setTimeout(() => {
@@ -89,7 +101,7 @@ const EnhancedEditPage = (props) => {
 
     useEffect(() => {
         document.title = intl.formatMessage({ id: props.title });
-
+        
         if (!props._new)
             findRecord();
         else
@@ -97,7 +109,7 @@ const EnhancedEditPage = (props) => {
                 setLoading(false);
             }, 500);
     // eslint-disable-next-line
-    }, [])
+    }, []);
 
     return (
         <Box
@@ -115,6 +127,7 @@ const EnhancedEditPage = (props) => {
                 handleCancel={hist.length > 1 ? handleCancel : null}
                 handleReset={handleReset}
                 handleConfirm={handleConfirm}
+                handleDelete={!props._new && props.deleteFnc && handleDelete}
                 loading={loading}
             />
         </Box>

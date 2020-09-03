@@ -10,22 +10,12 @@ const UserRouter = () => {
     
     return (
         <Switch>
-            <Route exact path={`${path}/:user_id/stores/add`}
-                render={({match}) => {
-                    return (
-                        <UserStoreEdit
-                            user_id={match.params.user_id}
-                            _new
-                        />
-                    )
-                }}
-            />
             <Route exact path={`${path}/:user_id/stores/:user_store_id`}
                 render={({match}) => {
                     return (
                         <UserStoreEdit
                             user_id={match.params.user_id}
-                            user_store_id={match.params.user_id}
+                            user_store_id={match.params.user_store_id}
                         />
                     )
                 }}
@@ -39,9 +29,6 @@ const UserRouter = () => {
                     )
                 }}
             />
-            <Route exact path={`${path}/add`}>
-                <UserEdit _new/>
-            </Route>
             <Route exact path={`${path}/:user_id`}
                 render={({match}) => {
                     return (

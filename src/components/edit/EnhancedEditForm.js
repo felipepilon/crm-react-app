@@ -4,18 +4,17 @@ import { FormattedMessage } from 'react-intl';
 import EnhancedFieldGroup from './EnhancedFieldGroup';
 
 const EnhancedEditForm = (props) => {
-    const { data } = props;
+    const { data, loading } = props;
 
     const theme = useTheme();
 
     return (
-        <Container>
+        <Container style={{display: 'flex', position: 'relative'}}>
             <Box
                 display='flex'
                 flexDirection='column'
                 alignItems='center'
                 width='100%'
-                position='relative'
             >
                 <Typography style={{marginTop: theme.spacing(1)}} variant='h5'>
                     <FormattedMessage id={props.title}/>
@@ -57,6 +56,16 @@ const EnhancedEditForm = (props) => {
                             <FormattedMessage id='Reset'/>
                         </Button>
                     }
+                    {
+                        props.handleDelete &&
+                        <Button
+                            variant='contained'
+                            onClick={props.handleDelete}
+                            style={{marginRight: theme.spacing(1)}}
+                        >
+                            <FormattedMessage id='Delete'/>
+                        </Button>
+                    }
                     <Button
                         variant='contained'
                         color='primary'
@@ -65,24 +74,23 @@ const EnhancedEditForm = (props) => {
                         <FormattedMessage id='Confirm'/>
                     </Button>
                 </Box>
-                {
-                    props.loading ?
-                    <Box
-                        display='flex'
-                        position='absolute'
-                        height='100%'
-                        width='100%'
-                        justifyContent='center'
-                        alignItems='center'
-                        bgcolor={theme.palette.background.paper}
-                        zIndex='1'
-                        style={{opacity: 0.3}}
-                    >
-                        <CircularProgress/>
-                    </Box> : 
-                    null
-                }
             </Box>
+            {
+                loading &&
+                <Box
+                    display='flex'
+                    position='absolute'
+                    height='100%'
+                    width='100%'
+                    justifyContent='center'
+                    alignItems='center'
+                    bgcolor={theme.palette.background.paper}
+                    zIndex='1'
+                    style={{opacity: 0.3}}
+                >
+                    <CircularProgress/>
+                </Box>
+            }
         </Container>
     );
 }

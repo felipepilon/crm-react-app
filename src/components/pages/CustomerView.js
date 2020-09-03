@@ -6,15 +6,22 @@ import CustomerDataPaper from '../customer-view/CustomerDataPaper';
 import ReservesTable from '../customer-view/ReservesTable';
 import ContactsTable from '../customer-view/ContactsTable';
 import ContactCenter from '../contact-center/ContactCenter';
+import { useIntl } from 'react-intl';
 
 const CustomerView = (props) => {
     const { setStatus } = useContext(WorkspaceStateContext);
     const [ customer, setCustomer ] = useState(undefined);
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
     
+    const intl = useIntl();
+
     useEffect(() => {
+        document.title = intl.formatMessage({id: 'Customer'});
+        console.log('CustomerView useEffect props', props)
+
         get_Customer(props.customer_id)
         .then((res) => {
+            console.log('CustomerView get_Customer', res)
             setStatus('loaded');
             setCustomer(res);
         })

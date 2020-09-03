@@ -4,11 +4,9 @@ import { FormattedMessage } from 'react-intl';
 
 const EnhancedFieldText = (props) => {
     const { field } = props;
-
-    const [options, setOptions] = useState([]);
-
-    const value = props.data[field.name] || '';
-    const error = props.errors[field.name] || '';
+    
+    const [options, setOptions] = useState(field.options || []);
+    const [loading, setLoading] = useState(true);
 
     const handleChange = (e) => {
         if (props.handleFieldChange)
@@ -16,20 +14,34 @@ const EnhancedFieldText = (props) => {
     }
 
     useEffect(() => {
-        field.findDataFnc(props.findDataParams)
-        .then((res) => {
-            setTimeout(() => {
+        if (field.optionsFnc) {
+            field.optionsFnc(field.params)
+            .then((res) => {
                 const newOptions = res.map((opt) => {
                     return {
-                        value: opt[field.valueColumnName || field.name] || '<missing value>',
-                        label: opt[field.labelColumnName || field.name] || '<missing value>',
+                        value: opt[field.pickLabelValue || field.name] || '<missing value>',
+                        label: opt[field.pickLabelColumn || field.name] || '<missing value>',
                     }   
-                })
-                setOptions(newOptions);
-            }, 500)
-        })
+                });
+                setOptions([...options, ...newOptions]);
+                setLoading(false);
+            })
+        } else {
+            setLoading(false);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    
+
+    const value = (!loading && props.data[field.name]) || '';
+    const error = (!loading && props.errors[field.name]) || '';
+
+    useEffect(() => {
+        if (typeof field.default !== 'undefined') {
+            props.handleFieldChange(field.name, field.default);
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <FormControl error={error ? true : false} fullWidth size='small'>
             <Select
@@ -37,17 +49,26 @@ const EnhancedFieldText = (props) => {
                 onChange={handleChange}
                 variant='outlined'
                 displayEmpty
+                disabled={field.disabled ? true : false}
             >
-            <MenuItem value=''>
-                <em><FormattedMessage id='Select'/></em>
-            </MenuItem>
             {
+                loading &&
+                <MenuItem value=''></MenuItem>
+            }
+            {
+                !loading && !field.hideSelectOption &&
+                <MenuItem value=''>
+                    <em><FormattedMessage id='Select'/></em>
+                </MenuItem>
+            }
+            {
+                !loading && 
                 options.map((opt) => {
                     return (
                         <MenuItem key={opt.value}
                             value={opt.value}
                         >
-                            {opt.label}
+                            {typeof opt.label !== 'undefined' ? opt.label : opt.value}
                         </MenuItem>
                     )
                 })
