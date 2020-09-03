@@ -31,8 +31,8 @@ const Login = () => {
     return (
         <div className={classes.root}>
             <Container maxWidth="xs" className={classes.main}>
-                <Box bgcolor={theme.palette.primary.light} padding={1} borderRadius={theme.shape.borderRadius}>
-                    <img src={require('./home-bar.png')} height='50px'/>
+                <Box >
+                    <img src={require('./home-bar-black.png')} height='50px'/>
                 </Box>
                 <LoginRouter/>
             </Container>

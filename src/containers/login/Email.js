@@ -55,12 +55,6 @@ const Email = () => {
 
     return (
         <React.Fragment>
-            <Typography variant="h5" className={classes.header}>
-                <FormattedMessage id='Sign-In'/>
-            </Typography>
-            <Typography variant="body1">
-                <FormattedMessage id='to continue with CRM'/>
-            </Typography>
             <TextField
                 label='Email'
                 autoFocus

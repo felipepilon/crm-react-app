@@ -60,9 +60,6 @@ const Password = (props) => {
             <Typography variant="h5" className={classes.header}>
                 <FormattedMessage id='Hi {first_name}' values={user}/>
             </Typography>
-            <Typography variant="body1">
-                {user.email}
-            </Typography>
             <TextField
                 label={intl.formatMessage({id: 'Enter your password'})}
                 type="password"
@@ -77,14 +74,6 @@ const Password = (props) => {
                 helperText={error && errorMsg}
             />
             <br/>
-            <FormControlLabel
-                control={<Checkbox
-                    checked={remember_me} 
-                    onChange={handleRememberMe}
-                    color="primary"
-                />}
-                label={intl.formatMessage({id: 'Keep me in'})}
-            /> 
             <Box
                 width='100%'
                 display='flex'
