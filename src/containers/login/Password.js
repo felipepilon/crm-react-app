@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Typography, makeStyles, TextField, Button, FormControlLabel, Checkbox, Box } from '@material-ui/core';
+import { Typography, makeStyles, TextField, Button, Box } from '@material-ui/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { AuthContext } from '../../contexts/Auth';
 import { post_SignIn } from '../../services/Auth';
@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const Password = (props) => {
-    const { user, setUser, authenticate } = useContext(AuthContext);
+    const { user, authenticate } = useContext(AuthContext);
     const remember_me = user.remember_me || false;
 
     const [ password, setPassword ] = useState('')
@@ -48,9 +48,7 @@ const Password = (props) => {
             setErrorMsg(err.message || 'Unknown error');
         });
     }
-
-    const handleRememberMe = () => { setUser({ ...user, ...{ remember_me: !remember_me }}); };
-
+    
     const handleBack = () => { hist.goBack() };
 
     const error = errorMsg ? true : false;

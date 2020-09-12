@@ -5,28 +5,27 @@ import { Box, Typography, Container } from '@material-ui/core';
 import CustomerDataPaper from '../customer-view/CustomerDataPaper';
 import ReservesTable from '../customer-view/ReservesTable';
 import ContactsTable from '../customer-view/ContactsTable';
-import ContactCenter from '../contact-center/ContactCenter';
+import ContactCenter from '../../components/contact-center/ContactCenter';
 import { useIntl } from 'react-intl';
 
 const CustomerView = (props) => {
     const { setStatus } = useContext(WorkspaceStateContext);
-    const [ customer, setCustomer ] = useState(undefined);
+    const [ customer, setCustomer ] = useState({});
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
     
     const intl = useIntl();
 
     useEffect(() => {
+        setStatus('loading');
         document.title = intl.formatMessage({id: 'Customer'});
-        console.log('CustomerView useEffect props', props)
-
+        
         get_Customer(props.customer_id)
         .then((res) => {
-            console.log('CustomerView get_Customer', res)
             setStatus('loaded');
             setCustomer(res);
-        })
+        });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [props.customer_id]);
 
     if (!customer)
         return null;

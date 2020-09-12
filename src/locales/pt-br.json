@@ -158,5 +158,7 @@
     "Delete": "Excluir",
     "Edit User Store": "Editar Associação Usuário Loja",
     "Manager": "Gerente",
-    "Invalid": "Inválido"
+    "Invalid": "Inválido",
+    "Loading customers": "Buscando clientes",
+    "Enter at least {minLength} digits to search for a customer": "Informe ao menos {minLength} dígitos para buscar um cliente"
 }

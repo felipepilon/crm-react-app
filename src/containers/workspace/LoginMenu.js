@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Button, MenuItem, Popover, Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Box } from '@material-ui/core';
 import { AuthContext } from '../../contexts/Auth';
 import { FormattedMessage } from 'react-intl';

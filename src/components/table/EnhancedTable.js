@@ -4,19 +4,15 @@ import EnhancedTableHead from './EnhancedTableHead'
 import EnhancedTableBody from './EnhancedTableBody';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
-import { useLastLocation } from 'react-router-last-location';
 
 const EnhancedTable = (props) => {
     const intl = useIntl();
     const hist = useHistory();
     const loc = useLocation();
-    const lastLoc = useLastLocation();
 
-    const restoreState = loc.state && lastLoc && lastLoc.pathname !== loc.pathname ? true : false;
-
-    const [dense, setDense] = useState((restoreState && loc.state.dense) || props.dense || 'normal');
-    const [rowsPerPage, setRowsPerPage] = useState((restoreState && loc.state.rowsPerPage) || props.rowsPerPage || 10);
-    const [page, setPage] = useState((restoreState && loc.state.page) || props.page || 0);
+    const [dense, setDense] = useState(props.dense || 'normal');
+    const [rowsPerPage, setRowsPerPage] = useState(props.rowsPerPage || 10);
+    const [page, setPage] = useState(props.page || 0);
     const [tableData, setTableData] = useState([]);
     const [tableColumns, setTableColumns] = useState([]);
     

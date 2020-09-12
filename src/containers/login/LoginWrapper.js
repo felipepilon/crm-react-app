@@ -1,7 +1,6 @@
 import React from 'react';
-import { Container, Avatar, makeStyles, Box, useTheme } from '@material-ui/core';
+import { Container, makeStyles, Box } from '@material-ui/core';
 import LoginRouter from './LoginRouter'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,13 +25,12 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
     const classes = useStyles();
-    const theme = useTheme();
 
     return (
         <div className={classes.root}>
             <Container maxWidth="xs" className={classes.main}>
                 <Box >
-                    <img src={require('./home-bar-black.png')} height='50px'/>
+                    <img src={require('./home-bar-black.png')} height='50px' alt=''/>
                 </Box>
                 <LoginRouter/>
             </Container>

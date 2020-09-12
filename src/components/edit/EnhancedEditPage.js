@@ -4,7 +4,6 @@ import EnhancedEditForm from './EnhancedEditForm';
 import { useIntl } from 'react-intl';
 import { useHistory, useLocation } from 'react-router-dom';
 import { AppStateContext } from '../../contexts/AppState';
-import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 
 const EnhancedEditPage = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);

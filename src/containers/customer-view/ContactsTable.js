@@ -4,7 +4,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EnhancedTable from '../table/EnhancedTable'
+import EnhancedTable from '../../components/table/EnhancedTable'
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { 
@@ -16,12 +16,12 @@ const ContactsTable = (props) => {
     const [ expanded, setExpanded ] = useState(false);
     const [ data, setData ] = useState([]);
     const [ columns ] = useState([
-        { name: 'contact_start_date', title: 'Contact Date', mask: 'datetime' },
+        { name: 'contact_start_date', title: 'Contact Date', comp: 'datetime' },
         { name: 'store_name', title: 'Store' },
         { name: 'salesman_name', title: 'Salesman' },
-        { name: 'reasons', title: 'Reason(s)', intlSplit: true },
+        { name: 'reasons', title: 'Reason(s)', comp: 'intlSplit' },
         { name: 'another_reason', title: 'Another Reason' },
-        { name: 'status', title: 'Status', intl: true },
+        { name: 'status', title: 'Status', comp: 'intl' },
     ]);
     const [ lastUpdate, setLastUpdate ] = useState(null);
     const [ loading, setLoading ] = useState(true);

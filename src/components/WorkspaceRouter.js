@@ -8,7 +8,7 @@ import FranchiseEdit from './pages/FranchiseEdit';
 import CustomerList from './pages/CustomerList';
 import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
-import CustomerView from './pages/CustomerView';
+import CustomerView from '../containers/customer-view/CustomerView';
 import CustomerEdit from './pages/CustomerEdit';
 import StoreGroupList from './pages/StoreGroupList';
 import UserRouter from '../containers/user/UserRouter';
@@ -64,10 +64,11 @@ const WorkspaceRouter = () => {
                     )
                 }}
             />
-            <Route exact path={`${path}/customers/view/:customer_id`}
+            <Route exact path={`${path}/customers/view/:customer_id` }
                 render={({match}) => {
                     return (
                         <CustomerView
+                            key={match.params.customer_id}
                             customer_id={match.params.customer_id}
                         />
                     )

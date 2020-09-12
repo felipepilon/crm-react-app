@@ -1,12 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { TextField, CircularProgress, Typography, Box, useTheme, fade } from '@material-ui/core';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import { TextField, CircularProgress, Typography, Box } from '@material-ui/core';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { get_CustomersIndex } from '../../services/Customer';
 import LabelMask from '../../utils/LabelMasks';
 import { useIntl, FormattedMessage } from 'react-intl';
 
 const minLength = 5;
-const filter = createFilterOptions();
 
 const CustomerSearchIndex = (props) => {
     const [ inputValue, setInputValue ] = useState('');
@@ -51,7 +50,7 @@ const CustomerSearchIndex = (props) => {
             clearOnEscape
             onOpen={() => {setOpen(true)}}
             onClose={() => {setOpen(false)}}
-            getOptionLabel={(opt) => opt.search_index}
+            getOptionLabel={(opt) => opt.name}
             renderOption={(opt) => {
                 if (opt.search_index === '_add') {
                     return <Box fontStyle='italic' >
@@ -72,11 +71,11 @@ const CustomerSearchIndex = (props) => {
                     </Box>
                 )
             }}
-            filterOptions={(options, params) => {
-                const filtered = filter(options, params);
+            filterOptions={(opts, sta) => {
+                const filtered = opts.filter((val) => val.search_index.includes(sta.inputValue.toUpperCase()))
 
                 // Suggest the creation of a new value
-                if (params.inputValue.length > minLength) {
+                if (sta.inputValue.length > minLength) {
                     filtered.push({
                         search_index: '_add',
                     });

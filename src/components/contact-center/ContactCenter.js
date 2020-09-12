@@ -102,7 +102,7 @@ const ContactCenter = (props) => {
         if (another_reason)
             setErrors(other);
     // eslint-disable-next-line
-    }, [contact.another_reason])
+    }, [contact.another_reason]);
 
     const disabled = contact.status !== 'New';
 

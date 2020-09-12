@@ -1,11 +1,9 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, Button, useTheme } from '@material-ui/core';
 import { FormattedMessage, useIntl } from 'react-intl';
 import EnhancedTable from '../table/EnhancedTable';
-import { useLocation } from 'react-router-dom';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import EnhancedButtonLink from './EnhancedButtonLink';
-import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 
 const EnhancedListPage = (props) => {
     const intl = useIntl();

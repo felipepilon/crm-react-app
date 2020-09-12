@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { get_Users } from '../../services/User';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import EnhancedListPage from '../../components/list/EnhancedListPage';
 
 const UserList = () => {

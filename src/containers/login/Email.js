@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { Typography, makeStyles, TextField, Button } from '@material-ui/core';
+import { makeStyles, TextField, Button } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import isEmail from 'validator/lib/isEmail';
 import { AuthContext } from '../../contexts/Auth';

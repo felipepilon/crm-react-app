@@ -4,7 +4,7 @@ import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
 import Typography from '@material-ui/core/Typography';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import EnhancedTable from '../table/EnhancedTable'
+import EnhancedTable from '../../components/table/EnhancedTable'
 import { FormattedMessage } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { get_ReserveDetails } from '../../services/Reserve';
@@ -14,7 +14,7 @@ const ReservesTable = (props) => {
     const [ data, setData ] = useState([]);
     const [ loading, setLoading ] = useState(true);
     const [ columns ] = useState([
-        { name: 'reserve_date', title: 'Reserve Date', mask: 'datetime' },
+        { name: 'reserve_date', title: 'Reserve Date', comp: 'datetime' },
         { name: 'store_name', title: 'Store', },
         { name: 'salesman_name', title: 'Salesman', },
         { name: 'product_code', title: 'Product', },
