@@ -8,13 +8,13 @@ import ContactsTable from '../customer-view/ContactsTable';
 import ContactCenter from '../../components/contact-center/ContactCenter';
 import { useIntl } from 'react-intl';
 
-const CustomerView = ({customer_id, reason}) => {
+const CustomerView = ({customer_id}) => {
+    const intl = useIntl();
+    
     const { setStatus } = useContext(WorkspaceStateContext);
     const [ customer, setCustomer ] = useState(null);
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
     
-    const intl = useIntl();
-
     useEffect(() => {
         setStatus('loading');
         document.title = intl.formatMessage({id: 'Customer'});
@@ -54,7 +54,6 @@ const CustomerView = ({customer_id, reason}) => {
                     <ContactCenter
                         customer={customer}
                         setContactsLastUpdate={setContactsLastUpdate}
-                        reason={reason}
                     />
                 </Box>
             </Box>

@@ -12,20 +12,22 @@ import { AppStateContext } from '../../contexts/AppState';
 import { 
     post_Contact,
 } from '../../services/Contact';
+import { useLocation } from 'react-router-dom';
 
 const ContactCenter = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);
+
+    const loc = useLocation();
+    const theme = useTheme();
     
     const [ contact, setContact ] = useState({
         status: 'New',
         store_group_id: props.customer.store_group_id,
         customer_id: props.customer.customer_id,
-        reasons: props.reason
+        reasons: loc.state.reason
     });
     const [ contactVia, setContactVia ] = useState(null);
     const [ errors, setErrors ] = useState({});
-
-    const theme = useTheme();
 
     const handleWhatsAppButtonClick = () => handleContactViaSelected('WhatsApp');
 

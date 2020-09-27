@@ -6,16 +6,10 @@ import { FormattedMessage } from 'react-intl';
 const AgendaGroupAccordion = ({loadContentFnc, loadSummaryFnc, summaryData, summaryStatus, children, title, contentStatus}) => {
     const theme = useTheme();
 
-    const [data, setData] = useState({});
     const [expanded, setExpanded] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        setTimeout(() => {
-            loadSummaryFnc()
-
-            setLoading(false);
-        }, 1000)
+        loadSummaryFnc()
     }, [])
 
     useEffect(() => {

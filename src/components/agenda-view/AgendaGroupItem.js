@@ -9,8 +9,11 @@ import BlockIcon from '@material-ui/icons/Block';
 const AgendaGroupItem = ({customer, reason}) => {
     const loc = useLocation();
 
-    const to = `${loc.pathname}/customers/view/${customer.customer_id}?reason=${reason}`;
-    
+    const to = {
+        pathname: `${loc.pathname}/customers/view/${customer.customer_id}`,
+        state: {reason}
+    }
+
     return (
         <Link component={RouterLink} to={to}>
             <Box display='flex' alignItems='center' width='100%'>
