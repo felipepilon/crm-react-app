@@ -13,6 +13,7 @@ const SalesPanel = () => {
                 display: 'flex',
                 position: 'relative',
                 padding: theme.spacing(1),
+                marginLeft: theme.spacing(1),
                 boxSizing: 'border-box',
                 flex: '1',
                 flexDirection: 'column'

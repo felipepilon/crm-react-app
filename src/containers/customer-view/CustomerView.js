@@ -8,9 +8,9 @@ import ContactsTable from '../customer-view/ContactsTable';
 import ContactCenter from '../../components/contact-center/ContactCenter';
 import { useIntl } from 'react-intl';
 
-const CustomerView = (props) => {
+const CustomerView = ({customer_id}) => {
     const { setStatus } = useContext(WorkspaceStateContext);
-    const [ customer, setCustomer ] = useState({});
+    const [ customer, setCustomer ] = useState(null);
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
     
     const intl = useIntl();
@@ -19,13 +19,13 @@ const CustomerView = (props) => {
         setStatus('loading');
         document.title = intl.formatMessage({id: 'Customer'});
         
-        get_Customer(props.customer_id)
+        get_Customer({customer_id})
         .then((res) => {
             setStatus('loaded');
             setCustomer(res);
         });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [props.customer_id]);
+    }, [customer_id]);
 
     if (!customer)
         return null;

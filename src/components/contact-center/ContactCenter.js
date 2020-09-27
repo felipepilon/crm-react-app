@@ -10,12 +10,12 @@ import StoreSelect from '../fields/StoreSelect';
 import SalesmanSelect from '../fields/SalesmanSelect';
 import { AppStateContext } from '../../contexts/AppState';
 import { 
-    post_ContactUpdate,
+    post_Contact,
 } from '../../services/Contact';
 
 const ContactCenter = (props) => {
     const { setSucessSnack } = useContext(AppStateContext);
-
+    
     const [ contact, setContact ] = useState({
         status: 'New',
         store_group_id: props.customer.store_group_id,
@@ -64,7 +64,7 @@ const ContactCenter = (props) => {
     const handleAnotherReasonChange = (another_reason) => setContact({ ...contact, ...{another_reason}, });
 
     const handleEndContact = () => {
-        post_ContactUpdate({
+        post_Contact({
             contact_id: contact.contact_id,
             status: 'Completed',
             contact_end_date: new Date(),

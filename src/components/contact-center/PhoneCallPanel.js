@@ -9,7 +9,7 @@ import OnGoingCallTimer from './OnGoingCallTimer';
 import ContactFeedback from './ContactFeedback';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { 
-    post_ContactNew,
+    post_Contact,
     post_Interactions,
 } from '../../services/Contact';
 
@@ -58,7 +58,7 @@ const PhoneCallPanel = (props) => {
         props.setContact(newContact);
 
         setTimeout(() => {
-            post_ContactNew({
+            post_Contact({
                 ...newContact,
                 ...{
                     interactions: [newInter],

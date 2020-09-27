@@ -6,7 +6,7 @@ import { get_MsgPreset } from '../../services/Contact';
 import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import { 
-    post_ContactNew,
+    post_Contact,
     post_Interactions,
 } from '../../services/Contact';
 import ContactFeedback from './ContactFeedback';
@@ -97,7 +97,7 @@ const WhatsAppMsgPanel = (props) => {
             setErrors(other);
     // eslint-disable-next-line
     }, [panelState.notes]);
-
+    
     const handleSendMsg = (e) => {
         e.preventDefault();
         setLoading(true);
@@ -137,7 +137,7 @@ const WhatsAppMsgPanel = (props) => {
             props.setContact(newContact);
 
             setTimeout(() => {
-                post_ContactNew({
+                post_Contact({
                     ...newContact,
                     ...{
                         interactions: [newInter],

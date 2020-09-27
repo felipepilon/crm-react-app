@@ -160,5 +160,10 @@
     "Manager": "Gerente",
     "Invalid": "Inválido",
     "Loading customers": "Buscando clientes",
-    "Enter at least {minLength} digits to search for a customer": "Informe ao menos {minLength} dígitos para buscar um cliente"
+    "Enter at least {minLength} digits to search for a customer": "Informe ao menos {minLength} dígitos para buscar um cliente",
+    "Agenda": "Agenda",
+    "Birthdays": "Aniversariantes",
+    "Todays": "Hoje",
+    "Yesterdays": "Ontem",
+    "Tomorrows": "Amanhã"
 }
