@@ -65,11 +65,15 @@ const WorkspaceRouter = () => {
                 }}
             />
             <Route exact path={`${path}/customers/view/:customer_id` }
-                render={({match}) => {
-                    return (
+                render={({match, location}) => {
+                    const qry = new URLSearchParams(location.search);
+                    const reason = qry.get('reason');
+                    
+                    return (    
                         <CustomerView
                             key={match.params.customer_id}
                             customer_id={match.params.customer_id}
+                            reason={reason}
                         />
                     )
                 }}

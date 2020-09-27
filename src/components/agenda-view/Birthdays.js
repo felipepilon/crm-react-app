@@ -26,24 +26,20 @@ const Birthdays = () => {
 
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
-        setTimeout(() => {
-            get_SumToDoBirthday({birthday: getDateMonthDay(today), year: getDateYear(today)})
-            .then((res) => {
-                setSummaryData(res);
-                setSummaryStatus('loaded');
-            })
-        }, 500)
+        get_SumToDoBirthday({birthday: getDateMonthDay(today), year: getDateYear(today)})
+        .then((res) => {
+            setSummaryData(res);
+            setSummaryStatus('loaded');
+        });
     }
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        setTimeout(() => {
-            get_ToDoBirthday({birthday_start: getDateMonthDay(yesterday), birthday_end: getDateMonthDay(tomorrow), year: getDateYear(today)})
-            .then((res) => {
-                setContentData(res);
-                setContentStatus('loaded');
-            })
-        }, 1000)
+        get_ToDoBirthday({birthday_start: getDateMonthDay(yesterday), birthday_end: getDateMonthDay(tomorrow), year: getDateYear(today)})
+        .then((res) => {
+            setContentData(res);
+            setContentStatus('loaded');
+        });
     }
 
     return (
@@ -62,7 +58,7 @@ const Birthdays = () => {
                     {
                         todays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason="Birthday"/>
                             );
                         })
                     }

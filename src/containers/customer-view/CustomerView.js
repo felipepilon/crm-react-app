@@ -8,7 +8,7 @@ import ContactsTable from '../customer-view/ContactsTable';
 import ContactCenter from '../../components/contact-center/ContactCenter';
 import { useIntl } from 'react-intl';
 
-const CustomerView = ({customer_id}) => {
+const CustomerView = ({customer_id, reason}) => {
     const { setStatus } = useContext(WorkspaceStateContext);
     const [ customer, setCustomer ] = useState(null);
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
@@ -54,6 +54,7 @@ const CustomerView = ({customer_id}) => {
                     <ContactCenter
                         customer={customer}
                         setContactsLastUpdate={setContactsLastUpdate}
+                        reason={reason}
                     />
                 </Box>
             </Box>
