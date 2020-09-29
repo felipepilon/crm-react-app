@@ -5,13 +5,12 @@ import StoreEdit from './pages/StoreEdit';
 import StoreGroupEdit from './pages/StoreGroupEdit';
 import FranchiseList from './pages/FranchiseList';
 import FranchiseEdit from './pages/FranchiseEdit';
-import CustomerList from './pages/CustomerList';
 import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
 import CustomerView from '../containers/customer-view/CustomerView';
-import CustomerEdit from './pages/CustomerEdit';
 import StoreGroupList from './pages/StoreGroupList';
 import UserRouter from '../containers/user/UserRouter';
+import CustomerRouter from '../containers/customer/CustomerRouter';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -52,18 +51,6 @@ const WorkspaceRouter = () => {
                 }}
             />
 
-            <Route exact path={`${path}/customers/list`}>
-                <CustomerList/>
-            </Route>
-            <Route exact path={`${path}/customers/edit/:customer_id`}
-                render={({match}) => {
-                    return (
-                        <CustomerEdit
-                        customer_id={match.params.customer_id}
-                        />
-                    )
-                }}
-            />
             <Route exact path={`${path}/customers/view/:customer_id` }
                 render={({match}) => {
                     return (    
@@ -74,6 +61,9 @@ const WorkspaceRouter = () => {
                     )
                 }}
             />
+            <Route path={`${path}/customers`}>
+                <CustomerRouter/>
+            </Route>
 
             <Route exact path={`${path}/storeGroups/list`}>
                 <StoreGroupList/>
@@ -94,7 +84,7 @@ const WorkspaceRouter = () => {
             <Route path={`${path}/users`}>
                 <UserRouter/>
             </Route>
-
+            
             <Route path={`${path}/*`}
                 render={({location}) => {
                     return (

@@ -19,13 +19,17 @@ const CustomerView = ({customer_id}) => {
         setStatus('loading');
         document.title = intl.formatMessage({id: 'Customer'});
         
+        handleLoadCustomer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [customer_id]);
+
+    const handleLoadCustomer = () => {
         get_Customer({customer_id})
         .then((res) => {
             setStatus('loaded');
             setCustomer(res);
         });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [customer_id]);
+    }
 
     if (!customer)
         return null;
@@ -45,6 +49,7 @@ const CustomerView = ({customer_id}) => {
                 <Box width='30%' padding={1}>
                     <CustomerDataPaper
                         customer={customer}
+                        handleLoadCustomer={handleLoadCustomer}
                     />
                 </Box>
                 <Box

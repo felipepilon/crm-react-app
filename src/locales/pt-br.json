@@ -165,5 +165,9 @@
     "Birthdays": "Aniversariantes",
     "Todays": "Hoje",
     "Yesterdays": "Ontem",
-    "Tomorrows": "Amanhã"
+    "Tomorrows": "Amanhã",
+    "Edit Client": "Editar Cliente",
+    "Notifications": "Notificações",
+    "Allow CRM Contact": "Permitir Contato Via CRM",
+    "Invalid phone format": "Formato de telefone inválido"
 }

@@ -1,63 +1,72 @@
-import React from 'react';
-import { Paper, Typography, makeStyles } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Paper, Typography, Link, useTheme, Box, Button } from '@material-ui/core';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import LabelMasks from '../../utils/LabelMasks';
+import CustomerEditDialog from '../customer/CustomerEditDialog';
 
-const useStyles = makeStyles((theme) => ({
-    paper: {
-        padding: theme.spacing(2)
-    },
-}));
-
-const CustomerDataPaper = (props) => {
-    const classes = useStyles();
+const CustomerDataPaper = ({customer, handleLoadCustomer}) => {
+    const theme = useTheme();
+    
+    const [openEditCustomer, setOpenEditCustomer] = useState(false);
 
     return (
-        <Paper className={classes.paper}>
+        <Paper style={{padding: theme.spacing(2)}}>
             <Typography variant='body1'>
                 <FormattedMessage id="CPF"/>
-                : {LabelMasks.cpf(props.customer.cpf)}
+                : {LabelMasks.cpf(customer.cpf)}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Birth Date"/>
-                : <FormattedDate value={props.customer.birth_date} timeZone='utc' />
+                : <FormattedDate value={customer.birth_date} timeZone='utc' />
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Email"/>
-                : {props.customer.email}
+                : {customer.email}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Phone 1"/>
-                : {LabelMasks.phone(props.customer.phone1)}
+                : {LabelMasks.phone(customer.phone1)}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Phone 2"/>
-                : {LabelMasks.phone(props.customer.phone2)}
+                : {LabelMasks.phone(customer.phone2)}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="ZIP"/>
-                : {LabelMasks.zip(props.customer.zip)}
+                : {LabelMasks.zip(customer.zip)}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Address 1"/>
-                : {props.customer.addr1}
+                : {customer.addr1}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Address 2"/>
-                : {props.customer.addr2}
+                : {customer.addr2}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Address 3"/>
-                : {props.customer.addr3}
+                : {customer.addr3}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="City"/>
-                : {props.customer.city}
+                : {customer.city}
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="State"/>
-                : {props.customer.state}
+                : {customer.state}
             </Typography>
+            <Box display='flex' justifyContent='flex-end'>
+                <Button onClick={(e) => setOpenEditCustomer(true)}><FormattedMessage id='Edit Customer'/></Button>
+            </Box>
+            {
+                openEditCustomer &&
+                <CustomerEditDialog
+                    customer_id={customer.customer_id}
+                    open={openEditCustomer}
+                    handleClose={() => setOpenEditCustomer(false)}
+                    handleCustomerUpdated={handleLoadCustomer}
+                />
+            }
         </Paper>
     );
 }

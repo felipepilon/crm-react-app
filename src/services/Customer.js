@@ -9,7 +9,7 @@ export const post_Customer = (params) => {
 }
 
 export const get_Customers = (params) => {
-    return api.post('/customers', {params})
+    return api.get('/customers', {params})
     .then(handleResponse)
     .catch(handleError);
 }
@@ -20,8 +20,8 @@ export const get_CustomersIndex = (params) => {
     .catch(handleError);
 }
 
-export const get_Customer = (params) => {
-    return api.get('/customers/customer', {params})
+export const get_Customer = ({customer_id}) => {
+    return api.get(`/customers/${customer_id}`)
     .then(handleResponse)
     .catch(handleError);
 }

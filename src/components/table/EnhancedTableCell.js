@@ -6,6 +6,7 @@ import EnhancedTableCellIntlSplit from './EnhancedTableCellIntlSplit';
 import EnhancedTableCellIntlLink from './EnhancedTableCellIntlLink';
 import EnhancedTableCellDatetime from './EnhancedTableCellDatetime';
 import EnhancedTableCellDate from './EnhancedTableCellDate';
+import EnhancedTableCellMasked from './EnhancedTableCellMasked';
 
 const components = {
     editIcon: EnhancedTableCellEdit,
@@ -15,6 +16,7 @@ const components = {
     default: EnhancedTableCellDefault,
     datetime: EnhancedTableCellDatetime,
     date: EnhancedTableCellDate,
+    masked: EnhancedTableCellMasked,
 }
 
 const EnhancedTablCell = (props) => {
