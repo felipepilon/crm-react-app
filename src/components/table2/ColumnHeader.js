@@ -2,9 +2,9 @@ import { TableCell, TableSortLabel, Typography } from '@material-ui/core';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 
-const ColumnHeader = ({title}) => {
+const ColumnHeader = ({title, align}) => {
     return (
-        <TableCell>
+        <TableCell align={align || 'left'}>
             <TableSortLabel>
                 <Typography variant='inherit' noWrap>
                     {

@@ -2,11 +2,9 @@ import React from 'react';
 import { TableCell, Typography } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 
-const EnhancedTableCellIntl = (props) => {
+const TableCellIntlSplit = ({value}) => {
     const intl = useIntl();
-
-    let value = props.row[props.column.name] || props.column.value || '';
-
+    
     const values = value.split(', ');
 
     if (values.length === 1) {
@@ -27,4 +25,4 @@ const EnhancedTableCellIntl = (props) => {
     );
 }
  
-export default EnhancedTableCellIntl;
+export default TableCellIntlSplit;

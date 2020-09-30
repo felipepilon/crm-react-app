@@ -15,14 +15,11 @@ import TableCell from '../../components/table2/TableCell';
 import LoadingProgress from '../../components/table2/LoadingProgress';
 import Pagination from '../../components/table2/Pagination';
 import DenseSwitch from '../../components/table2/DenseSwitch';
-import { get_Users } from '../../services/User';
-import UserEditDialog from './UserEditDialog';
-import UserAddDialog from './UserAddDialog';
-import { useLocation } from 'react-router-dom';
+import { get_UserStores } from '../../services/UserStore';
+import UserStoreEditDialog from './UserStoreEditDialog';
+import UserStoreAddDialog from './UserStoreAddDialog';
 
-const UserList = () => {
-    const loc = useLocation();
-
+const UserList = ({user_id}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -33,7 +30,7 @@ const UserList = () => {
     const [currentRowId, setCurrentRowId] = useState(null);
 
     useEffect(() => {
-        get_Users()
+        get_UserStores({user_id})
         .then((res) => {
             setData(res);
             setLoading(false);
@@ -44,29 +41,29 @@ const UserList = () => {
         setLoading(true);
         setData([]);
 
-        get_Users()
+        get_UserStores({user_id})
         .then((res) => {
             setData(res);
             setLoading(false);
         });
     };
 
-    const handleUserUpdated = () => {
+    const handleDataUpdated = () => {
         handleRefreshList();
     }
 
-    const handleEditLinkClick = (selCustId) => {
-        setCurrentRowId(selCustId);
+    const handleEditLinkClick = (selectedId) => {
+        setCurrentRowId(selectedId);
         setOpenEdit(true);
     }
 
-    const showDataNotFound = !loading && !data.length
-    
+    const showDataNotFound = !loading && !data.length;
+
     return (
         <ListPageWrapper>
             <ListPageHeaderWrapper>
-                <ListPageTitle title='Users'/>
-                <ListPageButton title='New User' handleClick={() => setOpenAdd(true)}/>
+                <ListPageTitle title='User Stores'/>
+                <ListPageButton title='New' handleClick={() => setOpenAdd(true)}/>
                 <ListPageRefreshButton handleClick={handleRefreshList}/>
             </ListPageHeaderWrapper>
             <TableWrapper>
@@ -74,30 +71,20 @@ const UserList = () => {
                 <LoadingProgress loading={loading}/>
                 <TableBodyWrapper dense={dense}>
                     <TableHeaderWrapper>
-                        <ColumnHeader title='Edit'/>
+                        <ColumnHeader title='Edit' align='center'/>
                         <ColumnHeader title='Name'/>
                         <ColumnHeader title='Email'/>
-                        <ColumnHeader title='Role'/>
-                        <ColumnHeader title='Store Groups'/>
-                        <ColumnHeader title='Stores'/>
+                        <ColumnHeader title='Store'/>
                     </TableHeaderWrapper>
                     <RowsWrapper>{
                         !loading &&
                         data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <RowWrapper key={row.user_id}>
-                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_id)}/>
-                                    <TableCell value={row.name}/>
-                                    <TableCell value={row.email}/>
-                                    <TableCell value={row.role} format='intl'/>
-                                    <TableCell value='Store Groups' format='intlLink' to={{
-                                        pathname: `${loc.pathname}/${row.user_id}/stores`,
-                                        state: { from: loc }
-                                    }}/>
-                                    <TableCell value='Stores' format='intlLink' to={{
-                                        pathname: `${loc.pathname}/${row.user_id}/stores`,
-                                        state: { from: loc }
-                                    }}/>
+                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_store_id)}/>
+                                    <TableCell value={row.store_name}/>
+                                    <TableCell value={row.user_email}/>
+                                    <TableCell value={row.store_name}/>
                                 </RowWrapper>
                             )
                         })
@@ -117,19 +104,21 @@ const UserList = () => {
             </TableWrapper>
             {
                 openEdit &&
-                <UserEditDialog
-                    user_id={currentRowId}
+                <UserStoreEditDialog
+                    user_store_id={currentRowId}
+                    user_id={user_id}
                     open={openEdit}
                     handleClose={() => setOpenEdit(false)}
-                    handleUpdated={handleUserUpdated}
+                    handleUpdated={handleDataUpdated}
                 />
             }
             {
                 openAdd &&
-                <UserAddDialog
+                <UserStoreAddDialog
                     open={openAdd}
+                    user_id={user_id}
                     handleClose={() => setOpenAdd(false)}
-                    handleUpdated={handleUserUpdated}
+                    handleUpdated={handleDataUpdated}
                 />
             }
         </ListPageWrapper>

@@ -2,9 +2,7 @@ import React from 'react';
 import { TableCell, Typography } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 
-const EnhancedTableCellIntl = (props) => {
-    const value = props.row[props.column.name] || props.column.value || '';
-
+const TableCellIntl = ({value}) => {
     return (
         <TableCell>
             <Typography variant='inherit' noWrap>
@@ -17,4 +15,4 @@ const EnhancedTableCellIntl = (props) => {
     );
 }
  
-export default EnhancedTableCellIntl;
+export default TableCellIntl;

@@ -14,7 +14,6 @@ import TableCell from '../../components/table2/TableCell';
 import LoadingProgress from '../../components/table2/LoadingProgress';
 import Pagination from '../../components/table2/Pagination';
 import DenseSwitch from '../../components/table2/DenseSwitch';
-import { useLocation } from 'react-router-dom';
 import { get_Customers } from '../../services/Customer';
 import CustomerEditDialog from './CustomerEditDialog';
 
@@ -66,6 +65,7 @@ const CustomerList = () => {
             </ListPageHeaderWrapper>
             <TableWrapper>
                 <DataNotFoundLabel show={showDataNotFound}/>
+                <LoadingProgress loading={loading}/>
                 <TableBodyWrapper dense={dense}>
                     <TableHeaderWrapper>
                         <ColumnHeader title='Edit'/>
@@ -105,7 +105,6 @@ const CustomerList = () => {
                         })
                     }</RowsWrapper>
                 </TableBodyWrapper>
-                <LoadingProgress loading={loading}/>
                 {
                     !loading &&
                     <Pagination

@@ -4,9 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import { Link as LinkRouter } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
 
-const EnhancedTableCellIntlLink = (props) => {
-    const value = props.row[props.column.name] || props.column.value || '';
-
+const TableCellIntlLink = ({value, to}) => {
     return (
         <TableCell>
             <Typography variant='inherit' noWrap>
@@ -14,7 +12,7 @@ const EnhancedTableCellIntlLink = (props) => {
                     value &&
                     <Link color='primary' underline='always'
                         component={LinkRouter}
-                        to={() => props.column.to(props.row)}
+                        to={to}
                     >
                         <FormattedMessage id={value}/>
                     </Link>
@@ -24,4 +22,4 @@ const EnhancedTableCellIntlLink = (props) => {
     );
 }
  
-export default EnhancedTableCellIntlLink;
+export default TableCellIntlLink;

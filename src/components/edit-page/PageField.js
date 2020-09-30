@@ -10,6 +10,7 @@ const components = {
     default: PageFieldText,
     masked: PageFieldMasked,
     checkbox: PageFieldCheckbox,
+    select: PageFieldSelect
 }
 
 const PageField = ({comp, title, required, readOnly, ...other}) => {
@@ -24,7 +25,7 @@ const PageField = ({comp, title, required, readOnly, ...other}) => {
                 </InputLabel>
             </Box>
             <Box flex='1'>
-                <Component {...other}/>
+                <Component {...other} readOnly={readOnly}/>
             </Box>
         </Box>
     );

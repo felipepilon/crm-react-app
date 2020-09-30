@@ -2,15 +2,14 @@ import React from 'react';
 import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
 import StoreList from './pages/StoreList';
 import StoreEdit from './pages/StoreEdit';
-import StoreGroupEdit from './pages/StoreGroupEdit';
 import FranchiseList from './pages/FranchiseList';
 import FranchiseEdit from './pages/FranchiseEdit';
 import WorkspaceHome from './pages/WorkspaceHome';
 import ReserveAdd from './pages/ReserveAdd';
 import CustomerView from '../containers/customer-view/CustomerView';
-import StoreGroupList from './pages/StoreGroupList';
 import UserRouter from '../containers/user/UserRouter';
 import CustomerRouter from '../containers/customer/CustomerRouter';
+import StoreGroupRouter from '../containers/store-group/StoreGroupRouter';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -65,22 +64,10 @@ const WorkspaceRouter = () => {
                 <CustomerRouter/>
             </Route>
 
-            <Route exact path={`${path}/storeGroups/list`}>
-                <StoreGroupList/>
+            <Route path={`${path}/storeGroups`}>
+                <StoreGroupRouter/>
             </Route>
-            <Route exact path={`${path}/storeGroups/add`}>
-                <StoreGroupEdit _new/>
-            </Route>
-            <Route exact path={`${path}/storeGroups/edit/:store_group_id`}
-                render={({match}) => {
-                    return (
-                        <StoreGroupEdit
-                            store_group_id={match.params.store_group_id}
-                        />
-                    )
-                }}
-            />
-
+            
             <Route path={`${path}/users`}>
                 <UserRouter/>
             </Route>

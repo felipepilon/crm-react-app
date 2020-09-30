@@ -6,7 +6,7 @@ const EditDialogWrapper = ({children, loading, handleClose, open, title}) => {
     const theme = useTheme();
 
     return (
-        <Dialog open={open} onClose={handleClose} fullWidth>
+        <Dialog open={open} onClose={handleClose} fullWidth disableBackdropClick>
             <DialogTitle><FormattedMessage id={title}/></DialogTitle>
             <Box display='flex' alignItems='center' flexDirection='column'>
                 {children}
