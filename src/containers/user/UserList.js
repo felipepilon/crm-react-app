@@ -91,7 +91,7 @@ const UserList = () => {
                                     <TableCell value={row.email}/>
                                     <TableCell value={row.role} format='intl'/>
                                     <TableCell value='Store Groups' format='intlLink' to={{
-                                        pathname: `${loc.pathname}/${row.user_id}/stores`,
+                                        pathname: `${loc.pathname}/${row.user_id}/storeGroups`,
                                         state: { from: loc }
                                     }}/>
                                     <TableCell value='Stores' format='intlLink' to={{

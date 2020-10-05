@@ -15,11 +15,11 @@ import TableCell from '../../components/table2/TableCell';
 import LoadingProgress from '../../components/table2/LoadingProgress';
 import Pagination from '../../components/table2/Pagination';
 import DenseSwitch from '../../components/table2/DenseSwitch';
-import { get_UserStores } from '../../services/UserStore';
-import UserStoreEditDialog from './UserStoreEditDialog';
-import UserStoreAddDialog from './UserStoreAddDialog';
+import { get_UserStoreGroups } from '../../services/UserStoreGroup';
+import UserStoreGroupEditDialog from './UserStoreGroupEditDialog';
+import UserStoreGroupAddDialog from './UserStoreGroupAddDialog';
 
-const UserList = ({user_id}) => {
+const UserStoreGroupList = ({user_id}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -30,7 +30,7 @@ const UserList = ({user_id}) => {
     const [currentRowId, setCurrentRowId] = useState(null);
 
     useEffect(() => {
-        get_UserStores({user_id})
+        get_UserStoreGroups({user_id})
         .then((res) => {
             setData(res);
             setLoading(false);
@@ -41,7 +41,7 @@ const UserList = ({user_id}) => {
         setLoading(true);
         setData([]);
 
-        get_UserStores({user_id})
+        get_UserStoreGroups({user_id})
         .then((res) => {
             setData(res);
             setLoading(false);
@@ -62,7 +62,7 @@ const UserList = ({user_id}) => {
     return (
         <ListPageWrapper>
             <ListPageHeaderWrapper>
-                <ListPageTitle title='User Stores'/>
+                <ListPageTitle title='User Store Groups'/>
                 <ListPageButton title='New' handleClick={() => setOpenAdd(true)}/>
                 <ListPageRefreshButton handleClick={handleRefreshList}/>
             </ListPageHeaderWrapper>
@@ -72,19 +72,19 @@ const UserList = ({user_id}) => {
                 <TableBodyWrapper dense={dense}>
                     <TableHeaderWrapper>
                         <ColumnHeader title='Edit' align='center'/>
-                        <ColumnHeader title='Name'/>
+                        <ColumnHeader title='User'/>
                         <ColumnHeader title='Email'/>
-                        <ColumnHeader title='Store'/>
+                        <ColumnHeader title='Store Group'/>
                     </TableHeaderWrapper>
                     <RowsWrapper>{
                         !loading &&
                         data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
-                                <RowWrapper key={row.user_id}>
-                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_store_id)}/>
-                                    <TableCell value={row.store_name}/>
+                                <RowWrapper key={row.user_store_group_id}>
+                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_store_group_id)}/>
+                                    <TableCell value={row.user_name}/>
                                     <TableCell value={row.user_email}/>
-                                    <TableCell value={row.store_name}/>
+                                    <TableCell value={row.store_group_name}/>
                                 </RowWrapper>
                             )
                         })
@@ -104,8 +104,8 @@ const UserList = ({user_id}) => {
             </TableWrapper>
             {
                 openEdit &&
-                <UserStoreEditDialog
-                    user_store_id={currentRowId}
+                <UserStoreGroupEditDialog
+                    user_store_group_id={currentRowId}
                     user_id={user_id}
                     open={openEdit}
                     handleClose={() => setOpenEdit(false)}
@@ -114,7 +114,7 @@ const UserList = ({user_id}) => {
             }
             {
                 openAdd &&
-                <UserStoreAddDialog
+                <UserStoreGroupAddDialog
                     open={openAdd}
                     user_id={user_id}
                     handleClose={() => setOpenAdd(false)}
@@ -125,4 +125,4 @@ const UserList = ({user_id}) => {
     );
 };
 
-export default UserList;
+export default UserStoreGroupList;

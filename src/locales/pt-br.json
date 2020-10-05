@@ -169,5 +169,9 @@
     "Edit Client": "Editar Cliente",
     "Notifications": "Notificações",
     "Allow CRM Contact": "Permitir Contato Via CRM",
-    "Invalid phone format": "Formato de telefone inválido"
+    "Invalid phone format": "Formato de telefone inválido",
+    "User Store Groups": "Associação Usuários Grupos de Lojas",
+    "New User Store Group": "Nova Associação Usuário Grupo de Lojas",
+    "Edit User Store Group": "Editar Associação Usuário Grupo de Lojas",
+    "Two Days Back": "Dois Dias Atrás"
 }

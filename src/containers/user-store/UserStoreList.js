@@ -19,7 +19,7 @@ import { get_UserStores } from '../../services/UserStore';
 import UserStoreEditDialog from './UserStoreEditDialog';
 import UserStoreAddDialog from './UserStoreAddDialog';
 
-const UserList = ({user_id}) => {
+const UserStoreList = ({user_id}) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -72,7 +72,7 @@ const UserList = ({user_id}) => {
                 <TableBodyWrapper dense={dense}>
                     <TableHeaderWrapper>
                         <ColumnHeader title='Edit' align='center'/>
-                        <ColumnHeader title='Name'/>
+                        <ColumnHeader title='User'/>
                         <ColumnHeader title='Email'/>
                         <ColumnHeader title='Store'/>
                     </TableHeaderWrapper>
@@ -80,9 +80,9 @@ const UserList = ({user_id}) => {
                         !loading &&
                         data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
-                                <RowWrapper key={row.user_id}>
+                                <RowWrapper key={row.user_store_id}>
                                     <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_store_id)}/>
-                                    <TableCell value={row.store_name}/>
+                                    <TableCell value={row.user_name}/>
                                     <TableCell value={row.user_email}/>
                                     <TableCell value={row.store_name}/>
                                 </RowWrapper>
@@ -125,4 +125,4 @@ const UserList = ({user_id}) => {
     );
 };
 
-export default UserList;
+export default UserStoreList;

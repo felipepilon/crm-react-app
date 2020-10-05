@@ -10,6 +10,7 @@ import CustomerView from '../containers/customer-view/CustomerView';
 import UserRouter from '../containers/user/UserRouter';
 import CustomerRouter from '../containers/customer/CustomerRouter';
 import StoreGroupRouter from '../containers/store-group/StoreGroupRouter';
+import UserStoreGroupRouter from '../containers/user-store-group/UserStoreGroupRouter';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -66,6 +67,10 @@ const WorkspaceRouter = () => {
 
             <Route path={`${path}/storeGroups`}>
                 <StoreGroupRouter/>
+            </Route>
+            
+            <Route path={`${path}/userStoreGroups`}>
+                <UserStoreGroupRouter/>
             </Route>
             
             <Route path={`${path}/users`}>

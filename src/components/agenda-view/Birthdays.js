@@ -11,6 +11,15 @@ const getDateMonthDay = (date) => getDateNoOffset(date).toISOString().substr(5, 
 const getDateYear = (date) => getDateNoOffset(date).getFullYear();
 const compareDate = (date1Str, date2) => date1Str === getDateMonthDay(date2);
 
+const sortCustomers = (a, b) => {
+    if (a.allow_crm_contact && !b.allow_crm_contact) return -1;
+    if (!a.allow_crm_contact && b.allow_crm_contact) return 1;
+    if (!a.contact_count && b.contact_count) return -1;
+    if (a.contact_count && !b.contact_count) return 1;
+    
+    return (a.name < b.name) ? -1 : 1;
+}
+
 const Birthdays = () => {
     const [contentStatus, setContentStatus] = useState('none');
     const [contentData, setContentData] = useState([]);
@@ -19,10 +28,10 @@ const Birthdays = () => {
 
     const today = new Date();
     const yesterday = new Date(new Date().setDate(today.getDate() - 1));
-    const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
-    const todays = contentData.filter((bth) => compareDate(bth.birthday, today));
-    const yesterdays = contentData.filter((bth) => compareDate(bth.birthday, yesterday));
-    const tomorrows = contentData.filter((bth) => compareDate(bth.birthday, tomorrow));
+    const yesterday_2 = new Date(new Date().setDate(today.getDate() - 2));
+    const todays = contentData.filter((bth) => compareDate(bth.birthday, today)).sort(sortCustomers);
+    const yesterdays = contentData.filter((bth) => compareDate(bth.birthday, yesterday)).sort(sortCustomers);
+    const yesterdays_2 = contentData.filter((bth) => compareDate(bth.birthday, yesterday_2)).sort(sortCustomers);
 
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
@@ -35,7 +44,7 @@ const Birthdays = () => {
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        get_ToDoBirthday({birthday_start: getDateMonthDay(yesterday), birthday_end: getDateMonthDay(tomorrow), year: getDateYear(today)})
+        get_ToDoBirthday({birthday_start: getDateMonthDay(yesterday_2), birthday_end: getDateMonthDay(today), year: getDateYear(today)})
         .then((res) => {
             setContentData(res);
             setContentStatus('loaded');
@@ -78,11 +87,11 @@ const Birthdays = () => {
                 </AgendaGroupWrapper> : null
             }
             {
-                tomorrows.length ?
+                yesterdays_2.length ?
                 <AgendaGroupWrapper marginTop={1}>
-                    <AgendaGroupCaption title='Tomorrows'/>
+                    <AgendaGroupCaption title='Two Days Back'/>
                     {
-                        tomorrows.map((cus) => {
+                        yesterdays_2.map((cus) => {
                             return (
                                 <AgendaGroupItem key={cus.customer_id} customer={cus}/>
                             );

@@ -29,7 +29,7 @@ const AgendaGroupAccordion = ({loadContentFnc, loadSummaryFnc, summaryData, summ
                         <Typography variant='body1'>{summaryData.done || 0} / {summaryData.to_do || 0}</Typography>
                     </Box>
                 </AccordionSummary>
-                <AccordionDetails style={{display: 'flex', flexDirection: 'column'}}>
+                <AccordionDetails style={{display: 'flex', flexDirection: 'column', maxHeight: '250px', overflow: 'auto'}}>
                     {children}
                 </AccordionDetails>
             </Accordion>

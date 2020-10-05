@@ -12,22 +12,22 @@ import ButtonsWrapper from '../../components/edit-page/ButtonsWrapper';
 import { get_Users } from '../../services/User';
 import { get_Stores } from '../../services/Store';
 
-const UserStoreEditDialog = ({user_store_id, user_id, handleUpdated, open, handleClose, store_id}) => {
+const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open, handleClose, store_group_id}) => {
     const { setSucessSnack } = useContext(AppStateContext);
     
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState({user_id, store_id});
+    const [data, setData] = useState({user_id, store_group_id});
 
     useEffect(() => {
-        get_UserStore({user_store_id})
+        get_UserStore({user_store_group_id})
         .then((res) => {
             setData(res);
             setTimeout(() => {
                 setLoading(false);
             }, 500);
         })
-    }, [user_store_id]);
+    }, [user_store_group_id]);
 
     const handleFieldChange = (fieldKey, newValue) => setData({...data, ...{[fieldKey]: newValue}});
 
@@ -38,7 +38,7 @@ const UserStoreEditDialog = ({user_store_id, user_id, handleUpdated, open, handl
     const handleReset = () => {
         setLoading(true);
 
-        get_UserStore({user_store_id})
+        get_UserStore({user_store_group_id})
         .then((res) => {
             setData(res);
             setErrors({});
@@ -64,7 +64,7 @@ const UserStoreEditDialog = ({user_store_id, user_id, handleUpdated, open, handl
     }
 
     return (
-        <EditDialogWrapper title='Edit User Store' loading={loading} open={open} handleClose={handleClose}>
+        <EditDialogWrapper title='Edit User Store Group' loading={loading} open={open} handleClose={handleClose}>
             <FieldGroupWrapper>
                 <PageField 
                     fieldKey='user_id'
@@ -80,16 +80,16 @@ const UserStoreEditDialog = ({user_store_id, user_id, handleUpdated, open, handl
                     hideSelectOption
                 />
                 <PageField 
-                    fieldKey='store_id'
-                    title='Store'
-                    value={data.store_id}
-                    error={errors.store_id} 
+                    fieldKey='store_group_id'
+                    title='Store Group'
+                    value={data.store_group_id}
+                    error={errors.store_group_id} 
                     handleChange={handleFieldChange}
                     comp='select'
                     loadOptionsFnc={get_Stores}
-                    loadOptionsParams={{exact_or_unassigned_to: user_id, user_store_id}}
+                    loadOptionsParams={{exact_or_unassigned_to: user_id, user_store_group_id}}
                     optionLabel='name'
-                    readOnly={store_id}
+                    readOnly={store_group_id}
                     hideSelectOption
                 />
             </FieldGroupWrapper>

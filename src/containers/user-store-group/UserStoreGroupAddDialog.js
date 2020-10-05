@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { 
-    post_UserStore,
-} from '../../services/UserStore';
+    post_UserStoreGroup,
+} from '../../services/UserStoreGroup';
 import EditDialogWrapper from '../../components/edit-page/EditDialogWrapper';
 import PageField from '../../components/edit-page/PageField';
 import FieldGroupWrapper from '../../components/edit-page/FieldGroupWrapper';
@@ -9,14 +9,14 @@ import { AppStateContext } from '../../contexts/AppState';
 import EditPageButton from '../../components/edit-page/EditPageButton';
 import ButtonsWrapper from '../../components/edit-page/ButtonsWrapper';
 import { get_Users } from '../../services/User';
-import { get_Stores } from '../../services/Store';
+import { get_StoreGroups } from '../../services/StoreGroup';
 
-const UserStoreAddDialog = ({handleUpdated, open, handleClose, user_id, store_id}) => {
+const UserStoreGroupAddDialog = ({handleUpdated, open, handleClose, user_id, store_group_id}) => {
     const { setSucessSnack } = useContext(AppStateContext);
     
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState({user_id, store_id});
+    const [data, setData] = useState({user_id, store_group_id});
 
     useEffect(() => {
         setTimeout(() => {
@@ -43,7 +43,7 @@ const UserStoreAddDialog = ({handleUpdated, open, handleClose, user_id, store_id
     const handleConfirm = () => {
         setLoading(true);
 
-        post_UserStore(data)
+        post_UserStoreGroup(data)
         .then(() => {
             setSucessSnack('Record added successfully');
             handleUpdated();
@@ -56,7 +56,7 @@ const UserStoreAddDialog = ({handleUpdated, open, handleClose, user_id, store_id
     }
     
     return (
-        <EditDialogWrapper title='New User Store' loading={loading} open={open} handleClose={handleClose}>
+        <EditDialogWrapper title='New User Store Group' loading={loading} open={open} handleClose={handleClose}>
             <FieldGroupWrapper>
                 <PageField 
                     fieldKey='user_id'
@@ -72,17 +72,17 @@ const UserStoreAddDialog = ({handleUpdated, open, handleClose, user_id, store_id
                     readOnly={user_id}
                 />
                 <PageField 
-                    fieldKey='store_id'
-                    title='Store'
-                    value={data.store_id}
-                    error={errors.store_id} 
+                    fieldKey='store_group_id'
+                    title='Store Group'
+                    value={data.store_group_id}
+                    error={errors.store_group_id} 
                     handleChange={handleFieldChange}
                     comp='select'
-                    loadOptionsFnc={get_Stores}
+                    loadOptionsFnc={get_StoreGroups}
                     loadOptionsParams={{unassigned_to: user_id}}
                     optionLabel='name'
-                    defaultValue={store_id}
-                    readOnly={store_id}
+                    defaultValue={store_group_id}
+                    readOnly={store_group_id}
                 />
             </FieldGroupWrapper>
             <ButtonsWrapper>
@@ -94,4 +94,4 @@ const UserStoreAddDialog = ({handleUpdated, open, handleClose, user_id, store_id
     )
 };
 
-export default UserStoreAddDialog;
+export default UserStoreGroupAddDialog;

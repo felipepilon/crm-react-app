@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouteMatch, Route, Switch } from 'react-router-dom';
-import UserStoreList from './UserStoreList';
+import UserStoreGroupList from './UserStoreGroupList';
 
 const UserStoreGroupRouter = () => {
     const { path } = useRouteMatch();
@@ -8,7 +8,7 @@ const UserStoreGroupRouter = () => {
     return (
         <Switch>
             <Route exact path={`${path}`}>
-                <UserStoreList/>
+                <UserStoreGroupList/>
             </Route>
         </Switch>
     );
