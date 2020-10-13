@@ -5,12 +5,14 @@ import PageFieldText from './PageFieldText';
 import PageFieldSelect from './PageFieldSelect';
 import PageFieldCheckbox from './PageFieldCheckbox';
 import PageFieldMasked from './PageFieldMasked';
+import PageFieldTextMultiline from './PageFieldTextMultiline';
 
 const components = {
     default: PageFieldText,
     masked: PageFieldMasked,
     checkbox: PageFieldCheckbox,
-    select: PageFieldSelect
+    select: PageFieldSelect,
+    multiline: PageFieldTextMultiline,
 }
 
 const PageField = ({comp, title, required, readOnly, ...other}) => {

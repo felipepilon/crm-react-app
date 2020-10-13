@@ -1,28 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { 
-    post_UserStoreGroup,
-} from '../../services/UserStoreGroup';
+import { post_ConnUser } from '../../services/ConnUser';
+import { get_ConnJobProfiles } from '../../services/ConnJobProfiles';
 import EditDialogWrapper from '../../components/edit-page/EditDialogWrapper';
 import PageField from '../../components/edit-page/PageField';
 import FieldGroupWrapper from '../../components/edit-page/FieldGroupWrapper';
 import { AppStateContext } from '../../contexts/AppState';
 import EditPageButton from '../../components/edit-page/EditPageButton';
 import ButtonsWrapper from '../../components/edit-page/ButtonsWrapper';
-import { get_Users } from '../../services/User';
-import { get_StoreGroups } from '../../services/StoreGroup';
+import { get_Users, get_ConnUser } from '../../services/User';
 
-const UserStoreGroupAddDialog = ({handleUpdated, open, handleClose, user_id, store_group_id, user_id_ReadOnly}) => {
+const ConnUserConfigDialog = ({user_id, handleUpdated, open, handleClose}) => {
     const { setSucessSnack } = useContext(AppStateContext);
     
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
-    const [data, setData] = useState({user_id, store_group_id});
+    const [data, setData] = useState({
+        sync_frequency: 60,
+        connection_string: 'Server=.;Database=LINXPOS;User Id=sa;Password=;',
+        diagnostic: false
+    });
 
     useEffect(() => {
-        setTimeout(() => {
+        get_ConnUser({user_id})
+        .then((res) => {
+            if (res) {
+                setData(res);
+            } 
+            
+            setErrors({});
             setLoading(false);
-        }, 500);
-    }, []);
+        })
+    }, [user_id]);
 
     const handleFieldChange = (fieldKey, newValue) => setData({...data, ...{[fieldKey]: newValue}});
 
@@ -33,20 +41,24 @@ const UserStoreGroupAddDialog = ({handleUpdated, open, handleClose, user_id, sto
     const handleReset = () => {
         setLoading(true);
 
-        setData({});
-        setErrors({});
-        setTimeout(() => {
+        get_ConnUser({user_id})
+        .then((res) => {
+            if (res && res.length) {
+                setData(res[0]);
+            }
+            setErrors({});
             setLoading(false);
-        }, 500);
+        })
     }
 
     const handleConfirm = () => {
         setLoading(true);
 
-        post_UserStoreGroup(data)
+        post_ConnUser(data)
         .then(() => {
-            setSucessSnack('Record added successfully');
-            handleUpdated();
+            setSucessSnack('Record updated successfully');
+            if (handleUpdated)
+                handleUpdated();
             handleClose();
         })
         .catch((err) => {
@@ -56,7 +68,7 @@ const UserStoreGroupAddDialog = ({handleUpdated, open, handleClose, user_id, sto
     }
     
     return (
-        <EditDialogWrapper title='New User Store Group' loading={loading} open={open} handleClose={handleClose}>
+        <EditDialogWrapper title='Connector Configurations' loading={loading} open={open} handleClose={handleClose}>
             <FieldGroupWrapper>
                 <PageField 
                     fieldKey='user_id'
@@ -69,20 +81,14 @@ const UserStoreGroupAddDialog = ({handleUpdated, open, handleClose, user_id, sto
                     loadOptionsParams={{user_id}}
                     optionLabel='name'
                     defaultValue={user_id}
-                    readOnly={user_id_ReadOnly}
+                    readOnly
                 />
-                <PageField 
-                    fieldKey='store_group_id'
-                    title='Store Group'
-                    value={data.store_group_id}
-                    error={errors.store_group_id} 
-                    handleChange={handleFieldChange}
-                    comp='select'
-                    loadOptionsFnc={get_StoreGroups}
-                    loadOptionsParams={{unassigned_to: user_id}}
-                    optionLabel='name'
-                    defaultValue={store_group_id}
+                <PageField fieldKey='c_job_profile_id' title='Job Profile' value={data.c_job_profile_id} error={errors.c_job_profile_id} handleChange={handleFieldChange}
+                    comp='select' loadOptionsFnc={get_ConnJobProfiles} optionLabel='profile_name'
                 />
+                <PageField fieldKey='sync_frequency' title='Sync Frequency (in seconds)' value={data.sync_frequency} error={errors.sync_frequency} handleChange={handleFieldChange}/>
+                <PageField fieldKey='connection_string' title='Connection String' value={data.connection_string} error={errors.connection_string} handleChange={handleFieldChange} comp='multiline'/>
+                <PageField fieldKey='diagnostic' title='Diagnostic' value={data.diagnostic} error={errors.diagnostic} handleChange={handleFieldChange} comp='checkbox'/>
             </FieldGroupWrapper>
             <ButtonsWrapper>
                 <EditPageButton title='Cancel' handleClick={handleCancel} marginRight={1}/>
@@ -93,4 +99,4 @@ const UserStoreGroupAddDialog = ({handleUpdated, open, handleClose, user_id, sto
     )
 };
 
-export default UserStoreGroupAddDialog;
+export default ConnUserConfigDialog;

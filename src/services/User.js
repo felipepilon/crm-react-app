@@ -19,3 +19,15 @@ export const post_User = (params) => {
     .then(handleResponse)
     .catch(handleError);
 }
+
+export const get_ConnUser = ({user_id}) => {
+    return api.get(`/users/${user_id}/connUser`)
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export const get_ConnRefreshToken = ({user_id}) => {
+    return api.get(`/users/${user_id}/connRefreshToken`)
+    .then(handleResponse)
+    .catch(handleError);
+}

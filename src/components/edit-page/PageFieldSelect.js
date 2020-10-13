@@ -32,6 +32,8 @@ const EnhancedFieldText = ({
                         value: opt,
                         label: intl.formatMessage({id: opt}),
                     }
+                } else {
+                    return opt;
                 }
             });
 

@@ -27,7 +27,7 @@ const UserStoreGroupList = ({user_id}) => {
     const [dense, setDense] = useState('normal');
     const [openEdit, setOpenEdit] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
-    const [currentRowId, setCurrentRowId] = useState(null);
+    const [currentRow, setCurrentRow] = useState(null);
 
     useEffect(() => {
         get_UserStoreGroups({user_id})
@@ -35,6 +35,7 @@ const UserStoreGroupList = ({user_id}) => {
             setData(res);
             setLoading(false);
         });
+    // eslint-disable-next-line
     }, []);
 
     const handleRefreshList = () => {
@@ -52,8 +53,8 @@ const UserStoreGroupList = ({user_id}) => {
         handleRefreshList();
     }
 
-    const handleEditLinkClick = (selectedId) => {
-        setCurrentRowId(selectedId);
+    const handleEditLinkClick = (selectedRow) => {
+        setCurrentRow(selectedRow);
         setOpenEdit(true);
     }
 
@@ -81,7 +82,7 @@ const UserStoreGroupList = ({user_id}) => {
                         data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <RowWrapper key={row.user_store_group_id}>
-                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_store_group_id)}/>
+                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row)}/>
                                     <TableCell value={row.user_name}/>
                                     <TableCell value={row.user_email}/>
                                     <TableCell value={row.store_group_name}/>
@@ -105,8 +106,10 @@ const UserStoreGroupList = ({user_id}) => {
             {
                 openEdit &&
                 <UserStoreGroupEditDialog
-                    user_store_group_id={currentRowId}
-                    user_id={user_id}
+                    user_store_group_id={currentRow.user_store_group_id}
+                    user_id={currentRow.user_id}
+                    user_id_ReadOnly
+                    store_group_id={currentRow.store_group_id}
                     open={openEdit}
                     handleClose={() => setOpenEdit(false)}
                     handleUpdated={handleDataUpdated}
@@ -117,6 +120,7 @@ const UserStoreGroupList = ({user_id}) => {
                 <UserStoreGroupAddDialog
                     open={openAdd}
                     user_id={user_id}
+                    user_id_ReadOnly
                     handleClose={() => setOpenAdd(false)}
                     handleUpdated={handleDataUpdated}
                 />

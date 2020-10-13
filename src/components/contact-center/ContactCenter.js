@@ -24,7 +24,7 @@ const ContactCenter = (props) => {
         status: 'New',
         store_group_id: props.customer.store_group_id,
         customer_id: props.customer.customer_id,
-        reasons: loc.state.reason
+        reasons: loc.state && loc.state.reason
     });
     const [ contactVia, setContactVia ] = useState(null);
     const [ errors, setErrors ] = useState({});

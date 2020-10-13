@@ -4,18 +4,23 @@ import TableCellDefault from './TableCellDefault';
 import TableCellIntl from './TableCellIntl';
 import TableCellIntlSplit from './TableCellIntlSplit';
 import TableCellIntlLink from './TableCellIntlLink';
-import EnhancedTableCellDatetime from './EnhancedTableCellDatetime';
+import TableCellDatetime from './TableCellDatetime';
 import TableCellDate from './TableCellDate';
 import TableCellMasked from './TableCellMasked';
+import TableCellCheckbox from './TableCellCheckbox';
+import TableCellIntlAction from './TableCellIntlAction';
 
 const components = {
     default: TableCellDefault,
     masked: TableCellMasked,
     date: TableCellDate,
+    datetime: TableCellDatetime,
     editIcon: TableCellEditIcon,
     intlSplit: TableCellIntlSplit,
     intl: TableCellIntl,
-    intlLink: TableCellIntlLink
+    intlLink: TableCellIntlLink,
+    checkbox: TableCellCheckbox,
+    intlAction: TableCellIntlAction
 }
 
 const TableCell = ({format, ...other}) => {

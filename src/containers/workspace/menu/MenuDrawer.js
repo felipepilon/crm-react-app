@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { AppStateContext } from '../../../contexts/AppState';
-import { Drawer, makeStyles, List, ListItem, ListItemText, ListItemIcon, Divider, Link } from '@material-ui/core';
+import { Drawer, makeStyles, List, ListItem, ListItemText, ListItemIcon, Divider } from '@material-ui/core';
 import { useIntl } from 'react-intl';
 import StoreIcon from '@material-ui/icons/Store';
 import BusinessIcon from '@material-ui/icons/Business';
@@ -8,7 +8,6 @@ import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
 import { useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import { Can } from '../../../contexts/Can';
-import { Link as LinkRouter } from 'react-router-dom';
 import MenuItem from './MenuItem';
 
 const useStyles = makeStyles({
@@ -62,7 +61,7 @@ const MenuButton = () => {
                 </List>
                 <Divider/>
                 <List>
-                    <Can I='read' a='Store Groups'>
+                    <Can I='read' a='StoreGroups'>
                         <MenuItem title='Store Groups' to='/workspace/storeGroups'/>
                     </Can>
                     <Can I='read' a='Users'>

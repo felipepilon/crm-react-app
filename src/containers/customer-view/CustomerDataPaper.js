@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Paper, Typography, Link, useTheme, Box, Button } from '@material-ui/core';
+import { Paper, Typography, useTheme, Box, Button } from '@material-ui/core';
 import { FormattedMessage, FormattedDate } from 'react-intl';
 import LabelMasks from '../../utils/LabelMasks';
 import CustomerEditDialog from '../customer/CustomerEditDialog';

@@ -20,7 +20,7 @@ const sortCustomers = (a, b) => {
     return (a.name < b.name) ? -1 : 1;
 }
 
-const Birthdays = () => {
+const Reserves = () => {
     const [contentStatus, setContentStatus] = useState('none');
     const [contentData, setContentData] = useState([]);
     const [summaryData, setSummaryData] = useState({});
@@ -53,7 +53,7 @@ const Birthdays = () => {
 
     return (
         <AgendaGroupAccordion 
-            title='Birthdays' 
+            title='Reserves' 
             contentStatus={contentStatus} 
             loadContentFnc={handleLoadContent} 
             loadSummaryFnc={handleLoadSummary}
@@ -107,4 +107,4 @@ const Birthdays = () => {
     );
 }
  
-export default Birthdays;
+export default Reserves;

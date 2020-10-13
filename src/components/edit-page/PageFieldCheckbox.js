@@ -1,5 +1,4 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const PageFieldCheckbox = ({value, fieldKey, error, handleChange}) => {

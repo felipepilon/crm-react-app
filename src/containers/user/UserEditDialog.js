@@ -72,6 +72,7 @@ const UserEditDialog = ({user_id, handleUpdated, open, handleClose}) => {
                     comp='select' hideSelectOption
                     options={['Connector', 'Sys Admin', 'Manager', 'Salesman']}
                 />
+                <PageField fieldKey='active' title='Active' value={data.active} error={errors.active} handleChange={handleFieldChange} comp='checkbox'/>
             </FieldGroupWrapper>
             <ButtonsWrapper>
                 <EditPageButton title='Cancel' handleClick={handleCancel} marginRight={1}/>

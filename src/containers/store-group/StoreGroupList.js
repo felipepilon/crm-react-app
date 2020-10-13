@@ -18,6 +18,7 @@ import DenseSwitch from '../../components/table2/DenseSwitch';
 import { get_StoreGroups } from '../../services/StoreGroup';
 import StoreGroupEditDialog from './StoreGroupEditDialog';
 import StoreGroupAddDialog from './StoreGroupAddDialog';
+import { Can } from '../../contexts/Can';
 
 const StoreGroupList = () => {
     const [data, setData] = useState([]);
@@ -63,7 +64,9 @@ const StoreGroupList = () => {
         <ListPageWrapper>
             <ListPageHeaderWrapper>
                 <ListPageTitle title='Store Groups'/>
-                <ListPageButton title='New Store Group' handleClick={() => setOpenAdd(true)}/>
+                <Can I='add' a='StoreGroup'>
+                    <ListPageButton title='New Store Group' handleClick={() => setOpenAdd(true)}/>
+                </Can>
                 <ListPageRefreshButton handleClick={handleRefreshList}/>
             </ListPageHeaderWrapper>
             <TableWrapper>
@@ -71,7 +74,9 @@ const StoreGroupList = () => {
                 <LoadingProgress loading={loading}/>
                 <TableBodyWrapper dense={dense}>
                     <TableHeaderWrapper>
-                        <ColumnHeader title='Edit' align='center'/>
+                        <Can I='update' a='StoreGroup'>
+                            <ColumnHeader title='Edit' align='center'/>
+                        </Can>
                         <ColumnHeader title='Name'/>
                     </TableHeaderWrapper>
                     <RowsWrapper>{
@@ -79,7 +84,9 @@ const StoreGroupList = () => {
                         data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <RowWrapper key={row.store_group_id}>
-                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.store_group_id)}/>
+                                    <Can I='update' a='StoreGroup'>
+                                        <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.store_group_id)}/>
+                                    </Can>
                                     <TableCell value={row.name}/>
                                 </RowWrapper>
                             )

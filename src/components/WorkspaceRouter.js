@@ -11,9 +11,15 @@ import UserRouter from '../containers/user/UserRouter';
 import CustomerRouter from '../containers/customer/CustomerRouter';
 import StoreGroupRouter from '../containers/store-group/StoreGroupRouter';
 import UserStoreGroupRouter from '../containers/user-store-group/UserStoreGroupRouter';
+import { Can, AbilityContext } from '../contexts/Can';
+import Unauthorized from '../containers/unauthorized/Unauthorized';
+import { useAbility } from '@casl/react';
+
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
+
+    const ability = useAbility(AbilityContext)
     
     return (
         <Switch>
@@ -65,17 +71,18 @@ const WorkspaceRouter = () => {
                 <CustomerRouter/>
             </Route>
 
-            <Route path={`${path}/storeGroups`}>
-                <StoreGroupRouter/>
+            <Route path={`${path}/storeGroups`}>{
+                ability.can('read', 'StoreGroups') ? <StoreGroupRouter/> : <Unauthorized/>
+            }
             </Route>
             
             <Route path={`${path}/userStoreGroups`}>
                 <UserStoreGroupRouter/>
             </Route>
             
-            <Route path={`${path}/users`}>
-                <UserRouter/>
-            </Route>
+            <Route path={`${path}/users`}>{
+                ability.can('read', 'Users') ? <UserRouter/> : <Unauthorized/>
+            }</Route>
             
             <Route path={`${path}/*`}
                 render={({location}) => {

@@ -3,8 +3,6 @@ import { AbilityBuilder } from '@casl/ability';
 export default (ability, user) => {
     const { can, cannot, rules } = new AbilityBuilder();
 
-    console.log('AbilityUpdater', user)
-
     if (!user.authenticated) 
     {
         cannot('manage', 'all');
@@ -15,7 +13,9 @@ export default (ability, user) => {
     }
     else if (user.role === 'Manager') 
     {
-
+        can('read', 'Customers');
+        can('read', 'Stores');
+        can('read', 'StoreGroups');
     }
 
     ability.update(rules);

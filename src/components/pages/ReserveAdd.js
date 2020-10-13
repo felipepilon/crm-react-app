@@ -23,6 +23,7 @@ const ReserveAdd = (props) => {
     const [ store_id, handleStoreIdChange ] = useState(null);
     const [ salesman_id, handleSalesmanIdChange ] = useState(null);
     const [ reminderDate, setReminderDate ] = useState(addDays(new Date(), 7));
+    // eslint-disable-next-line
     const [ errors, setErrors ] = useState({});
 
     const loc = useLocation();

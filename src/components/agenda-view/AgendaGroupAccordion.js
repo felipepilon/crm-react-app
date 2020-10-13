@@ -10,6 +10,7 @@ const AgendaGroupAccordion = ({loadContentFnc, loadSummaryFnc, summaryData, summ
 
     useEffect(() => {
         loadSummaryFnc()
+    // eslint-disable-next-line 
     }, [])
 
     useEffect(() => {
@@ -17,11 +18,11 @@ const AgendaGroupAccordion = ({loadContentFnc, loadSummaryFnc, summaryData, summ
         {
             loadContentFnc();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     }, [expanded]);
 
     return (
-        <Box display = 'flex' position='relative'>
+        <Box display = 'flex' position='relative' style={{marginBottom: theme.spacing(1)}}>
             <Accordion expanded={expanded} onChange={() => setExpanded(!expanded)} style={{width: '100%'}}>
                 <AccordionSummary expandIcon={<ExpandMoreIcon />}>
                     <Box display='flex' width='100%'>

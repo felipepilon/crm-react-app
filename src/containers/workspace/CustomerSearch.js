@@ -1,17 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme, fade, Box, TextField, Typography, Link } from '@material-ui/core';
 import { Link as LinkRouter } from 'react-router-dom';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { get_CustomersIndex } from '../../services/Customer';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LabelMasks from '../../utils/LabelMasks';
-import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 
 const minLength = 3;
 
 const CustomerSearch = () => {
-    const { setStatus } = useContext(WorkspaceStateContext);
-
     const theme = useTheme();
     const intl = useIntl();
 
@@ -22,7 +19,7 @@ const CustomerSearch = () => {
 
     useEffect(() => {
         setLoading(open && inputValue.length >= minLength && !options.length);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line
     }, [open, inputValue, options]);
 
     useEffect(() => {
@@ -30,7 +27,7 @@ const CustomerSearch = () => {
             get_CustomersIndex({search_index: inputValue})
             .then((res) => setOptions(res));
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line
     }, [loading]);
 
     useEffect(() => {

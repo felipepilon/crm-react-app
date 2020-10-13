@@ -14,6 +14,7 @@ const IndicatorLabel = (props) => {
             <Typography variant='h6'>
                 {
                     props.style === 'currency' ? 
+                    // eslint-disable-next-line
                     <FormattedNumber style='currency' currency={currency} value={props.value}/> :
                     <FormattedNumber value={props.value}/>
                 }

@@ -2,9 +2,7 @@ import React from 'react';
 import { TableCell, Typography } from '@material-ui/core';
 import { FormattedDate, FormattedTime } from 'react-intl';
 
-const EnhancedTableCellDatetime = (props) => {
-    const value = props.row[props.column.name] || props.column.value || '';
-
+const TableCellDatetime = ({value}) => {
     return (
         <TableCell>
             <Typography variant='inherit' noWrap>
@@ -14,4 +12,4 @@ const EnhancedTableCellDatetime = (props) => {
     );
 }
  
-export default EnhancedTableCellDatetime;
+export default TableCellDatetime;

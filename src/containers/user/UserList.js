@@ -19,6 +19,9 @@ import { get_Users } from '../../services/User';
 import UserEditDialog from './UserEditDialog';
 import UserAddDialog from './UserAddDialog';
 import { useLocation } from 'react-router-dom';
+import { Can } from '../../contexts/Can';
+import ConnUserConfigDialog from './ConnUserConfigDialog';
+import AccessTokenDialog from './AccessTokenDialog'
 
 const UserList = () => {
     const loc = useLocation();
@@ -30,7 +33,10 @@ const UserList = () => {
     const [dense, setDense] = useState('normal');
     const [openEdit, setOpenEdit] = useState(false);
     const [openAdd, setOpenAdd] = useState(false);
+    const [connConfig, setConnConfig] = useState(null);
+    const [acessTokenDialog, setAcessTokenDialog] = useState(null);
     const [currentRowId, setCurrentRowId] = useState(null);
+
 
     useEffect(() => {
         get_Users()
@@ -66,7 +72,9 @@ const UserList = () => {
         <ListPageWrapper>
             <ListPageHeaderWrapper>
                 <ListPageTitle title='Users'/>
-                <ListPageButton title='New User' handleClick={() => setOpenAdd(true)}/>
+                <Can I='add' a='User'>
+                    <ListPageButton title='New User' handleClick={() => setOpenAdd(true)}/>
+                </Can>
                 <ListPageRefreshButton handleClick={handleRefreshList}/>
             </ListPageHeaderWrapper>
             <TableWrapper>
@@ -74,22 +82,36 @@ const UserList = () => {
                 <LoadingProgress loading={loading}/>
                 <TableBodyWrapper dense={dense}>
                     <TableHeaderWrapper>
-                        <ColumnHeader title='Edit'/>
+                        <Can I='edit' a='User'>
+                            <ColumnHeader title='Edit'/>
+                        </Can>
                         <ColumnHeader title='Name'/>
                         <ColumnHeader title='Email'/>
                         <ColumnHeader title='Role'/>
+                        <ColumnHeader title='Active'/>
+                        <ColumnHeader title='Created At'/>
                         <ColumnHeader title='Store Groups'/>
                         <ColumnHeader title='Stores'/>
+                        <Can I='edit' a='ConnectorUser'>
+                            <ColumnHeader title='Connector Configurations'/>
+                        </Can>
+                        <Can I='edit' a='ConnectorUser'>
+                            <ColumnHeader title='Access Token'/>
+                        </Can>
                     </TableHeaderWrapper>
                     <RowsWrapper>{
                         !loading &&
                         data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                             return (
                                 <RowWrapper key={row.user_id}>
-                                    <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_id)}/>
+                                    <Can I='edit' a='User'>
+                                        <TableCell format='editIcon' dense={dense} handleClick={() => handleEditLinkClick(row.user_id)}/>
+                                    </Can>
                                     <TableCell value={row.name}/>
                                     <TableCell value={row.email}/>
                                     <TableCell value={row.role} format='intl'/>
+                                    <TableCell value={row.active} format='checkbox'/>
+                                    <TableCell value={row.created_at} format='datetime'/>
                                     <TableCell value='Store Groups' format='intlLink' to={{
                                         pathname: `${loc.pathname}/${row.user_id}/storeGroups`,
                                         state: { from: loc }
@@ -98,6 +120,12 @@ const UserList = () => {
                                         pathname: `${loc.pathname}/${row.user_id}/stores`,
                                         state: { from: loc }
                                     }}/>
+                                    <Can I='edit' a='ConnectorUser'>
+                                        <TableCell value={row.role === 'Connector' ? 'Connector Configurations' : ''} format='intlAction' handleClick={() => setConnConfig(row.user_id)}/>
+                                    </Can>
+                                    <Can I='edit' a='ConnectorUser'>
+                                        <TableCell value={row.role === 'Connector' ? 'Access Token' : ''} format='intlAction' handleClick={() => setAcessTokenDialog(row.user_id)}/>
+                                    </Can>
                                 </RowWrapper>
                             )
                         })
@@ -130,6 +158,22 @@ const UserList = () => {
                     open={openAdd}
                     handleClose={() => setOpenAdd(false)}
                     handleUpdated={handleUserUpdated}
+                />
+            }
+            {
+                connConfig &&
+                <ConnUserConfigDialog 
+                    open={connConfig ? true : false}
+                    user_id={connConfig} 
+                    handleClose={() => setConnConfig(null)}
+                />
+            }
+            {
+                acessTokenDialog &&
+                <AccessTokenDialog 
+                    open={acessTokenDialog ? true : false}
+                    user_id={acessTokenDialog} 
+                    handleClose={() => setAcessTokenDialog(null)}
                 />
             }
         </ListPageWrapper>

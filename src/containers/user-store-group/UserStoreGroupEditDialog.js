@@ -1,8 +1,4 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { 
-    get_UserStore,
-    post_UserStore,
-} from '../../services/UserStore';
 import EditDialogWrapper from '../../components/edit-page/EditDialogWrapper';
 import PageField from '../../components/edit-page/PageField';
 import FieldGroupWrapper from '../../components/edit-page/FieldGroupWrapper';
@@ -10,17 +6,18 @@ import { AppStateContext } from '../../contexts/AppState';
 import EditPageButton from '../../components/edit-page/EditPageButton';
 import ButtonsWrapper from '../../components/edit-page/ButtonsWrapper';
 import { get_Users } from '../../services/User';
-import { get_Stores } from '../../services/Store';
+import { get_StoreGroups } from '../../services/StoreGroup';
+import { get_UserStoreGroup, post_UserStoreGroup } from '../../services/UserStoreGroup';
 
-const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open, handleClose, store_group_id}) => {
+const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open, handleClose, store_group_id, user_id_ReadOnly}) => {
     const { setSucessSnack } = useContext(AppStateContext);
-    
+
     const [errors, setErrors] = useState({});
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState({user_id, store_group_id});
 
     useEffect(() => {
-        get_UserStore({user_store_group_id})
+        get_UserStoreGroup({user_store_group_id})
         .then((res) => {
             setData(res);
             setTimeout(() => {
@@ -38,7 +35,7 @@ const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open,
     const handleReset = () => {
         setLoading(true);
 
-        get_UserStore({user_store_group_id})
+        get_UserStoreGroup({user_store_group_id})
         .then((res) => {
             setData(res);
             setErrors({});
@@ -51,7 +48,7 @@ const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open,
     const handleConfirm = () => {
         setLoading(true);
 
-        post_UserStore(data)
+        post_UserStoreGroup(data)
         .then(() => {
             setSucessSnack('Record updated successfully');
             handleUpdated();
@@ -76,7 +73,7 @@ const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open,
                     loadOptionsFnc={get_Users}
                     loadOptionsParams={{user_id}}
                     optionLabel='name'
-                    readOnly={user_id}
+                    readOnly={user_id_ReadOnly}
                     hideSelectOption
                 />
                 <PageField 
@@ -86,10 +83,9 @@ const UserStoreEditDialog = ({user_store_group_id, user_id, handleUpdated, open,
                     error={errors.store_group_id} 
                     handleChange={handleFieldChange}
                     comp='select'
-                    loadOptionsFnc={get_Stores}
-                    loadOptionsParams={{exact_or_unassigned_to: user_id, user_store_group_id}}
+                    loadOptionsFnc={get_StoreGroups}
+                    loadOptionsParams={{exact_or_unassigned_to: user_id, store_group_id}}
                     optionLabel='name'
-                    readOnly={store_group_id}
                     hideSelectOption
                 />
             </FieldGroupWrapper>

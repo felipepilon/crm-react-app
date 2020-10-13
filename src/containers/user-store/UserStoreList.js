@@ -35,6 +35,7 @@ const UserStoreList = ({user_id}) => {
             setData(res);
             setLoading(false);
         });
+    // eslint-disable-next-line
     }, []);
 
     const handleRefreshList = () => {
