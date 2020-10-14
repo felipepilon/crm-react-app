@@ -1,15 +1,14 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
-import { get_SumToDoBirthday, get_ToDoBirthday } from '../../services/Contact';
+import { get_SumToDoReserve, get_ToDoReserve } from '../../services/Contact';
 import AgendaGroupAccordion from './AgendaGroupAccordion';
 import AgendaGroupCaption from './AgendaGroupCaption';
 import AgendaGroupItem from './AgendaGroupItem';
 import AgendaGroupWrapper from './AgendaGroupWrapper';
 
 const getDateNoOffset = (date) => new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
-const getDateMonthDay = (date) => getDateNoOffset(date).toISOString().substr(5, 5);
-const getDateYear = (date) => getDateNoOffset(date).getFullYear();
-const compareDate = (date1Str, date2) => date1Str === getDateMonthDay(date2);
+const getDateString = (date) => getDateNoOffset(date).toISOString().substr(0, 10);
+const compareDate = (date1Str, date2) => date1Str.substr(0, 10) === getDateString(date2);
 
 const sortCustomers = (a, b) => {
     if (a.allow_crm_contact && !b.allow_crm_contact) return -1;
@@ -27,15 +26,11 @@ const Reserves = () => {
     const [summaryStatus, setSummaryStatus] = useState('none');
 
     const today = new Date();
-    const yesterday = new Date(new Date().setDate(today.getDate() - 1));
-    const yesterday_2 = new Date(new Date().setDate(today.getDate() - 2));
-    const todays = contentData.filter((bth) => compareDate(bth.birthday, today)).sort(sortCustomers);
-    const yesterdays = contentData.filter((bth) => compareDate(bth.birthday, yesterday)).sort(sortCustomers);
-    const yesterdays_2 = contentData.filter((bth) => compareDate(bth.birthday, yesterday_2)).sort(sortCustomers);
-
+    const todays = contentData.filter((rsv) => compareDate(rsv.reminder_date, today)).sort(sortCustomers);
+    
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
-        get_SumToDoBirthday({birthday: getDateMonthDay(today), year: getDateYear(today)})
+        get_SumToDoReserve({reminder_date: getDateString(today)})
         .then((res) => {
             setSummaryData(res);
             setSummaryStatus('loaded');
@@ -44,7 +39,7 @@ const Reserves = () => {
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        get_ToDoBirthday({birthday_start: getDateMonthDay(yesterday_2), birthday_end: getDateMonthDay(today), year: getDateYear(today)})
+        get_ToDoReserve({reminder_date: getDateString(today)})
         .then((res) => {
             setContentData(res);
             setContentStatus('loaded');
@@ -67,33 +62,7 @@ const Reserves = () => {
                     {
                         todays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason="Birthday"/>
-                            );
-                        })
-                    }
-                </AgendaGroupWrapper> : null
-            }
-            {
-                yesterdays.length ?
-                <AgendaGroupWrapper marginTop={1}>
-                    <AgendaGroupCaption title='Yesterdays'/>
-                    {
-                        yesterdays.map((cus) => {
-                            return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus}/>
-                            );
-                        })
-                    }
-                </AgendaGroupWrapper> : null
-            }
-            {
-                yesterdays_2.length ?
-                <AgendaGroupWrapper marginTop={1}>
-                    <AgendaGroupCaption title='Day Before Yesterdays'/>
-                    {
-                        yesterdays_2.map((cus) => {
-                            return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason="Reserve"/>
                             );
                         })
                     }

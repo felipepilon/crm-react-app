@@ -42,3 +42,15 @@ export const get_ToDoBirthday = (params) => {
     .then(handleResponse)
     .catch(handleError);
 }
+
+export const get_SumToDoReserve = (params) => {
+    return api.get('/contacts/toDoSum/reserve', {params})
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export const get_ToDoReserve = (params) => {
+    return api.get('/contacts/toDo/reserve', {params})
+    .then(handleResponse)
+    .catch(handleError);
+}
