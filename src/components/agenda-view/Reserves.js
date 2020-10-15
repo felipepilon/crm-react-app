@@ -5,10 +5,7 @@ import AgendaGroupAccordion from './AgendaGroupAccordion';
 import AgendaGroupCaption from './AgendaGroupCaption';
 import AgendaGroupItem from './AgendaGroupItem';
 import AgendaGroupWrapper from './AgendaGroupWrapper';
-
-const getDateNoOffset = (date) => new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
-const getDateString = (date) => getDateNoOffset(date).toISOString().substr(0, 10);
-const compareDate = (date1Str, date2) => date1Str.substr(0, 10) === getDateString(date2);
+import formatISO from 'date-fns/formatISO';
 
 const sortCustomers = (a, b) => {
     if (a.allow_crm_contact && !b.allow_crm_contact) return -1;
@@ -25,12 +22,12 @@ const Reserves = () => {
     const [summaryData, setSummaryData] = useState({});
     const [summaryStatus, setSummaryStatus] = useState('none');
 
-    const today = new Date();
-    const todays = contentData.filter((rsv) => compareDate(rsv.reminder_date, today)).sort(sortCustomers);
+    const today = formatISO(new Date());
+    const todays = contentData.sort(sortCustomers);
     
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
-        get_SumToDoReserve({reminder_date: getDateString(today)})
+        get_SumToDoReserve({reminder_date: formatISO(new Date()).substr(0, 10)})
         .then((res) => {
             setSummaryData(res);
             setSummaryStatus('loaded');
@@ -39,8 +36,9 @@ const Reserves = () => {
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        get_ToDoReserve({reminder_date: getDateString(today)})
+        get_ToDoReserve({reminder_date: formatISO(new Date()).substr(0, 10)})
         .then((res) => {
+
             setContentData(res);
             setContentStatus('loaded');
         });

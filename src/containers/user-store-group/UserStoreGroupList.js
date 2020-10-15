@@ -76,6 +76,7 @@ const UserStoreGroupList = ({user_id}) => {
                         <ColumnHeader title='User'/>
                         <ColumnHeader title='Email'/>
                         <ColumnHeader title='Store Group'/>
+                        <ColumnHeader title='Created At'/>
                     </TableHeaderWrapper>
                     <RowsWrapper>{
                         !loading &&
@@ -86,6 +87,7 @@ const UserStoreGroupList = ({user_id}) => {
                                     <TableCell value={row.user_name}/>
                                     <TableCell value={row.user_email}/>
                                     <TableCell value={row.store_group_name}/>
+                                    <TableCell value={row.created_at} format='datetime'/>
                                 </RowWrapper>
                             )
                         })

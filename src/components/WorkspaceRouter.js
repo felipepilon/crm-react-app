@@ -14,7 +14,8 @@ import UserStoreGroupRouter from '../containers/user-store-group/UserStoreGroupR
 import { Can, AbilityContext } from '../contexts/Can';
 import Unauthorized from '../containers/unauthorized/Unauthorized';
 import { useAbility } from '@casl/react';
-
+import Test from '../containers/test/Test'
+import ReserveRouter from '../containers/reserve/ReserveRouter';
 
 const WorkspaceRouter = () => {
     const { path } = useRouteMatch();
@@ -27,8 +28,16 @@ const WorkspaceRouter = () => {
                 <WorkspaceHome/>
             </Route>
 
-            <Route exact path={`${path}/reserve/add`}>
+            <Route exact path={`${path}/test`}>
+                <Test/>
+            </Route>
+
+            <Route exact path={`${path}/reserves/add`}>
                 <ReserveAdd/>
+            </Route>
+
+            <Route exact path={`${path}/reserves`}>
+                <ReserveRouter/>
             </Route>
 
             <Route exact path={`${path}/stores/list`}>

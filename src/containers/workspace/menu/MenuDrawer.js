@@ -5,6 +5,7 @@ import { useIntl } from 'react-intl';
 import StoreIcon from '@material-ui/icons/Store';
 import BusinessIcon from '@material-ui/icons/Business';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
+import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
 import { useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import { Can } from '../../../contexts/Can';
@@ -57,6 +58,9 @@ const MenuButton = () => {
                     </Can>
                     <Can I='read' a='Customers'>
                         <MenuItem title='Customers' to='/workspace/customers' iconComp={<EmojiPeopleIcon/>}/>
+                    </Can>
+                    <Can I='read' a='Reserves'>
+                        <MenuItem title='Reserves' to='/workspace/reserves' iconComp={<AssignmentLateIcon/>}/>
                     </Can>
                 </List>
                 <Divider/>

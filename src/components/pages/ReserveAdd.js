@@ -8,11 +8,11 @@ import ReserveCheckout from '../reserve/ReserveCheckout';
 import { post_Reserve } from '../../services/Reserve';
 import { useLocation, useHistory } from 'react-router-dom';
 import { AppStateContext } from '../../contexts/AppState';
-import addDays from 'date-fns/addDays';
+import {addDays, formatISO} from 'date-fns';
 
 const steps = ['customer', 'product', 'checkout']
 
-const ReserveAdd = (props) => {
+const ReserveAdd = () => {
     const { setStatus } = useContext(WorkspaceStateContext);
     const { setSucessSnack } = useContext(AppStateContext);
 
@@ -84,7 +84,7 @@ const ReserveAdd = (props) => {
             store_id,
             customer_id: customer.customer_id,
             salesman_id,
-            reserve_date: new Date(),
+            reserve_date: formatISO(new Date()),
             products: products.map((prod) => { 
                 return {
                     product_id: prod.product.product_id,
@@ -94,12 +94,14 @@ const ReserveAdd = (props) => {
                 }
             }),
             reminders: [
-                { reminder_date: reminderDate },
+                { reminder_date: formatISO(reminderDate).substr(0, 10) },
             ]
         };
 
+        console.log('reserveData', reserveData)
+
         post_Reserve(reserveData)
-        .then((res) => {
+        .then(() => {
             setSucessSnack('Reserve added successfully')
             
             if (loc.state.from || loc.state.from.pathname)
@@ -165,64 +167,6 @@ const ReserveAdd = (props) => {
                 />
             </Box>
         </Container>
-
-        /*<Box
-            display='flex'
-            justifyContent='center'
-        >
-            <Box
-                display='flex'
-                flexDirection='column'
-                maxWidth='800px'
-            >
-                <Stepper nonLinear activeStep={activeStep}>
-                    <Step>
-                        <StepButton onClick={handleStep(0)} completed={completed[0]}>
-                            <FormattedMessage id='Customer'/>
-                        </StepButton>
-                    </Step>
-                    <Step>
-                        <StepButton onClick={handleStep(1)} completed={completed[1]}>
-                            <FormattedMessage id='Products'/>
-                        </StepButton>
-                    </Step>
-                    <Step disabled={disableCheckout}>
-                        <StepButton onClick={handleStep(1)} completed={completed[2]}>
-                            <FormattedMessage id='Checkout'/>
-                        </StepButton>
-                    </Step>
-                </Stepper>
-                <Grid container spacing={2}>
-                    <ReserveCustomer
-                        step={0}
-                        activeStep={activeStep}
-                        customer={customer}
-                        setCustomer={setCustomer}
-                        handleNextStep={handleNextStep}
-                    />
-                    <ReserveProduct
-                        step={1}
-                        activeStep={activeStep}
-                        products={products}
-                        handleAddProduct={handleAddProduct}
-                        handleRemoveProduct={handleRemoveProduct}
-                        handleNextStep={handleNextStep}
-                    />
-                    <ReserveCheckout
-                        step={2}
-                        activeStep={activeStep}
-                        store_id={store_id}
-                        salesman_id={salesman_id}
-                        handleStoreIdChange={handleStoreIdChange}
-                        handleSalesmanIdChange={handleSalesmanIdChange}
-                        reminderDate={reminderDate}
-                        setReminderDate={setReminderDate}
-                        disableSubmit={disableSubmit}
-                        handleConfirmReserve={handleConfirmReserve}
-                    />
-                </Grid>
-            </Box>
-        </Box>*/
     );
 }
  

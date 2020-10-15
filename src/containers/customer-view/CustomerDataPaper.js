@@ -16,8 +16,8 @@ const CustomerDataPaper = ({customer, handleLoadCustomer}) => {
                 : {LabelMasks.cpf(customer.cpf)}
             </Typography>
             <Typography variant='body1'>
-                <FormattedMessage id="Birth Date"/>
-                : <FormattedDate value={customer.birth_date} timeZone='utc' />
+                <FormattedMessage id="Date of Birth"/>
+                : <FormattedDate value={customer.date_of_birth} timeZone='utc' />
             </Typography>
             <Typography variant='body1'>
                 <FormattedMessage id="Email"/>

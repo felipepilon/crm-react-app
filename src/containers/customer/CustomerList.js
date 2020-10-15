@@ -74,7 +74,7 @@ const CustomerList = () => {
                         <ColumnHeader title='Email'/>
                         <ColumnHeader title='Phone 1'/>
                         <ColumnHeader title='Phone 2'/>
-                        <ColumnHeader title='Birth Date'/>
+                        <ColumnHeader title='Date of Birth'/>
                         <ColumnHeader title='City'/>
                         <ColumnHeader title='Address 1'/>
                         <ColumnHeader title='Address 2'/>
@@ -93,7 +93,7 @@ const CustomerList = () => {
                                     <TableCell value={row.email}/>
                                     <TableCell value={row.phone1} format='masked' mask='phone'/>
                                     <TableCell value={row.phone2} format='masked' mask='phone'/>
-                                    <TableCell value={row.birth_date} format='date'/>
+                                    <TableCell value={row.date_of_birth} format='date'/>
                                     <TableCell value={row.city}/>
                                     <TableCell value={row.addr1}/>
                                     <TableCell value={row.addr2}/>

@@ -5,20 +5,15 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 import SalesPanel from '../sales-view/SalesPanel';
 import Agenda from '../agenda-view/Agenda';
+import { Link as RouterLink } from 'react-router-dom';
 
 const WorkspaceHome = () => {
     const { setStatus } = useContext(WorkspaceStateContext);
 
     const hist = useHistory();
-    const location = useLocation();
+    const loc = useLocation();
     const theme = useTheme();
 
-    const handleAddRerveClick = (e) => {
-        e.preventDefault();
-        setStatus('loading');
-        hist.push(`/workspace/reserve/add`, { from: location });
-    }
-    
     useEffect(() => {
         setStatus('loaded');
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -32,13 +27,13 @@ const WorkspaceHome = () => {
                 width='20%'
                 padding={1}
             >
-                <Button
-                    fullWidth
-                    variant='contained'
-                    color='primary'
-                    onClick={handleAddRerveClick}
+                <Button fullWidth variant='contained' color='primary' href='#'
+                    component={RouterLink} to={{
+                        pathname: '/workspace/reserves/add',
+                        state: { from: loc }
+                    }}
                 >
-                    <FormattedMessage id='New Reserve' />
+                    <FormattedMessage id='New Reserve'/>
                 </Button>
             </Box>
         </Container>

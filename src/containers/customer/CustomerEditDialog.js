@@ -72,7 +72,7 @@ const CustomerEditDialog = ({customer_id, handleCustomerUpdated, open, handleClo
             <FieldGroupWrapper>
                 <PageField fieldKey='name' title='Name' value={customer.name} error={errors.name} handleChange={handleFieldChange}/>
                 <PageField fieldKey='cpf' title='CPF' value={customer.cpf} error={errors.cpf} handleChange={handleFieldChangeNumber} comp='masked' mask='cpf'/>
-                <PageField fieldKey='birth_date' title='Birth Date' value={customer.birth_date} error={errors.birth_date} handleChange={handleFieldChange} comp='date'/>
+                <PageField fieldKey='birth_date' title='Date of Birth' value={customer.birth_date} error={errors.birth_date} handleChange={handleFieldChange} comp='date'/>
             </FieldGroupWrapper>
             <FieldGroupWrapper title='Contact Data'>
                 <PageField fieldKey='email' title='Email' value={customer.email} error={errors.email} handleChange={handleFieldChange}/>
