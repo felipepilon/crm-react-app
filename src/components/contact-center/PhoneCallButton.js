@@ -11,7 +11,7 @@ const PhoneCallButton = (props) => {
         props.handleClick();
     }
 
-    const disabled = props.contactVia === 'Phone Call' || props.disabled;
+    const disabled = props.contactVia === 'Phone Call';
 
     return (
         <Button 

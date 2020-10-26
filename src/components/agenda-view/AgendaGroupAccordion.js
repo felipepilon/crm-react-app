@@ -1,7 +1,8 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, CircularProgress, Typography, useTheme } from '@material-ui/core';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Typography, useTheme } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { FormattedMessage } from 'react-intl';
+import LoadingAbsoluteBox from '../LoadingAbsoluteBox';
 
 const AgendaGroupAccordion = ({loadContentFnc, loadSummaryFnc, summaryData, summaryStatus, children, title, contentStatus}) => {
     const theme = useTheme();
@@ -34,23 +35,7 @@ const AgendaGroupAccordion = ({loadContentFnc, loadSummaryFnc, summaryData, summ
                     {children}
                 </AccordionDetails>
             </Accordion>
-            {
-                summaryStatus !== 'loaded' ?
-                <Box
-                    display='flex'
-                    position='absolute'
-                    height='100%'
-                    width='100%'
-                    justifyContent='center'
-                    alignItems='center'
-                    bgcolor={theme.palette.background.paper}
-                    zIndex='1'
-                    style={{opacity: 0.3}}
-                >
-                    <CircularProgress size={20}/>
-                </Box> : 
-                null
-            }
+            <LoadingAbsoluteBox loading={summaryStatus !== 'loaded'}/>
         </Box>
     );
 }

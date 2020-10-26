@@ -71,6 +71,9 @@ const MenuButton = () => {
                     <Can I='read' a='Users'>
                         <MenuItem title='Users' to='/workspace/users'/>
                     </Can>
+                    <Can I='read' a='ContactReasons'>
+                        <MenuItem title='Contact Reasons' to='/workspace/contactReasons'/>
+                    </Can>
                 </List>
             </div>
         </Drawer>

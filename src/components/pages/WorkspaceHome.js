@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import { Box, Button, Container, useTheme } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 import SalesPanel from '../sales-view/SalesPanel';
 import Agenda from '../agenda-view/Agenda';
@@ -10,7 +10,6 @@ import { Link as RouterLink } from 'react-router-dom';
 const WorkspaceHome = () => {
     const { setStatus } = useContext(WorkspaceStateContext);
 
-    const hist = useHistory();
     const loc = useLocation();
     const theme = useTheme();
 

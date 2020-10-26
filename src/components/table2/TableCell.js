@@ -9,6 +9,7 @@ import TableCellDate from './TableCellDate';
 import TableCellMasked from './TableCellMasked';
 import TableCellCheckbox from './TableCellCheckbox';
 import TableCellIntlAction from './TableCellIntlAction';
+import TableCellIcon from './TableCellIcon';
 
 const components = {
     default: TableCellDefault,
@@ -20,7 +21,8 @@ const components = {
     intl: TableCellIntl,
     intlLink: TableCellIntlLink,
     checkbox: TableCellCheckbox,
-    intlAction: TableCellIntlAction
+    intlAction: TableCellIntlAction,
+    icon: TableCellIcon
 }
 
 const TableCell = ({format, ...other}) => {

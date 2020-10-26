@@ -22,7 +22,6 @@ const Reserves = () => {
     const [summaryData, setSummaryData] = useState({});
     const [summaryStatus, setSummaryStatus] = useState('none');
 
-    const today = formatISO(new Date());
     const todays = contentData.sort(sortCustomers);
     
     const handleLoadSummary = () => {
@@ -60,7 +59,11 @@ const Reserves = () => {
                     {
                         todays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason="Reserve"/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} 
+                                    contact_reason_id={cus.contact_reason_id} 
+                                    reminder_type={cus.reminder_type}
+                                    reminder_date={cus.reminder_date}
+                                />
                             );
                         })
                     }

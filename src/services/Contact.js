@@ -19,12 +19,6 @@ export const get_Contacts = (params) => {
     .catch(handleError);
 }
 
-export const get_MsgPreset = (params) => {
-    return api.get('/contacts/msgPreset', {params})
-    .then(handleResponse)
-    .catch(handleError);
-}
-
 export const get_Interactions = (params) => {
     return api.get('/contacts/interactions', {params})
     .then(handleResponse)

@@ -192,5 +192,22 @@
     "Token generation confirmation text part 1": "Deseja realmente gerar um novo Token?",
     "Token generation confirmation text part 2": "Qualquer Token gerado anteriormente será inativado imediatamente podendo afetar a sincronização em lojas ativas.",
     "User doesn't belong to any store group": "Usuário não pertence à nenhum Grupo de Lojas",
-    "Connector Configurations not found": "Configurações do Conector não encontradas"
+    "Connector Configurations not found": "Configurações do Conector não encontradas",
+    "Contact Reasons": "Motivos Contato",
+    "New Contact Reason": "Novo Motivo Contato",
+    "Reason": "Motivo",
+    "Reason Type": "Tipo Motivo",
+    "Created/Updated At": "Criado/Atualizado Em",
+    "Edit Contact Reason": "Editar Motivo Contato",
+    "Message Presets": "Mensagens Predefinidas",
+    "New Message Preset": "Nova Mensagem Predefinida",
+    "Message Preset": "Mensagem Predefinida",
+    "Text": "Texto",
+    "Custom": "Personalizado",
+    "Select a store": "Selecione uma loja",
+    "Reason: {t1}": "Motivo: {t1}",
+    "Reason: {t1}, {t2}": "Motivo: {t1}, {t2}",
+    "Default": "Padrão",
+    "Contact Again At": "Contatar Novamente Em",
+    "Use this message": "Usar esta mensagem"
 }

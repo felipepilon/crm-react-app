@@ -2,87 +2,87 @@ import React, { useState, useEffect } from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { useIntl } from 'react-intl';
 import { TextField, Box } from '@material-ui/core';
+import { get_ContactReasons } from '../../services/ContactReason';
+import LoadingAbsoluteBox from '../LoadingAbsoluteBox';
 
-const ContactReason = (props) => {
-    const [ options ] = useState([
-        'Birthday',
-        'Reserve',
-        'Another',
-    ]);
-    const [ open, setOpen ] = useState(false);
-    const [ openAnotherReason, setOpenAnotherReason ] = useState(false);
-
-    const handleChange = (e, sel) => {
-        props.handleReasonsChange(sel && sel.length ? sel.join(', ') : null);
-    }
-
+const ContactReason = ({
+    reasons, handleReasonsChange, 
+    another_reason, reasonError, anotherReasonError,
+    handleAnotherReasonChange, default_contact_reason_id,
+    anotherRsnReq
+}) => {
     const intl = useIntl();
 
-    useEffect(() => {
-        if (props.reasons && props.reasons.includes('Another')) {
-            setOpenAnotherReason(true);
-        } else {
-            setOpenAnotherReason(false);
-            props.handleAnotherReasonChange(null);
-        }
-    // eslint-disable-next-line
-    }, [props.reasons]);
+    const [ options, setOptions ] = useState([]);
+    const [ open, setOpen ] = useState(false);
+    const [ loading, setLoading ] = useState(true);
+    
+    const handleChange = (e, sel) => {
+        //console.log('sel', sel);
+        handleReasonsChange(sel);
+    }
 
-    const value = props.reasons ?
-        props.reasons.split(', ') :
-        [];
+    useEffect(() => {
+        setTimeout(() => {
+            get_ContactReasons({active: true})
+            .then((res) => {
+                setOptions(res);
+
+                if (default_contact_reason_id) {
+                    const def = res.find((rsn) => rsn.contact_reason_id === default_contact_reason_id);
+                    handleReasonsChange([def]);
+                }
+
+                setLoading(false);
+            })
+        }, 500)
+    // eslint-disable-next-line
+    }, [])
 
     return (
-        <Box
-            display='flex'
-            flexDirection='column'
-            width='100%'
-            marginTop={1}
-        >
+        <Box display='flex' flexDirection='column' width='100%' marginTop={1} position='relative'>
             <Autocomplete
                 multiple
                 filterSelectedOptions
                 options={options}
                 open={open}
-                value={value}
+                value={reasons}
                 onOpen={() => {setOpen(true)}}
                 onClose={() => {setOpen(false)}}
-                getOptionLabel={(opt) => intl.formatMessage({ id: opt })}
-                renderOption={(opt) => intl.formatMessage({ id: opt })}
+                getOptionLabel={(opt) => opt.reason_description}
+                renderOption={(opt) => opt.reason_description}
                 noOptionsText={false}
                 onChange={handleChange}
-                disabled={props.disabled}
-
                 renderInput={(params) => 
                     <TextField
                         { ...params } 
                         label={intl.formatMessage({ id: 'Reason(s)' })}
-                        error={props.reasonError ? true : false}
+                        error={reasonError ? true : false}
                         helperText={
-                            props.reasonError ? intl.formatMessage({id: props.reasonError }) :
-                            !value.length ? intl.formatMessage({id: 'Select reason(s) for contact'}) :
+                            reasonError ? intl.formatMessage({id: reasonError }) :
+                            !reasons.length ? intl.formatMessage({id: 'Select reason(s) for contact'}) :
                             null
                         }
                     />
                 }
             />
             {
-                openAnotherReason ?
+                anotherRsnReq ?
                 <TextField
                     size='small'
-                    value={props.another_reason || ''}
-                    onChange={(e) => props.handleAnotherReasonChange(e.target.value || null)}
+                    value={another_reason || ''}
+                    onChange={(e) => handleAnotherReasonChange(e.target.value || null)}
                     label={intl.formatMessage({ id: 'Another Reason' })}
-                    disabled={props.disabled}
-                    error={props.anotherReasonError ? true : false}
+                    error={anotherReasonError ? true : false}
                     helperText={
-                        props.anotherReasonError ?
-                        intl.formatMessage({id: props.anotherReasonError}) :
+                        anotherReasonError ?
+                        intl.formatMessage({id: anotherReasonError}) :
                         null
                     }
                 /> : 
                 null
             }
+            <LoadingAbsoluteBox loading={loading}/>
         </Box>
     );
 }

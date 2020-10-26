@@ -16,6 +16,7 @@ export default (ability, user) => {
         can('read', 'Customers');
         can('read', 'Stores');
         can('read', 'StoreGroups');
+        can('read', 'ContactReasons');
     }
 
     ability.update(rules);

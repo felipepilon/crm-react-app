@@ -1,10 +1,12 @@
 import React from 'react';
 import { TableCell, Typography } from '@material-ui/core';
 
-const TableCellDefault = ({value}) => {
+const TableCellDefault = ({value, wrap}) => {
     return (
         <TableCell>
-            <Typography variant='inherit' noWrap>
+            <Typography variant='inherit' 
+                noWrap={!wrap} style={wrap ? {whiteSpace: 'pre-line'} : {}}
+            >
                 {value}
             </Typography>
         </TableCell>

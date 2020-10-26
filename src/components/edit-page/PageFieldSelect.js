@@ -49,11 +49,17 @@ const EnhancedFieldText = ({
     const _error = (!loading && error) || '';
     
     useEffect(() => {
-        if (typeof defaultValue !== 'undefined') {
-            handleChange(fieldKey, defaultValue);
+        if (!loading) {
+            if (typeof defaultValue !== 'undefined') {
+                handleChange(fieldKey, defaultValue);
+            } else if (_options.length === 1) {
+                handleChange(fieldKey, _options[0].value);
+            }
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [loading]);
+
+    const _hideSelectOption = hideSelectOption || _options.length === 1;
 
     return (
         <FormControl error={_error ? true : false} fullWidth size='small'>
@@ -69,7 +75,7 @@ const EnhancedFieldText = ({
                 <MenuItem value=''></MenuItem>
             }
             {
-                !loading && !hideSelectOption &&
+                !loading && !_hideSelectOption &&
                 <MenuItem value=''>
                     <em><FormattedMessage id='Select'/></em>
                 </MenuItem>

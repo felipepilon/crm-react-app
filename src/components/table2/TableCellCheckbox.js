@@ -1,5 +1,5 @@
 import React from 'react';
-import { Checkbox, TableCell, Typography } from '@material-ui/core';
+import { Checkbox, TableCell } from '@material-ui/core';
 
 const TableCellCheckbox = ({value}) => {
     return (

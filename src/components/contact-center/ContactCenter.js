@@ -13,8 +13,9 @@ import {
     post_Contact,
 } from '../../services/Contact';
 import { useLocation } from 'react-router-dom';
+import DisabledAbsoluteBox from '../../components/DisabledAbsoluteBox';
 
-const ContactCenter = (props) => {
+const ContactCenter = ({customer, setContactsLastUpdate}) => {
     const { setSucessSnack } = useContext(AppStateContext);
 
     const loc = useLocation();
@@ -22,11 +23,12 @@ const ContactCenter = (props) => {
     
     const [ contact, setContact ] = useState({
         status: 'New',
-        store_group_id: props.customer.store_group_id,
-        customer_id: props.customer.customer_id,
-        reasons: loc.state && loc.state.reason
+        store_group_id: customer.store_group_id,
+        customer_id: customer.customer_id,
+        reasons: []
     });
     const [ contactVia, setContactVia ] = useState(null);
+    const [ anotherRsnReq, setAnotherRsnReq ] = useState(false);
     const [ errors, setErrors ] = useState({});
 
     const handleWhatsAppButtonClick = () => handleContactViaSelected('WhatsApp');
@@ -45,7 +47,7 @@ const ContactCenter = (props) => {
         if (!contact.reasons)
             newErrors.reasons = { h: 'At least one reason is required' };
 
-        if (contact.reasons && contact.reasons.includes('Another')) {
+        if (anotherRsnReq) {
             if (!contact.another_reason || !contact.another_reason.trim().length)
                 newErrors.another_reason = 'Inform details for the contact';
             else if (contact.another_reason.trim().length < 5)
@@ -71,6 +73,8 @@ const ContactCenter = (props) => {
             contact_id: contact.contact_id,
             status: 'Completed',
             contact_end_date: new Date(),
+            reminder_type: loc.state && loc.state.reminder_type,
+            reminder_date: loc.state && loc.state.reminder_date
         })
         .then(() => {
             setContact({
@@ -79,12 +83,20 @@ const ContactCenter = (props) => {
                 customer_id: contact.customer_id,
                 store_id: contact.store_id,
                 salesman_id: contact.salesman_id,
+                reasons: []
             });
             setContactVia(null);
-            props.setContactsLastUpdate(new Date());
+            setContactsLastUpdate(new Date());
             setSucessSnack('Contacted registered successully');
         });
     }
+
+    useEffect(() => {
+        const {store_id, ...other} = errors;
+        if (store_id)
+            setErrors(other);
+    // eslint-disable-next-line
+    }, [contact.store_id])
 
     useEffect(() => {
         const {salesman_id, ...other} = errors;
@@ -101,11 +113,17 @@ const ContactCenter = (props) => {
     }, [contact.reasons])
 
     useEffect(() => {
+        const ars = contact.reasons.find((rsn) => rsn.reason_type === 'Another');
+        setAnotherRsnReq(ars ? true : false);
+    // eslint-disable-next-line
+    }, [contact.reasons])
+
+    useEffect(() => {
         const {another_reason, ...other} = errors;
         if (another_reason)
             setErrors(other);
     // eslint-disable-next-line
-    }, [contact.another_reason]);
+    }, [contact.another_reason, anotherRsnReq]);
 
     const disabled = contact.status !== 'New';
 
@@ -127,14 +145,12 @@ const ContactCenter = (props) => {
                         store_id={contact.store_id}
                         error={errors.store_id}
                         handleStoreIdChange={handleStoreIdChange}
-                        disabled={disabled}
                     />
                     <SalesmanSelect
                         store_id={contact.store_id}
                         salesman_id={contact.salesman_id}
                         error={errors.salesman_id}
                         handleSalesmanIdChange={handleSalesmanIdChange}
-                        disabled={disabled}
                     />
                     <ContactReason 
                         reasons={contact.reasons}
@@ -143,7 +159,8 @@ const ContactCenter = (props) => {
                         anotherReasonError={errors.another_reason}
                         handleReasonsChange={handleReasonsChange}
                         handleAnotherReasonChange={handleAnotherReasonChange}
-                        disabled={disabled}
+                        anotherRsnReq={anotherRsnReq}
+                        default_contact_reason_id={loc.state && loc.state.contact_reason_id}
                     />
                     <Typography 
                         variant='body2' 
@@ -158,12 +175,10 @@ const ContactCenter = (props) => {
                         <WhatsAppButton 
                             handleClick={handleWhatsAppButtonClick} 
                             contactVia={contactVia}
-                            disabled={disabled}    
                         />
                         <PhoneCallButton 
                             handleClick={handlePhoneCallButtonClick} 
                             contactVia={contactVia}
-                            disabled={disabled}    
                         />
                     </Box>
                 </Box>
@@ -174,14 +189,14 @@ const ContactCenter = (props) => {
                         contactVia ?
                         contactVia === 'Phone Call' ?
                         <PhoneCallPanel 
-                            customer={props.customer} 
+                            customer={customer} 
                             contact={contact}
                             contactVia={contactVia}
                             setContact={setContact}
                             handleEndContact={handleEndContact}
                         /> :
                         <WhatsAppMsgPanel 
-                            customer={props.customer} 
+                            customer={customer} 
                             contact={contact}
                             contactVia={contactVia}
                             setContact={setContact}
@@ -190,6 +205,7 @@ const ContactCenter = (props) => {
                         null
                     }
                 </Box>
+                <DisabledAbsoluteBox disable={disabled}/>
             </Box>
         </Paper>
     );

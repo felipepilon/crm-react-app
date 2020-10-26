@@ -67,7 +67,7 @@ const Birthdays = () => {
                     {
                         todays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason="Birthday"/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} contact_reason_id={cus.contact_reason_id}/>
                             );
                         })
                     }
@@ -80,7 +80,7 @@ const Birthdays = () => {
                     {
                         yesterdays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} contact_reason_id={cus.contact_reason_id}/>
                             );
                         })
                     }
@@ -93,7 +93,7 @@ const Birthdays = () => {
                     {
                         yesterdays_2.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} contact_reason_id={cus.contact_reason_id}/>
                             );
                         })
                     }
