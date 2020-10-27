@@ -50,14 +50,11 @@ const ContactsTable = (props) => {
 
     const loadData = () => {
         setLoading(true);
-
+        
         setTimeout(() => {
             get_Contacts({
-                contact_id: props.contact_id,
+                customer_id: props.customer_id,
                 limit: 10,
-                order_by: [
-                    [ 'contact_start_date', 'desc' ],
-                ]
             })
             .then((result) => {
                 setData(result);

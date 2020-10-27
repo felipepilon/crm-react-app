@@ -61,7 +61,6 @@ const Reserves = () => {
                             return (
                                 <AgendaGroupItem key={cus.customer_id} customer={cus} 
                                     contact_reason_id={cus.contact_reason_id} 
-                                    reminder_type={cus.reminder_type}
                                     reminder_date={cus.reminder_date}
                                 />
                             );

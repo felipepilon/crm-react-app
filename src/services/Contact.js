@@ -14,7 +14,7 @@ export const post_Interactions = (params) => {
 }
 
 export const get_Contacts = (params) => {
-    return api.post('/contacts/list', params)
+    return api.get('/contacts', {params})
     .then(handleResponse)
     .catch(handleError);
 }

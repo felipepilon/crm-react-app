@@ -22,6 +22,7 @@ const ReservesTable = (props) => {
         { name: 'product_color_desc', title: 'Color', },
         { name: 'size', title: 'Size', },
         { name: 'quantity', title: 'Quantity', },
+        { name: 'status', title: 'Status', comp: 'intl' },
     ]);
 
     const handleChange = () => {

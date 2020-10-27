@@ -209,5 +209,22 @@
     "Reason: {t1}, {t2}": "Motivo: {t1}, {t2}",
     "Default": "Padrão",
     "Contact Again At": "Contatar Novamente Em",
-    "Use this message": "Usar esta mensagem"
+    "Use this message": "Usar esta mensagem",
+    "Customer birthday is today {date_of_birth}!": "Aniversário do cliente é hoje {date_of_birth}!",
+    "Customer birthday was day before yesterday {date_of_birth}": "Aniversário do cliente foi anteontem {date_of_birth}",
+    "Customer birthday was yesterday {date_of_birth}": "Aniversário do cliente foi ontem {date_of_birth}",
+    "Customer birthday is tomorrow {date_of_birth}": "Aniversário do cliente é amanhã {date_of_birth}",
+    "Customer birthday is at {date_of_birth}": "Aniversário do cliente é dia {date_of_birth}",
+    "Birtday information not available": "Informação de aniversário não disponível",
+    "Topics": "Tópicos",
+    "Loading open reserves...": "Carregando reservas em aberto...",
+    "Open reserves": "Reservas em aberto",
+    "No open reserves": "Não possui reservas em aberto",
+    "Actions": "Ações",
+    "Cancel reserve": "Cancelar reserva",
+    "Close reserve": "Fechar reserva",
+    "Confirm reservation canceling?": "Confirma cancelamento da reserva?",
+    "Confirm reservation closing?": "Confirma fechamento da reserva?",
+    "Closed": "Fechado",
+    "Canceled": "Cancelado"
 }

@@ -71,9 +71,9 @@ const ContactCenter = ({customer, setContactsLastUpdate}) => {
     const handleEndContact = () => {
         post_Contact({
             contact_id: contact.contact_id,
+            customer_id: contact.customer_id,
             status: 'Completed',
             contact_end_date: new Date(),
-            reminder_type: loc.state && loc.state.reminder_type,
             reminder_date: loc.state && loc.state.reminder_date
         })
         .then(() => {

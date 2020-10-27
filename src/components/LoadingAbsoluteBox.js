@@ -11,8 +11,8 @@ const LoadingAbsoluteBox = ({loading}) => {
         <Box
             display='flex'
             position='absolute'
-            height='100%'
-            width='100%'
+            height='90%'
+            width='97%'
             justifyContent='center'
             alignItems='center'
             bgcolor={theme.palette.background.paper}

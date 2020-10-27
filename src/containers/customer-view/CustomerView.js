@@ -7,6 +7,7 @@ import ReservesTable from '../customer-view/ReservesTable';
 import ContactsTable from '../customer-view/ContactsTable';
 import ContactCenter from '../../components/contact-center/ContactCenter';
 import { useIntl } from 'react-intl';
+import ContactTopics from '../contact-topics/ContactTopics';
 
 const CustomerView = ({customer_id}) => {
     const intl = useIntl();
@@ -62,22 +63,14 @@ const CustomerView = ({customer_id}) => {
                     />
                 </Box>
             </Box>
-            <Box
-                display='flex'
-                padding={1}
-            >
-                <ReservesTable
-                    customer_id={customer.customer_id}
-                />
+            <Box display='flex' padding={1}>
+                <ContactTopics customer={customer}/>
             </Box>
-            <Box
-                display='flex'
-                padding={1}
-            >
-                <ContactsTable
-                    customer_id={customer.customer_id}
-                    lastUpdate={contactsLastUpdate}
-                />
+            <Box display='flex' padding={1}>
+                <ReservesTable customer_id={customer.customer_id}/>
+            </Box>
+            <Box display='flex' padding={1}>
+                <ContactsTable customer_id={customer.customer_id} lastUpdate={contactsLastUpdate}/>
             </Box>
         </Container>
     );
