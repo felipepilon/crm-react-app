@@ -9,7 +9,7 @@ import { FormattedMessage } from 'react-intl';
 import { Box } from '@material-ui/core';
 import { get_ReserveDetails } from '../../services/Reserve';
 
-const ReservesTable = (props) => {
+const ReservesTable = ({customer_id, lastUpdate}) => {
     const [ expanded, setExpanded ] = useState(false);
     const [ data, setData ] = useState([]);
     const [ loading, setLoading ] = useState(true);
@@ -32,14 +32,20 @@ const ReservesTable = (props) => {
     useEffect(() => {
         if (expanded && loading)
         {
-            get_ReserveDetails({ customer_id: props.customer_id })
+            get_ReserveDetails({ customer_id })
             .then((result) => {
                 setData(result);
                 setLoading(false);
             });
         }
     // eslint-disable-next-line
-    }, [expanded]);
+    }, [expanded, loading]);
+
+    useEffect(() => {
+        if (expanded && !loading)
+            setLoading(true);
+    // eslint-disable-next-line
+    }, [lastUpdate])
 
     return (
         <Box

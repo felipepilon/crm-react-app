@@ -15,6 +15,7 @@ const CustomerView = ({customer_id}) => {
     const { setStatus } = useContext(WorkspaceStateContext);
     const [ customer, setCustomer ] = useState(null);
     const [ contactsLastUpdate, setContactsLastUpdate ] = useState();
+    const [ reservesLastUpdate, setReservesLastUpdated ] = useState();
     
     useEffect(() => {
         setStatus('loading');
@@ -64,10 +65,10 @@ const CustomerView = ({customer_id}) => {
                 </Box>
             </Box>
             <Box display='flex' padding={1}>
-                <ContactTopics customer={customer}/>
+                <ContactTopics customer={customer} setReservesLastUpdated={setReservesLastUpdated} reservesLastUpdate={reservesLastUpdate}/>
             </Box>
             <Box display='flex' padding={1}>
-                <ReservesTable customer_id={customer.customer_id}/>
+                <ReservesTable customer_id={customer.customer_id} lastUpdate={reservesLastUpdate}/>
             </Box>
             <Box display='flex' padding={1}>
                 <ContactsTable customer_id={customer.customer_id} lastUpdate={contactsLastUpdate}/>

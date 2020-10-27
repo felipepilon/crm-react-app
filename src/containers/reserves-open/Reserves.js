@@ -14,15 +14,16 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DoneIcon from '@material-ui/icons/DoneOutlineRounded';
 import ActionConfirmDialog from './ActionConfirmDialog';
 
-const Reserves = ({customer, loading, setLoading}) => {
+const Reserves = ({customer, loading, setLoading, setReservesLastUpdated, reservesLastUpdate}) => {
     const intl = useIntl();
 
     const [data, setData] = useState([]);
     const [confirmationDialog, setConfirmationDialog] = useState({});
 
     useEffect(() => {
+        setLoading(true);
         loadData();
-    }, [customer.customer_id])
+    }, [customer.customer_id, reservesLastUpdate])
 
     const message = loading ? 'Loading open reserves...' :
         data.length ? 'Open reserves' :
@@ -48,7 +49,7 @@ const Reserves = ({customer, loading, setLoading}) => {
             status
         })
         .then(() => {
-            loadData();
+            setReservesLastUpdated(new Date());
         })
     }
 
