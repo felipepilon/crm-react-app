@@ -1,4 +1,5 @@
 import { CircularProgress } from '@material-ui/core';
+import { formatISO } from 'date-fns';
 import React, { useState } from 'react';
 import { get_SumToDoBirthday, get_ToDoBirthday } from '../../services/Contact';
 import AgendaGroupAccordion from './AgendaGroupAccordion';
@@ -8,7 +9,6 @@ import AgendaGroupWrapper from './AgendaGroupWrapper';
 
 const getDateNoOffset = (date) => new Date(date.getTime() - (date.getTimezoneOffset() * 60000));
 const getDateMonthDay = (date) => getDateNoOffset(date).toISOString().substr(5, 5);
-const getDateYear = (date) => getDateNoOffset(date).getFullYear();
 const compareDate = (date1Str, date2) => date1Str === getDateMonthDay(date2);
 
 const sortCustomers = (a, b) => {
@@ -35,7 +35,10 @@ const Birthdays = () => {
 
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
-        get_SumToDoBirthday({birthday: getDateMonthDay(today), year: getDateYear(today)})
+        get_SumToDoBirthday({
+            birthday: formatISO(today).substr(5, 5),
+            contact_date: formatISO(today).substr(0, 10)
+        })
         .then((res) => {
             setSummaryData(res);
             setSummaryStatus('loaded');
@@ -44,7 +47,11 @@ const Birthdays = () => {
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        get_ToDoBirthday({birthday_start: getDateMonthDay(yesterday_2), birthday_end: getDateMonthDay(today), year: getDateYear(today)})
+        get_ToDoBirthday({
+            birthday_start: formatISO(yesterday_2).substr(5, 5),
+            birthday_end: formatISO(today).substr(5, 5),
+            contact_date: formatISO(today).substr(0, 10)
+        })
         .then((res) => {
             setContentData(res);
             setContentStatus('loaded');
@@ -67,7 +74,7 @@ const Birthdays = () => {
                     {
                         todays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} contact_reason_id={cus.contact_reason_id}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Birthday'/>
                             );
                         })
                     }
@@ -80,7 +87,7 @@ const Birthdays = () => {
                     {
                         yesterdays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} contact_reason_id={cus.contact_reason_id}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Birthday'/>
                             );
                         })
                     }
@@ -93,7 +100,7 @@ const Birthdays = () => {
                     {
                         yesterdays_2.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} contact_reason_id={cus.contact_reason_id}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Birthday'/>
                             );
                         })
                     }

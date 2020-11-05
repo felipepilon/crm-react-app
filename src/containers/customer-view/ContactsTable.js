@@ -16,7 +16,7 @@ const ContactsTable = (props) => {
     const [ expanded, setExpanded ] = useState(false);
     const [ data, setData ] = useState([]);
     const [ columns ] = useState([
-        { name: 'contact_start_date', title: 'Contact Date', comp: 'datetime' },
+        { name: 'contact_date', title: 'Contact Date', comp: 'datetime' },
         { name: 'store_name', title: 'Store' },
         { name: 'salesman_name', title: 'Salesman' },
         { name: 'reasons', title: 'Reason(s)', comp: 'intlSplit' },

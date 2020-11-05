@@ -160,7 +160,7 @@ const ContactCenter = ({customer, setContactsLastUpdate}) => {
                         handleReasonsChange={handleReasonsChange}
                         handleAnotherReasonChange={handleAnotherReasonChange}
                         anotherRsnReq={anotherRsnReq}
-                        default_contact_reason_id={loc.state && loc.state.contact_reason_id}
+                        reason_type={loc.state && loc.state.reason_type}
                     />
                     <Typography 
                         variant='body2' 

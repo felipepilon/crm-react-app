@@ -121,6 +121,7 @@ const WhatsAppMsgPanel = ({contact, contactVia, customer, setContact, handleEndC
                 ...{ 
                     status: 'Started',
                     contact_start_date: currentDateISO,
+                    contact_date: currentDateISO,
                 }
             };
     

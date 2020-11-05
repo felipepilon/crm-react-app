@@ -71,7 +71,7 @@ const ContactReasonAddDialog = ({handleUpdated, open, handleClose, contact_reaso
                 <PageField fieldKey='reason_description' title='Description' value={data.reason_description} error={errors.reason_description} handleChange={handleFieldChange}/>
                 <PageField fieldKey='reason_type' title='Reason Type' value={data.reason_type} error={errors.reason_type} handleChange={handleFieldChange} 
                     comp='select'
-                    options={['Reserve', 'Birthday', 'Another', 'Custom']}
+                    options={['Reserve', 'Birthday', 'Thanks', 'Missing', 'Another', 'Custom']}
                 />
                 <PageField fieldKey='active' title='Active' value={data.active} error={errors.active} handleChange={handleFieldChange} comp='checkbox'/>
             </FieldGroupWrapper>

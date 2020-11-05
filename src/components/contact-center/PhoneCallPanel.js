@@ -48,6 +48,7 @@ const PhoneCallPanel = ({contactVia, contact, customer, setContact, handleEndCon
             ...{ 
                 status: 'Started',
                 contact_start_date: currentDateISO,
+                contact_date: currentDateISO,
             }
         };
 

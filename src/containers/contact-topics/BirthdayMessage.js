@@ -53,7 +53,7 @@ const BirthdayMessage = ({customer}) => {
     
 
     return (
-        <Box display='flex' paddingTop={1} alignItems='center'>{
+        <Box display='flex' marginTop={1} alignItems='center'>{
             details
         }</Box>
     );

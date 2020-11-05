@@ -48,3 +48,27 @@ export const get_ToDoReserve = (params) => {
     .then(handleResponse)
     .catch(handleError);
 }
+
+export const get_SumToDoSale = (params) => {
+    return api.get('/contacts/toDoSum/sale', {params})
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export const get_ToDoSale = (params) => {
+    return api.get('/contacts/toDo/sale', {params})
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export const get_SumToDoDaysNoBuying = (params) => {
+    return api.get('/contacts/toDoSum/daysNoBuying', {params})
+    .then(handleResponse)
+    .catch(handleError);
+}
+
+export const get_ToDoDaysNoBuying = (params) => {
+    return api.get('/contacts/toDo/daysNoBuying', {params})
+    .then(handleResponse)
+    .catch(handleError);
+}

@@ -8,7 +8,7 @@ import LoadingAbsoluteBox from '../LoadingAbsoluteBox';
 const ContactReason = ({
     reasons, handleReasonsChange, 
     another_reason, reasonError, anotherReasonError,
-    handleAnotherReasonChange, default_contact_reason_id,
+    handleAnotherReasonChange, reason_type,
     anotherRsnReq
 }) => {
     const intl = useIntl();
@@ -28,8 +28,8 @@ const ContactReason = ({
             .then((res) => {
                 setOptions(res);
 
-                if (default_contact_reason_id) {
-                    const def = res.find((rsn) => rsn.contact_reason_id === default_contact_reason_id);
+                if (reason_type) {
+                    const def = res.find((rsn) => rsn.reason_type === reason_type);
                     handleReasonsChange([def]);
                 }
 

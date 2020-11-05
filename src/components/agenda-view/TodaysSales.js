@@ -1,8 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
-import { get_SumToDoReserve, get_ToDoReserve } from '../../services/Contact';
+import { get_SumToDoSale, get_ToDoSale } from '../../services/Contact';
 import AgendaGroupAccordion from './AgendaGroupAccordion';
-import AgendaGroupCaption from './AgendaGroupCaption';
 import AgendaGroupItem from './AgendaGroupItem';
 import AgendaGroupWrapper from './AgendaGroupWrapper';
 import formatISO from 'date-fns/formatISO';
@@ -16,19 +15,20 @@ const sortCustomers = (a, b) => {
     return (a.name < b.name) ? -1 : 1;
 }
 
-const Reserves = () => {
+const TodaysSales = () => {
     const [contentStatus, setContentStatus] = useState('none');
     const [contentData, setContentData] = useState([]);
     const [summaryData, setSummaryData] = useState({});
     const [summaryStatus, setSummaryStatus] = useState('none');
 
     const todays = contentData.sort(sortCustomers);
-
-    const reminder_date = formatISO(new Date()).substr(0, 10);
     
+    const today = formatISO(new Date()).substr(0, 10);
+
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
-        get_SumToDoReserve({reminder_date})
+
+        get_SumToDoSale({sale_date: today, contact_data: today})
         .then((res) => {
             setSummaryData(res);
             setSummaryStatus('loaded');
@@ -37,9 +37,9 @@ const Reserves = () => {
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        get_ToDoReserve({reminder_date})
-        .then((res) => {
 
+        get_ToDoSale({sale_date: today, contact_data: today})
+        .then((res) => {
             setContentData(res);
             setContentStatus('loaded');
         });
@@ -47,7 +47,7 @@ const Reserves = () => {
 
     return (
         <AgendaGroupAccordion 
-            title='Reserves' 
+            title="Today's Sales" 
             contentStatus={contentStatus} 
             loadContentFnc={handleLoadContent} 
             loadSummaryFnc={handleLoadSummary}
@@ -57,11 +57,10 @@ const Reserves = () => {
             {
                 todays.length ?
                 <AgendaGroupWrapper>
-                    <AgendaGroupCaption title='Todays'/>
                     {
                         todays.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Reserve' reminder_date={reminder_date}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Thanks'/>
                             );
                         })
                     }
@@ -75,4 +74,4 @@ const Reserves = () => {
     );
 }
  
-export default Reserves;
+export default TodaysSales;

@@ -6,12 +6,12 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import CheckIcon from '@material-ui/icons/Check';
 import BlockIcon from '@material-ui/icons/Block';
 
-const AgendaGroupItem = ({customer, contact_reason_id, reminder_date}) => {
+const AgendaGroupItem = ({customer, reason_type, reminder_date}) => {
     const loc = useLocation();
 
     const to = {
         pathname: `${loc.pathname}/customers/view/${customer.customer_id}`,
-        state: {contact_reason_id, reminder_date, from: loc}
+        state: {reason_type, reminder_date, from: loc}
     }
 
     return (

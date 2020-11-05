@@ -65,7 +65,11 @@ const CustomerView = ({customer_id}) => {
                 </Box>
             </Box>
             <Box display='flex' padding={1}>
-                <ContactTopics customer={customer} setReservesLastUpdated={setReservesLastUpdated} reservesLastUpdate={reservesLastUpdate}/>
+                <ContactTopics customer={customer} 
+                    setReservesLastUpdated={setReservesLastUpdated} 
+                    reservesLastUpdate={reservesLastUpdate}
+                    contactsLastUpdate={contactsLastUpdate}
+                />
             </Box>
             <Box display='flex' padding={1}>
                 <ReservesTable customer_id={customer.customer_id} lastUpdate={reservesLastUpdate}/>

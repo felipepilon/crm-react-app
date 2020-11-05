@@ -1,4 +1,4 @@
-import { Box, Typography, TableCell, Tooltip, IconButton, Dialog, DialogTitle, DialogContent, DialogContentText } from '@material-ui/core';
+import { Box, Typography, TableCell, Tooltip, IconButton } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { get_ReserveDetails } from '../../services/Reserve';
@@ -14,7 +14,7 @@ import CancelIcon from '@material-ui/icons/Cancel';
 import DoneIcon from '@material-ui/icons/DoneOutlineRounded';
 import ActionConfirmDialog from './ActionConfirmDialog';
 
-const Reserves = ({customer, loading, setLoading, setReservesLastUpdated, reservesLastUpdate}) => {
+const Reserves = ({customer_id, loading, setLoading, setReservesLastUpdated, reservesLastUpdate}) => {
     const intl = useIntl();
 
     const [data, setData] = useState([]);
@@ -23,17 +23,15 @@ const Reserves = ({customer, loading, setLoading, setReservesLastUpdated, reserv
     useEffect(() => {
         setLoading(true);
         loadData();
-    }, [customer.customer_id, reservesLastUpdate])
+    // eslint-disable-next-line
+    }, [customer_id, reservesLastUpdate])
 
     const message = loading ? 'Loading open reserves...' :
         data.length ? 'Open reserves' :
         'No open reserves';
 
     const loadData = () => {
-        get_ReserveDetails({
-            customer_id: customer.customer_id,
-            status: "New"
-        })
+        get_ReserveDetails({customer_id, status: "New"})
         .then((res) => {
             setData(res);
             setLoading(false);

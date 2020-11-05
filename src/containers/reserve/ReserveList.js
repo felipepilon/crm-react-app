@@ -66,6 +66,7 @@ const ReserveList = () => {
                     <TableHeaderWrapper>
                         <ColumnHeader title='Reserve Date'/>
                         <ColumnHeader title='Store'/>
+                        <ColumnHeader title='Customer'/>
                         <ColumnHeader title='Salesman'/>
                         <ColumnHeader title='Product'/>
                         <ColumnHeader title='Description'/>
@@ -81,6 +82,7 @@ const ReserveList = () => {
                                 <RowWrapper key={row.reserve_product_id}>
                                     <TableCell value={row.reserve_date} format='datetime'/>
                                     <TableCell value={row.store_name}/>
+                                    <TableCell value={row.customer_name}/>
                                     <TableCell value={row.salesman_name}/>
                                     <TableCell value={row.product_code}/>
                                     <TableCell value={row.product_desc}/>

@@ -1,8 +1,7 @@
 import { CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
-import { get_SumToDoReserve, get_ToDoReserve } from '../../services/Contact';
+import { get_SumToDoDaysNoBuying, get_ToDoDaysNoBuying } from '../../services/Contact';
 import AgendaGroupAccordion from './AgendaGroupAccordion';
-import AgendaGroupCaption from './AgendaGroupCaption';
 import AgendaGroupItem from './AgendaGroupItem';
 import AgendaGroupWrapper from './AgendaGroupWrapper';
 import formatISO from 'date-fns/formatISO';
@@ -16,19 +15,21 @@ const sortCustomers = (a, b) => {
     return (a.name < b.name) ? -1 : 1;
 }
 
-const Reserves = () => {
+const Missing30Days = () => {
     const [contentStatus, setContentStatus] = useState('none');
     const [contentData, setContentData] = useState([]);
     const [summaryData, setSummaryData] = useState({});
     const [summaryStatus, setSummaryStatus] = useState('none');
 
-    const todays = contentData.sort(sortCustomers);
+    const sortedData = contentData.sort(sortCustomers);
 
-    const reminder_date = formatISO(new Date()).substr(0, 10);
+    const today = formatISO(new Date()).substr(0, 10);
+    const todayMinus31 = formatISO(new Date(new Date().setDate(new Date().getDate() - 31))).substr(0, 10);
     
     const handleLoadSummary = () => {
         setSummaryStatus('loading')
-        get_SumToDoReserve({reminder_date})
+
+        get_SumToDoDaysNoBuying({sale_date: todayMinus31, contact_data: today})
         .then((res) => {
             setSummaryData(res);
             setSummaryStatus('loaded');
@@ -37,9 +38,9 @@ const Reserves = () => {
 
     const handleLoadContent = () => {
         setContentStatus('loading')
-        get_ToDoReserve({reminder_date})
-        .then((res) => {
 
+        get_ToDoDaysNoBuying({sale_date: todayMinus31, contact_data: today})
+        .then((res) => {
             setContentData(res);
             setContentStatus('loaded');
         });
@@ -47,7 +48,7 @@ const Reserves = () => {
 
     return (
         <AgendaGroupAccordion 
-            title='Reserves' 
+            title="30 Days no Buying" 
             contentStatus={contentStatus} 
             loadContentFnc={handleLoadContent} 
             loadSummaryFnc={handleLoadSummary}
@@ -55,13 +56,12 @@ const Reserves = () => {
             summaryStatus={summaryStatus}
         >
             {
-                todays.length ?
+                sortedData.length ?
                 <AgendaGroupWrapper>
-                    <AgendaGroupCaption title='Todays'/>
                     {
-                        todays.map((cus) => {
+                        sortedData.map((cus) => {
                             return (
-                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Reserve' reminder_date={reminder_date}/>
+                                <AgendaGroupItem key={cus.customer_id} customer={cus} reason_type='Missing'/>
                             );
                         })
                     }
@@ -75,4 +75,4 @@ const Reserves = () => {
     );
 }
  
-export default Reserves;
+export default Missing30Days;
