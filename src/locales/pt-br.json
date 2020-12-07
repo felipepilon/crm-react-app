@@ -245,5 +245,6 @@
     "Must contains at least 6 characters uppers, lowers, specials and numerics": "Deve conter no mínimo 6 caracteres entre maiúsculos, minúsculos, especiais e numéricos",
     "Doesn't match": "Não corresponde",
     "Add User": "Adicionar Usuário",
-    "Wrong password": "Senha incorreta"
+    "Wrong password": "Senha incorreta",
+    "Salesman": "Vendedor"
 }

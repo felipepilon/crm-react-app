@@ -17,6 +17,12 @@ export default (ability, user) => {
         can('read', 'Stores');
         can('read', 'StoreGroups');
         can('read', 'ContactReasons');
+        can('read', 'SalesPanel');
+    }
+    else if (user.role === 'salesman') 
+    {
+        can('read', 'Agenda');
+        can('read', 'Reserves');
     }
 
     ability.update(rules);

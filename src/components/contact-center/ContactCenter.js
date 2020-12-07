@@ -60,13 +60,13 @@ const ContactCenter = ({customer, setContactsLastUpdate}) => {
             setContactVia(newContactVia);
     }
 
-    const handleSalesmanIdChange = (salesman_id) => setContact({ ...contact, ...{salesman_id}, });
+    const handleSalesmanIdChange = (salesman_id) => setContact((prevContact) => ({...prevContact, salesman_id}));
 
-    const handleStoreIdChange = (store_id) => setContact({ ...contact, ...{store_id}, });
+    const handleStoreIdChange = (store_id) => setContact((prevContact) => ({...prevContact, store_id}));
 
-    const handleReasonsChange = (reasons) => setContact({ ...contact, ...{reasons}, });
+    const handleReasonsChange = (reasons) => setContact((prevContact) => ({...prevContact, reasons}));
 
-    const handleAnotherReasonChange = (another_reason) => setContact({ ...contact, ...{another_reason}, });
+    const handleAnotherReasonChange = (another_reason) => setContact((prevContact) => ({...prevContact, another_reason}));
 
     const handleEndContact = () => {
         post_Contact({

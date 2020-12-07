@@ -27,7 +27,7 @@ const UserEditDialog = ({user_id, handleUpdated, open, handleClose}) => {
         })
     }, [user_id]);
 
-    const handleFieldChange = (fieldKey, newValue) => setData({...data, ...{[fieldKey]: newValue}});
+    const handleFieldChange = (fieldKey, newValue) => setData((prevData) => ({...prevData, [fieldKey]: newValue}));
 
     const handleCancel = () => {
         handleClose();

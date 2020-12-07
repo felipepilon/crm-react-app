@@ -5,7 +5,7 @@ const AgendaWrapper = (props) => {
     const theme = useTheme();
 
     return (
-        <Box width='25%'>
+        <Box flex='1'>
             <Paper
                 style={{
                     display: 'flex',

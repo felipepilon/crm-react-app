@@ -6,6 +6,7 @@ import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
 import SalesPanel from '../sales-view/SalesPanel';
 import Agenda from '../agenda-view/Agenda';
 import { Link as RouterLink } from 'react-router-dom';
+import { Can } from '../../contexts/Can';
 
 const WorkspaceHome = () => {
     const { setStatus } = useContext(WorkspaceStateContext);
@@ -21,7 +22,9 @@ const WorkspaceHome = () => {
     return (
         <Container style={{display: 'flex', paddingTop: theme.spacing(2)}}>
             <Agenda/>
-            <SalesPanel/>
+            <Can I='read' a='SalesPanel'>
+                <SalesPanel/>
+            </Can>
             <Box
                 width='20%'
                 padding={1}
