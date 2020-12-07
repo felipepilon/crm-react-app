@@ -6,12 +6,12 @@ export default (ability, user) => {
     if (!user.authenticated) 
     {
         cannot('manage', 'all');
-    }
-    else if (user.role === 'Sys Admin') 
+}
+    else if (user.role === 'admin') 
     {
         can('manage', 'all');
     }
-    else if (user.role === 'Manager') 
+    else if (user.role === 'manager') 
     {
         can('read', 'Customers');
         can('read', 'Stores');

@@ -109,7 +109,7 @@ const UserList = () => {
                                     </Can>
                                     <TableCell value={row.name}/>
                                     <TableCell value={row.email}/>
-                                    <TableCell value={row.role} format='intl'/>
+                                    <TableCell value={row.role} format='intl' intlPrefix='user.role.'/>
                                     <TableCell value={row.active} format='checkbox'/>
                                     <TableCell value={row.created_at} format='datetime'/>
                                     <TableCell value='Store Groups' format='intlLink' to={{

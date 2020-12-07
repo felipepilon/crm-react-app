@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 const EnhancedFieldText = ({
     value, defaultValue, handleChange, fieldKey, error,
     loadOptionsFnc, loadOptionsParams, hideSelectOption,
-    readOnly, optionValue, optionLabel, options
+    readOnly, optionValue, optionLabel, options, intlPrefix
 }) => {
     const intl = useIntl();
 
@@ -30,7 +30,7 @@ const EnhancedFieldText = ({
                 if (typeof opt === 'string') {
                     return {
                         value: opt,
-                        label: intl.formatMessage({id: opt}),
+                        label: intl.formatMessage({id: (intlPrefix || '') + opt}),
                     }
                 } else {
                     return opt;

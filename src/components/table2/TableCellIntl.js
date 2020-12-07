@@ -2,13 +2,13 @@ import React from 'react';
 import { TableCell, Typography } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 
-const TableCellIntl = ({value}) => {
+const TableCellIntl = ({value, intlPrefix}) => {
     return (
         <TableCell>
             <Typography variant='inherit' noWrap>
                 {
                     value &&
-                    <FormattedMessage id={value}/>
+                    <FormattedMessage id={(intlPrefix || '') + value}/>
                 }
             </Typography>
         </TableCell>

@@ -67,11 +67,13 @@ const UserEditDialog = ({user_id, handleUpdated, open, handleClose}) => {
                 <PageField fieldKey='first_name' title='First Name' value={data.first_name} error={errors.first_name} handleChange={handleFieldChange}/>
                 <PageField fieldKey='last_name' title='Last Name' value={data.last_name} error={errors.last_name} handleChange={handleFieldChange}/>
                 <PageField fieldKey='email' title='Email' value={data.email} error={errors.email} handleChange={handleFieldChange}/>
-                <PageField fieldKey='password' title='Password' value={data.password} error={errors.password} handleChange={handleFieldChange}/>
                 <PageField fieldKey='role' title='Role' value={data.role} error={errors.role} handleChange={handleFieldChange} 
-                    comp='select' hideSelectOption
-                    options={['Connector', 'Sys Admin', 'Manager', 'Salesman']}
+                    comp='select' hideSelectOption intlPrefix='user.role.'
+                    options={['connector', 'admin', 'manager', 'salesman']}
                 />
+                <PageField fieldKey='password' title='Password' value={data.password} error={errors.password} handleChange={handleFieldChange}/>
+                <PageField fieldKey='password_confirm' title='Confirm Password' value={data.password_confirm} error={errors.password_confirm} handleChange={handleFieldChange}/>
+                <PageField fieldKey='force_password_change' title='Force Password Change' value={data.force_password_change} error={errors.force_password_change} handleChange={handleFieldChange} comp='checkbox'/>
                 <PageField fieldKey='active' title='Active' value={data.active} error={errors.active} handleChange={handleFieldChange} comp='checkbox'/>
             </FieldGroupWrapper>
             <ButtonsWrapper>

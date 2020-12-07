@@ -5,6 +5,7 @@ import PageFieldText from './PageFieldText';
 import PageFieldSelect from './PageFieldSelect';
 import PageFieldCheckbox from './PageFieldCheckbox';
 import PageFieldMasked from './PageFieldMasked';
+import PageFieldPassword from './PageFieldPassword';
 import PageFieldTextMultiline from './PageFieldTextMultiline';
 
 const components = {
@@ -13,6 +14,7 @@ const components = {
     checkbox: PageFieldCheckbox,
     select: PageFieldSelect,
     multiline: PageFieldTextMultiline,
+    password: PageFieldPassword
 }
 
 const PageField = ({comp, title, required, readOnly, ...other}) => {

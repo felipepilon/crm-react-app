@@ -22,7 +22,7 @@ const UserEditDialog = ({handleUpdated, open, handleClose}) => {
         }, 500);
     }, []);
 
-    const handleFieldChange = (fieldKey, newValue) => setData({...data, ...{[fieldKey]: newValue}});
+    const handleFieldChange = (fieldKey, newValue) => setData(prevData => ({...prevData, [fieldKey]: newValue}));
 
     const handleCancel = () => {
         handleClose();
@@ -60,11 +60,14 @@ const UserEditDialog = ({handleUpdated, open, handleClose}) => {
                 <PageField fieldKey='first_name' title='First Name' value={data.first_name} error={errors.first_name} handleChange={handleFieldChange}/>
                 <PageField fieldKey='last_name' title='Last Name' value={data.last_name} error={errors.last_name} handleChange={handleFieldChange}/>
                 <PageField fieldKey='email' title='Email' value={data.email} error={errors.email} handleChange={handleFieldChange}/>
-                <PageField fieldKey='password' title='Password' value={data.password} error={errors.password} handleChange={handleFieldChange}/>
                 <PageField fieldKey='role' title='Role' value={data.role} error={errors.role} handleChange={handleFieldChange} 
-                    comp='select'
-                    options={['Connector', 'Sys Admin', 'Manager', 'Salesman']}
+                    comp='select' intlPrefix='user.role.'
+                    options={['connector', 'admin', 'manager', 'salesman']}
                 />
+                <PageField fieldKey='password' title='Password' value={data.password} error={errors.password} handleChange={handleFieldChange} comp='password'/>
+                <PageField fieldKey='password_confirm' title='Confirm Password' value={data.password_confirm} error={errors.password_confirm} handleChange={handleFieldChange} comp='password'/>
+                <PageField fieldKey='force_password_change' title='Force Password Change' value={data.force_password_change} error={errors.force_password_change} handleChange={handleFieldChange} comp='checkbox' defaultValue='true'/>
+                <PageField fieldKey='active' title='Active' value={data.active} error={errors.active} handleChange={handleFieldChange} comp='checkbox' defaultValue='true'/>
             </FieldGroupWrapper>
             <ButtonsWrapper>
                 <EditPageButton title='Cancel' handleClick={handleCancel} marginRight={1}/>
