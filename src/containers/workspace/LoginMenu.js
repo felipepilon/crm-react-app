@@ -1,5 +1,5 @@
-import React, { Fragment, useContext, useState } from 'react';
-import { Button, MenuItem, Popover, Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions } from '@material-ui/core';
+import React, { useContext, useState } from 'react';
+import { Button, MenuItem, Popover, Dialog, DialogTitle, DialogContentText, DialogContent, DialogActions, Box } from '@material-ui/core';
 import { AuthContext } from '../../contexts/Auth';
 import { FormattedMessage } from 'react-intl';
 import { AppStateContext } from '../../contexts/AppState';
@@ -48,7 +48,7 @@ const LoginMenu = () => {
     const id = open ? 'primary-locale-menu' : undefined;
 
     return (
-        <Fragment>
+        <Box display='flex' justifyContent='flex-end' flex='1'>
             <Button 
                 color="inherit" 
                 onClick={handleMenuOpen}
@@ -98,7 +98,7 @@ const LoginMenu = () => {
                     </Button>
                 </DialogActions>
             </Dialog>
-        </Fragment>
+        </Box>
     )
 }
 

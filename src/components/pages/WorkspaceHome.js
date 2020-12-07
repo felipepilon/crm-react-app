@@ -1,27 +1,17 @@
 import React, { useContext, useEffect } from 'react';
-import { Box, Button, Container } from '@material-ui/core';
+import { Box, Button, Container, useTheme } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { WorkspaceStateContext } from '../../contexts/WorkspaceState';
-import CustomerSearchIndex from '../fields/CustomerSearchIndex';
 import SalesPanel from '../sales-view/SalesPanel';
+import Agenda from '../agenda-view/Agenda';
+import { Link as RouterLink } from 'react-router-dom';
 
 const WorkspaceHome = () => {
     const { setStatus } = useContext(WorkspaceStateContext);
 
-    const hist = useHistory();
-    const location = useLocation();
-
-    const handleAddRerveClick = (e) => {
-        e.preventDefault();
-        setStatus('loading');
-        hist.push(`/workspace/reserve/add`, { from: location });
-    }
-
-    const handleCustomerSelect = (customer) => {
-        setStatus('loading');
-        hist.push(`/workspace/customers/view/${customer.customer_id}`, { from: location });
-    }
+    const loc = useLocation();
+    const theme = useTheme();
 
     useEffect(() => {
         setStatus('loaded');
@@ -29,29 +19,21 @@ const WorkspaceHome = () => {
     }, [])
 
     return (
-        <Container>
-            <Box display='flex' flexDirection='row' paddingTop={2}
+        <Container style={{display: 'flex', paddingTop: theme.spacing(2)}}>
+            <Agenda/>
+            <SalesPanel/>
+            <Box
+                width='20%'
+                padding={1}
             >
-                <Box width='20%' padding={1}
+                <Button fullWidth variant='contained' color='primary' href='#'
+                    component={RouterLink} to={{
+                        pathname: '/workspace/reserves/add',
+                        state: { from: loc }
+                    }}
                 >
-                    <CustomerSearchIndex
-                        handleCustomerSelect={handleCustomerSelect}
-                    />
-                </Box>
-                <SalesPanel/>
-                <Box
-                    width='20%'
-                    padding={1}
-                >
-                    <Button
-                        fullWidth
-                        variant='contained'
-                        color='primary'
-                        onClick={handleAddRerveClick}
-                    >
-                        <FormattedMessage id='New Reserve' />
-                    </Button>
-                </Box>
+                    <FormattedMessage id='New Reserve'/>
+                </Button>
             </Box>
         </Container>
     );

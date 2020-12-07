@@ -9,11 +9,12 @@ import OnGoingCallTimer from './OnGoingCallTimer';
 import ContactFeedback from './ContactFeedback';
 import { KeyboardDatePicker } from '@material-ui/pickers';
 import { 
-    post_ContactNew,
+    post_Contact,
     post_Interactions,
 } from '../../services/Contact';
+import { formatISO } from 'date-fns';
 
-const PhoneCallPanel = (props) => {
+const PhoneCallPanel = ({contactVia, contact, customer, setContact, handleEndContact}) => {
     const [ panelState, setPanelState ] = useState({
         status: 'New',
     });
@@ -38,47 +39,62 @@ const PhoneCallPanel = (props) => {
 
     const handleStartCall = () => {
         setLoading(true);
-        
-        const newInter = {
-            contact_via: props.contactVia,
-            interaction_type: 'Call Started',
-            interaction_text: 'Call started at: {t1}',
-            interaction_date: new Date(),
-            t1: `${intl.formatDate(new Date())} ${intl.formatTime(new Date())}`
-        };
 
+        const currentDate = new Date();
+        const currentDateISO = formatISO(currentDate);
+        
         let newContact = { 
-            ...props.contact,
+            ...contact,
             ...{ 
                 status: 'Started',
-                contact_start_date: new Date(),
+                contact_start_date: currentDateISO,
+                contact_date: currentDateISO,
             }
         };
 
-        props.setContact(newContact);
+        setContact(newContact);
+
+        const interactions = [{
+            contact_via: contactVia,
+            interaction_type: 'Call Started',
+            interaction_text: 'Call started at: {t1}',
+            interaction_date: currentDateISO,
+            t1: `${intl.formatDate(new Date())} ${intl.formatTime(new Date())}`
+        }];
+
+        contact.reasons.forEach((rsn) => {
+            interactions.push({
+                contact_via: contactVia,
+                interaction_type: 'Contact Reason',
+                interaction_text: rsn.reason_type === 'Another' ? 'Reason: {t1}, {t2}' : 'Reason: {t1}',
+                interaction_date: currentDateISO,
+                t1: rsn.reason_description,
+                t2: contact.another_reason,
+            });
+        });
 
         setTimeout(() => {
-            post_ContactNew({
+            post_Contact({
                 ...newContact,
                 ...{
-                    interactions: [newInter],
+                    interactions,
                 }
             })
-            .then((result) => {
+            .then((res) => {
                 newContact = { 
                     ...newContact,
                     ...{ 
-                        contact_id: result.contact_id,
-                        interactions: result.interactions,
+                        contact_id: res.contact_id,
+                        interactions: res.interactions,
                     }
                 };
 
-                props.setContact(newContact);
+                setContact(newContact);
                 setPanelState({
                     ...panelState,
                     ...{
                         status: 'On Going',
-                        start_date: newInter.interaction_date,
+                        start_date: currentDate,
                     }
                 });
                 setLoading(false);
@@ -89,19 +105,22 @@ const PhoneCallPanel = (props) => {
     const handleEndCall = () => {
         setLoading(true);
 
+        const currentDate = new Date();
+        const currentDateISO = formatISO(currentDate);
+
         const newInter = {
-            contact_id: props.contact.contact_id,
-            contact_via: props.contactVia,
+            contact_id: contact.contact_id,
+            contact_via: contactVia,
             interaction_type: 'Call Ended',
             interaction_text: 'Call ended at: {t1}',
-            interaction_date: new Date(),
-            t1: `${intl.formatDate(new Date())} ${intl.formatTime(new Date())}`
+            interaction_date: currentDateISO,
+            t1: `${intl.formatDate(currentDate)} ${intl.formatTime(currentDate)}`
         }
 
         let newPanelState = {
             ...panelState,
             ...{
-                end_date: newInter.interaction_date,
+                end_date: currentDate,
             }
         };
 
@@ -110,11 +129,11 @@ const PhoneCallPanel = (props) => {
         setTimeout(() => {
             post_Interactions([newInter])
             .then((result) => {
-                props.setContact({
-                    ...props.contact,
+                setContact({
+                    ...contact,
                     ...{
                         interactions: [
-                            ...props.contact.interactions,
+                            ...contact.interactions,
                             ...result,
                         ]
                     }
@@ -133,9 +152,9 @@ const PhoneCallPanel = (props) => {
         }, 1000)
     }
 
-    const handleEndContact = () => {
+    const handleEndContactClick = () => {
         const newErrors = {};
-     
+
         if (!panelState.feedback)
             newErrors.feedback = 'Inform a feedback';
 
@@ -153,13 +172,16 @@ const PhoneCallPanel = (props) => {
 
         setLoading(true);
 
+        const currentDate = new Date();
+        const currentDateISO = formatISO(currentDate);
+
         if (panelState.feedback) {
             newInters.push({
-                contact_id: props.contact.contact_id,
-                contact_via: props.contactVia,
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
                 interaction_type: 'Feedback',
                 interaction_text: 'Feedback: {t1}',
-                interaction_date: new Date(),
+                interaction_date: currentDateISO,
                 t1: panelState.feedback === 'Another' ? 
                     panelState.another_feedback :
                     intl.formatMessage({id: panelState.feedback}),
@@ -168,31 +190,31 @@ const PhoneCallPanel = (props) => {
 
         if (panelState.reminder_date) {
             newInters.push({
-                contact_id: props.contact.contact_id,
-                contact_via: props.contactVia,
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
                 interaction_type: 'Reminders',
                 interaction_text: 'Remind customer at: {t1}',
-                interaction_date: new Date(),
+                interaction_date: currentDateISO,
                 t1: intl.formatDate(panelState.reminder_date),
             });
         }
 
         if (panelState.notes) {
             newInters.push({
-                contact_id: props.contact.contact_id,
-                contact_via: props.contactVia,
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
                 interaction_type: 'Notes',
                 interaction_text: 'Contact notes: {t1}',
-                interaction_date: new Date(),
+                interaction_date: currentDateISO,
                 t1: panelState.notes,
             });
         }
 
         setTimeout(() => {
             if (newInters.length)
-                post_Interactions(newInters).then(() => props.handleEndContact());
+                post_Interactions(newInters).then(() => handleEndContact());
             else 
-                props.handleEndContact();
+                handleEndContact();
         }, 1000);
     }
 
@@ -208,7 +230,7 @@ const PhoneCallPanel = (props) => {
             position: 'relative',
         }}>
             <Typography variant='h5' style={{ margin: theme.spacing(2) }}>
-                {LabelMasks.phone(props.customer.phone1)}
+                {LabelMasks.phone(customer.phone1)}
             </Typography>
             {
                 panelState.status === 'New' ?
@@ -254,7 +276,7 @@ const PhoneCallPanel = (props) => {
                         handleAnotherFeedbackChange={handleAnotherFeedbackChange}
                         feedbackError={errors.feedback}
                         anotherFeedbackError={errors.another_feedback}
-                        contactVia={props.contactVia}
+                        contactVia={contactVia}
                     />
                     <KeyboardDatePicker
                         style={{marginTop: theme.spacing(1)}}
@@ -290,7 +312,7 @@ const PhoneCallPanel = (props) => {
                     color='primary'
                     fullWidth
                     endIcon={<DoneIcon/>}
-                    onClick={handleEndContact}
+                    onClick={handleEndContactClick}
                 >
                     <FormattedMessage id='End Contact'/>
                 </Button> :

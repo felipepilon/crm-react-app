@@ -1,7 +1,7 @@
 import React from 'react';
-import { Container, Avatar, makeStyles } from '@material-ui/core';
-import LoginRouter from './LoginRouter'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import { Container, makeStyles, useTheme, Avatar } from '@material-ui/core';
+import LoginRouter from './LoginRouter';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,13 +26,19 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
     const classes = useStyles();
+    const theme = useTheme();
 
     return (
         <div className={classes.root}>
             <Container maxWidth="xs" className={classes.main}>
-                <Avatar className={classes.avatar}>
-                    <LockOutlinedIcon/>
-                </Avatar>
+                {
+                    /*<Box>
+                        <img src={require('./home-bar-black.png')} height='50px' alt=''/>
+                    </Box>*/
+                    <Avatar style={{backgroundColor: theme.palette.primary.main}}>
+                        <LockOutlinedIcon/>
+                    </Avatar>
+                }
                 <LoginRouter/>
             </Container>
         </div>

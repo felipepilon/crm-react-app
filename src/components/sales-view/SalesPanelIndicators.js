@@ -88,25 +88,25 @@ const SalesPanelIndicators = (props) => {
             <IndicatorGroup
                 label='Sales Counter'
                 indicators={[
-                    {label: 'Day', style: 'currency', value: (data.length && data[0].sale_count) || 0},
-                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].sale_count) || 0},
-                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].sale_count) || 0},
+                    {label: 'Day', value: (data.length && data[0].sale_count) || 0},
+                    {label: 'Month', value: (data.length >= 2 && data[1].sale_count) || 0},
+                    {label: 'Year', value: (data.length >= 3 && data[2].sale_count) || 0},
                 ]}
             />
             <IndicatorGroup
                 label='Total Sales Unit'
                 indicators={[
-                    {label: 'Day', style: 'currency', value: (data.length && data[0].sum_total_qty) || 0},
-                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].sum_total_qty) || 0},
-                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].sum_total_qty) || 0},
+                    {label: 'Day', value: (data.length && data[0].sum_total_qty) || 0},
+                    {label: 'Month', value: (data.length >= 2 && data[1].sum_total_qty) || 0},
+                    {label: 'Year', value: (data.length >= 3 && data[2].sum_total_qty) || 0},
                 ]}
             />
             <IndicatorGroup
                 label='Units Per Sale'
                 indicators={[
-                    {label: 'Day', style: 'currency', value: (data.length && data[0].avg_total_qty) || 0},
-                    {label: 'Month', style: 'currency', value: (data.length >= 2 && data[1].avg_total_qty) || 0},
-                    {label: 'Year', style: 'currency', value: (data.length >= 3 && data[2].avg_total_qty) || 0},
+                    {label: 'Day', value: (data.length && data[0].avg_total_qty) || 0},
+                    {label: 'Month', value: (data.length >= 2 && data[1].avg_total_qty) || 0},
+                    {label: 'Year', value: (data.length >= 3 && data[2].avg_total_qty) || 0},
                 ]}
             />
             {

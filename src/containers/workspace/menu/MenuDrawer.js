@@ -5,9 +5,11 @@ import { useIntl } from 'react-intl';
 import StoreIcon from '@material-ui/icons/Store';
 import BusinessIcon from '@material-ui/icons/Business';
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
+import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
 import { useHistory } from 'react-router-dom';
 import HomeIcon from '@material-ui/icons/Home';
 import { Can } from '../../../contexts/Can';
+import MenuItem from './MenuItem';
 
 const useStyles = makeStyles({
     root: {
@@ -49,35 +51,28 @@ const MenuButton = () => {
                 <Divider/>
                 <List>
                     <Can I='read' a='Stores'>
-                        <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/stores/list')}>
-                            <ListItemIcon><StoreIcon/></ListItemIcon>
-                            <ListItemText primary={intl.formatMessage({id: 'Stores'})}/>
-                        </ListItem>
+                        <MenuItem title='Stores' to='/workspace/stores' iconComp={<StoreIcon/>}/>
                     </Can>
                     <Can I='read' a='Franchises'>
-                        <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/franchises/list')}>
-                            <ListItemIcon><BusinessIcon/></ListItemIcon>
-                            <ListItemText primary={intl.formatMessage({id: 'Franchises'})}/>
-                        </ListItem>
+                        <MenuItem title='Franchises' to='/workspace/franchises' iconComp={<BusinessIcon/>}/>
                     </Can>
                     <Can I='read' a='Customers'>
-                        <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/customers/list')}>
-                            <ListItemIcon><EmojiPeopleIcon/></ListItemIcon>
-                            <ListItemText primary={intl.formatMessage({id: 'Customers'})}/>
-                        </ListItem>
+                        <MenuItem title='Customers' to='/workspace/customers' iconComp={<EmojiPeopleIcon/>}/>
+                    </Can>
+                    <Can I='read' a='Reserves'>
+                        <MenuItem title='Reserves' to='/workspace/reserves' iconComp={<AssignmentLateIcon/>}/>
                     </Can>
                 </List>
                 <Divider/>
                 <List>
-                    <Can I='read' a='Store Groups'>
-                        <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/storeGroups/list')}>
-                            <ListItemText primary={intl.formatMessage({id: 'Store Groups'})}/>
-                        </ListItem>
+                    <Can I='read' a='StoreGroups'>
+                        <MenuItem title='Store Groups' to='/workspace/storeGroups'/>
                     </Can>
                     <Can I='read' a='Users'>
-                        <ListItem button onClick={(e) => handleMenuClick(e, '/workspace/users')}>
-                            <ListItemText primary={intl.formatMessage({id: 'Users'})}/>
-                        </ListItem>
+                        <MenuItem title='Users' to='/workspace/users'/>
+                    </Can>
+                    <Can I='read' a='ContactReasons'>
+                        <MenuItem title='Contact Reasons' to='/workspace/contactReasons'/>
                     </Can>
                 </List>
             </div>

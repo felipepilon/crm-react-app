@@ -3,6 +3,7 @@ import { useRouteMatch, Route, Switch, Redirect } from 'react-router-dom';
 import Email from './Email';
 import Password from './Password';
 import { AuthContext } from '../../contexts/Auth';
+import PasswordForceChange from './PasswordForceChange';
 
 const LoginRouter = () => {
     const { user } = useContext(AuthContext);
@@ -21,6 +22,8 @@ const LoginRouter = () => {
                 render={({location}) => {
                     return (
                         user.email ?
+                        user.force_password_change ?
+                        <PasswordForceChange/> :
                         <Password/> :
                         <Redirect to={{
                             pathname: `${path}/email`,

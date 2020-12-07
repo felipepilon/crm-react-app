@@ -1,13 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import { TextField, CircularProgress, Typography, Box } from '@material-ui/core';
-import Autocomplete, { createFilterOptions } from '@material-ui/lab/Autocomplete';
+import Autocomplete from '@material-ui/lab/Autocomplete';
 import { get_CustomersIndex } from '../../services/Customer';
 import LabelMask from '../../utils/LabelMasks';
 import { useIntl, FormattedMessage } from 'react-intl';
 
-const minLength = 2;
-
-const filter = createFilterOptions();
+const minLength = 5;
 
 const CustomerSearchIndex = (props) => {
     const [ inputValue, setInputValue ] = useState('');
@@ -19,8 +17,10 @@ const CustomerSearchIndex = (props) => {
     const loading = open && !options.length && inputValue.length >= minLength;
 
     const handleChange = (e, selOpt) => {
+        console.log('handleChange', selOpt)
         if (selOpt && selOpt.customer_id)
             props.handleCustomerSelect(selOpt);
+        setInputValue('');
     }
 
     const handleInputChange = (e, newValue) => {
@@ -45,13 +45,12 @@ const CustomerSearchIndex = (props) => {
 
     return (
         <Autocomplete
-            style={{ width: '100%', marginTop: props.marginTop }}
-            freeSolo
             options={options}
             open={open}
+            clearOnEscape
             onOpen={() => {setOpen(true)}}
             onClose={() => {setOpen(false)}}
-            getOptionLabel={(opt) => opt.search_index}
+            getOptionLabel={(opt) => opt.name}
             renderOption={(opt) => {
                 if (opt.search_index === '_add') {
                     return <Box fontStyle='italic' >
@@ -72,11 +71,11 @@ const CustomerSearchIndex = (props) => {
                     </Box>
                 )
             }}
-            filterOptions={(options, params) => {
-                const filtered = filter(options, params);
+            filterOptions={(opts, sta) => {
+                const filtered = opts.filter((val) => val.search_index.includes(sta.inputValue.toUpperCase()))
 
                 // Suggest the creation of a new value
-                if (params.inputValue.length > minLength) {
+                if (sta.inputValue.length > minLength) {
                     filtered.push({
                         search_index: '_add',
                     });
@@ -92,8 +91,7 @@ const CustomerSearchIndex = (props) => {
                 <TextField 
                     { ...params } 
                     label={intl.formatMessage({ id: 'Customer' })}
-                    variant='outlined'
-                    fullWidth
+                    size='small'
                     InputProps={{
                         ...params.InputProps,
                         endAdornment: (

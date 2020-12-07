@@ -1,27 +1,31 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { Typography, useTheme, Button, Paper, CircularProgress, TextField, Box, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Typography, useTheme, Button, Paper, CircularProgress, TextField, Box, Checkbox, FormControlLabel, InputAdornment, IconButton, Tooltip } from '@material-ui/core';
 import LabelMasks from '../../utils/LabelMasks';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { get_MsgPreset } from '../../services/Contact';
 import SendIcon from '@material-ui/icons/Send';
 import DoneIcon from '@material-ui/icons/Done';
 import { 
-    post_ContactNew,
+    post_Contact,
     post_Interactions,
 } from '../../services/Contact';
 import ContactFeedback from './ContactFeedback';
 import { KeyboardDatePicker } from '@material-ui/pickers';
+import { formatISO } from 'date-fns';
+import LibraryBooksIcon from '@material-ui/icons/LibraryBooks';
+import MsgPresetSelectionDialog from './MsgPresetSelectionDialog';
+import { get_ContactMsgPresets } from '../../services/ContactMsgPreset';
 
-const WhatsAppMsgPanel = (props) => {
+const WhatsAppMsgPanel = ({contact, contactVia, customer, setContact, handleEndContact}) => {
+    const theme = useTheme();
+    const intl = useIntl();
+
     const [ panelState, setPanelState ] = useState({
         status: 'Starting',
         open_whatsapp: true,
     });
     const [ errors, setErrors ] = useState({});
     const [ loading, setLoading ] = useState(true);
-
-    const theme = useTheme();
-    const intl = useIntl();
+    const [ msgPresetDialogOpen, setMsgPresetDialogOpen ] = useState(false);
 
     const handleStatusChange = (status) => setPanelState({ ...panelState, ...{status}, });
 
@@ -37,38 +41,30 @@ const WhatsAppMsgPanel = (props) => {
 
     const handleNotesChange = (notes) => setPanelState({ ...panelState, ...{notes}, });
 
-    const contact_reason = props.contact.reasons ?
-        props.contact.reasons.split(', ')[0] : null;
-
     useEffect(() => {
         setLoading(true);
 
-        if (contact_reason) {
-            setTimeout(() => {
-                get_MsgPreset(props.contactVia, contact_reason)
-                .then((result) => {
-                    setPanelState({ 
-                        ...panelState,
-                        ...{
-                            status: 'Ready To Send',
-                            out_msg: result && result.text ? result.text : null,
-                        }, 
-                    });
-                    setLoading(false);
-                })
-            }, 1000)
-        } else {
-            setPanelState({ 
-                ...panelState,
-                ...{
-                    status: 'Ready To Send',
-                    out_msg: null,
-                }, 
-            });
-            setLoading(false);
-        }
+        setTimeout(() => {
+            get_ContactMsgPresets({
+                reasons: contact.reasons.map((rsn) => rsn.contact_reason_id),
+                contact_via: contactVia, 
+                active: true,
+                is_default: true
+            })
+            .then((res) => {
+                setPanelState({ 
+                    ...panelState,
+                    ...{
+                        status: 'Ready To Send',
+                        out_msg: res.length ? res[0].text : null,
+                    }, 
+                });
+        
+                setLoading(false);
+            })
+        }, 500);
     // eslint-disable-next-line
-    }, [contact_reason]);
+    }, [contact.reasons, contactVia]);
     
     useEffect(() => {
         const {feedback, ...other} = errors;
@@ -97,11 +93,10 @@ const WhatsAppMsgPanel = (props) => {
             setErrors(other);
     // eslint-disable-next-line
     }, [panelState.notes]);
-
+    
     const handleSendMsg = (e) => {
-        e.preventDefault();
         setLoading(true);
-
+        
         const newErrors = {};
      
         if (!panelState.out_msg)
@@ -114,33 +109,57 @@ const WhatsAppMsgPanel = (props) => {
             return;
         }
 
+        const currentDate = new Date();
+        const currentDateISO = formatISO(currentDate);
+
         let text = panelState.out_msg.replace(/\n/g,'%0A');
-        const href = `https://api.whatsapp.com/send?phone=55${props.customer.phone1}&text=${text}`;
+        const href = `https://api.whatsapp.com/send?phone=55${customer.phone1}&text=${text}`;
 
-        if (!props.contact.contact_id) {
-            const newInter = {
-                contact_via: props.contactVia,
-                interaction_type: 'Message Sent',
-                interaction_text: 'Sent: {t1}',
-                interaction_date: new Date(),
-                t1: panelState.out_msg,
-            };
-
+        if (!contact.contact_id) {
             let newContact = { 
-                ...props.contact,
+                ...contact,
                 ...{ 
                     status: 'Started',
-                    contact_start_date: new Date(),
+                    contact_start_date: currentDateISO,
+                    contact_date: currentDateISO,
                 }
             };
     
-            props.setContact(newContact);
+            setContact(newContact);
+
+            const interactions = [{
+                contact_via: contactVia,
+                interaction_type: 'Call Started',
+                interaction_text: 'Call started at: {t1}',
+                interaction_date: currentDateISO,
+                t1: `${intl.formatDate(currentDate)} ${intl.formatTime(currentDate)}`
+            }];
+    
+            contact.reasons.forEach((rsn) => {
+                interactions.push({
+                    contact_via: contactVia,
+                    interaction_type: 'Contact Reason',
+                    interaction_text: rsn.reason_type === 'Another' ? 'Reason: {t1}, {t2}' : 'Reason: {t1}',
+                    interaction_date: currentDateISO,
+                    t1: rsn.reason_description,
+                    t2: contact.another_reason,
+                });
+            });
+
+            interactions.push({
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
+                interaction_type: 'Message Sent',
+                interaction_text: 'Sent: {t1}',
+                interaction_date: currentDateISO,
+                t1: panelState.out_msg,
+            });
 
             setTimeout(() => {
-                post_ContactNew({
+                post_Contact({
                     ...newContact,
                     ...{
-                        interactions: [newInter],
+                        interactions,
                     }
                 })
                 .then((result) => {
@@ -152,7 +171,7 @@ const WhatsAppMsgPanel = (props) => {
                         }
                     };
     
-                    props.setContact(newContact);
+                    setContact(newContact);
 
                     handleStatusChange('Waiting Feedback')
 
@@ -164,22 +183,22 @@ const WhatsAppMsgPanel = (props) => {
             }, 1000);
         } else {
             const newInter = {
-                contact_id: props.contact.contact_id,
-                contact_via: props.contactVia,
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
                 interaction_type: 'Message Sent',
                 interaction_text: 'Sent: {t1}',
-                interaction_date: new Date(),
+                interaction_date: currentDateISO,
                 t1: panelState.out_msg,
             };
 
             setTimeout(() => {
                  post_Interactions([newInter])
                 .then((result) => {
-                    props.setContact({
-                        ...props.contact,
+                    setContact({
+                        ...contact,
                         ...{
                             interactions: [
-                                ...props.contact.interactions,
+                                ...contact.interactions,
                                 ...result,
                             ]
                         }
@@ -196,7 +215,7 @@ const WhatsAppMsgPanel = (props) => {
         }
     }
 
-    const handleEndContact = (e) => {
+    const handleEndContactClick = (e) => {
         e.preventDefault();
         setLoading(true);
 
@@ -218,8 +237,8 @@ const WhatsAppMsgPanel = (props) => {
         const newInters = [];
 
         newInters.push({
-            contact_id: props.contact.contact_id,
-            contact_via: props.contactVia,
+            contact_id: contact.contact_id,
+            contact_via: contactVia,
             interaction_type: 'Feedback',
             interaction_text: 'Feedback: {t1}',
             interaction_date: new Date(),
@@ -230,8 +249,8 @@ const WhatsAppMsgPanel = (props) => {
 
         if (panelState.reminder_date) {
             newInters.push({
-                contact_id: props.contact.contact_id,
-                contact_via: props.contactVia,
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
                 interaction_type: 'Reminders',
                 interaction_text: 'Remind customer at: {t1}',
                 interaction_date: new Date(),
@@ -241,8 +260,8 @@ const WhatsAppMsgPanel = (props) => {
 
         if (panelState.notes) {
             newInters.push({
-                contact_id: props.contact.contact_id,
-                contact_via: props.contactVia,
+                contact_id: contact.contact_id,
+                contact_via: contactVia,
                 interaction_type: 'Notes',
                 interaction_text: 'Contact notes: {t1}',
                 interaction_date: new Date(),
@@ -251,7 +270,7 @@ const WhatsAppMsgPanel = (props) => {
         }
 
         setTimeout(() => {
-            post_Interactions(newInters).then(() => props.handleEndContact());
+            post_Interactions(newInters).then(() => handleEndContact());
         }, 1000);
     }
 
@@ -274,7 +293,7 @@ const WhatsAppMsgPanel = (props) => {
             position: 'relative',
         }}>
             <Typography variant='h5' style={{ margin: theme.spacing(2) }}>
-                {LabelMasks.phone(props.customer.phone1)}
+                {LabelMasks.phone(customer.phone1)}
             </Typography>
             {
                 panelState.status === 'Ready To Send' ?
@@ -290,6 +309,15 @@ const WhatsAppMsgPanel = (props) => {
                         label={intl.formatMessage({id: 'Send Message'})}
                         error={errors.out_msg ? true : false}
                         helperText={errors.out_msg ? intl.formatMessage({id: errors.out_msg}) : null}
+                        InputProps={{
+                            endAdornment: <InputAdornment position="end">
+                                <Tooltip title={intl.formatMessage({id: 'Message Presets'})}>
+                                    <IconButton size='small' onClick={() => setMsgPresetDialogOpen(true)}>
+                                        <LibraryBooksIcon/>
+                                    </IconButton>
+                                </Tooltip>
+                            </InputAdornment>
+                        }}
                     />
                     <Box display='flex' justifyContent='flex-end' alignItems='center'  width='100%' marginTop={1}>
                         <FormControlLabel
@@ -327,11 +355,11 @@ const WhatsAppMsgPanel = (props) => {
                         handleAnotherFeedbackChange={handleAnotherFeedbackChange}
                         feedbackError={errors.feedback}
                         anotherFeedbackError={errors.another_feedback}
-                        contactVia={props.contactVia}
+                        contactVia={contactVia}
                     />
                     <KeyboardDatePicker
                         style={{marginTop: theme.spacing(1)}}
-                        label={intl.formatMessage({ id: 'Call Again At' })}
+                        label={intl.formatMessage({ id: 'Contact Again At' })}
                         value={panelState.reminder_date || null}
                         onChange={(value) => handleReminderDateChange(value)}
                         format="dd/MM/yyyy"
@@ -358,7 +386,7 @@ const WhatsAppMsgPanel = (props) => {
                         color='primary'
                         fullWidth
                         endIcon={<DoneIcon/>}
-                        onClick={handleEndContact}
+                        onClick={handleEndContactClick}
                     >
                         <FormattedMessage id='End Contact'/>
                     </Button>
@@ -381,6 +409,13 @@ const WhatsAppMsgPanel = (props) => {
                 </Box> : 
                 null
             }
+            <MsgPresetSelectionDialog 
+                open={msgPresetDialogOpen} 
+                setOpen={setMsgPresetDialogOpen}
+                reasons={contact.reasons.map((rsn) => rsn.contact_reason_id)}
+                contact_via={contactVia}
+                handleTextSelect={(text) => handleOutMsgChange(text)}
+            />
         </Paper>
     );
 }

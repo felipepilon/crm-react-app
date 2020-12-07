@@ -2,13 +2,21 @@ import React from 'react';
 import EnhancedTableCellEdit from './EnhancedTableCellEdit';
 import EnhancedTableCellDefault from './EnhancedTableCellDefault';
 import EnhancedTableCellIntl from './EnhancedTableCellIntl';
+import EnhancedTableCellIntlSplit from './EnhancedTableCellIntlSplit';
 import EnhancedTableCellIntlLink from './EnhancedTableCellIntlLink';
+import EnhancedTableCellDatetime from './EnhancedTableCellDatetime';
+import EnhancedTableCellDate from './EnhancedTableCellDate';
+import EnhancedTableCellMasked from './EnhancedTableCellMasked';
 
 const components = {
     editIcon: EnhancedTableCellEdit,
     intl: EnhancedTableCellIntl,
+    intlSplit: EnhancedTableCellIntlSplit,
     intlLink: EnhancedTableCellIntlLink,
     default: EnhancedTableCellDefault,
+    datetime: EnhancedTableCellDatetime,
+    date: EnhancedTableCellDate,
+    masked: EnhancedTableCellMasked,
 }
 
 const EnhancedTablCell = (props) => {

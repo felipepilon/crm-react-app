@@ -10,15 +10,19 @@ const SalesmanSelect = (props) => {
     const theme = useTheme();
 
     useEffect(() => {
-        get_Salespeople({ store_id: props.store_id })
-        .then((result) => {
-            setOptions(result.map((opt) => {
-                return {
-                    id: opt.salesman_id,
-                    label: opt.name,
-                }
-            }).sort((a, b) => a.label < b.label))
-        })
+        if (props.store_id) {
+            get_Salespeople({ store_id: props.store_id })
+            .then((result) => {
+                setOptions(result.map((opt) => {
+                    return {
+                        id: opt.salesman_id,
+                        label: opt.name,
+                    }
+                }).sort((a, b) => a.label < b.label))
+            })
+        } else {
+            setOptions([]);
+        }
     }, [props.store_id]);
 
     useEffect(() => {

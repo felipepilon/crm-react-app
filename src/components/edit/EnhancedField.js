@@ -3,10 +3,12 @@ import { InputLabel, Box } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import EnhancedFieldText from './EnhancedFieldText';
 import EnhancedFieldSelect from './EnhancedFieldSelect';
+import EnhancedFieldCheckbox from './EnhancedFieldCheckbox';
 
 const components = {
     default: EnhancedFieldText,
     select: EnhancedFieldSelect,
+    checkbox: EnhancedFieldCheckbox
 }
 
 const EnhancedField = (props) => {
